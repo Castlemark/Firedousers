@@ -1,0 +1,366 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+
+public class Player : MovingObject {
+
+    public int wallDamage = 1;
+    public int pointsPerFood = 10;
+    public int pointsPerSoda = 20;
+    public float restartLevelDelay = 1f;
+    public Text foodText;
+
+    public AudioClip moveSound1;
+    public AudioClip moveSound2;
+    public AudioClip eatSound1;
+    public AudioClip eatSound2;
+    public AudioClip drinkSound1;
+    public AudioClip drinkSound2;
+    public AudioClip gameOverSound;
+
+    public GameObject manguera_v;
+    public GameObject manguera_h;
+    public GameObject manguera_lb;
+    public GameObject manguera_lt;
+    public GameObject manguera_rb;
+    public GameObject manguera_rt;
+
+    public LayerMask mangueraLayer;
+
+
+    private Animator animator;
+    private int food;
+    private List<string> path = new List<string>();
+
+    private List<GameObject> visibilityTiles;
+
+    // Use this for initialization
+    protected override void Start () {
+        animator = GetComponent<Animator>();
+        food = GameManager.instance.playerFoodPoints;
+        foodText.text = "Food: " + food;
+        path.Add("r");
+        base.Start();
+
+        visibilityTiles = GetLosObjects();
+    }
+
+    // S'ecexuta quan es deshabilita el game object quan es canvia de nivell
+    private void OnDisable()
+    {
+        GameManager.instance.playerFoodPoints = food;
+    }
+
+    private void Update()
+    {
+        //Si no es el torn sortim de la funcio
+        if (!GameManager.instance.playersTurn) return;
+        UpdateVisibility(visibilityTiles, this.gameObject);
+
+        int horizontal = 0;
+        int vertical = 0;
+
+        //Obtenim Input de Unity segons el teclat i ho arrodonim a un enter
+        horizontal = (int)(Input.GetAxisRaw("Horizontal"));
+        vertical = (int)(Input.GetAxisRaw("Vertical"));
+
+        //Prevé que només es pugui moure en una direcció
+        if (horizontal != 0)
+        {
+            vertical = 0;
+        }
+
+        if (horizontal != 0 || vertical != 0)
+        {
+            //Passem el paràmetre Wall ja que es contra el que pot interactuar el jugador  
+            AttemptMove<Wall>(horizontal, vertical);
+        }
+    }
+
+    protected override void AttemptMove<T>(int xDir, int yDir)
+    {
+        food--;
+        foodText.text = "Food: " + food;
+        base.AttemptMove<T>(xDir, yDir);
+        RaycastHit2D hit;
+        if (Move(xDir, yDir, out hit))
+        {
+            GameObject toInstantiate = manguera_h;
+            if (xDir == 1)
+            {
+
+                if (path[path.Count - 1] == "u")
+                {
+                    toInstantiate = manguera_rb;
+                }
+                else if (path[path.Count - 1] == "d")
+                {
+                    toInstantiate = manguera_rt;
+                }
+                path.Add("r"); //right
+            }
+            else if (xDir == -1)
+            {
+                if (path[path.Count - 1] == "u")
+                {
+                    toInstantiate = manguera_lb;
+                }
+                else if (path[path.Count - 1] == "d")
+                {
+                    toInstantiate = manguera_lt;
+                }
+                path.Add("l"); //left
+            }
+            else
+            {
+                if (yDir == 1)
+                {
+                    if (path[path.Count - 1] == "l")
+                    {
+                        toInstantiate = manguera_rt;
+                    }
+                    else if (path[path.Count - 1] == "r")
+                    {
+                        toInstantiate = manguera_lt;
+                    }
+                    else if (path[path.Count - 1] == "u")
+                    {
+                        toInstantiate = manguera_v;
+                    }
+                    path.Add("u"); //up
+                }
+                else
+                {
+                    if (path[path.Count - 1] == "l")
+                    {
+                        toInstantiate = manguera_rb;
+                    }
+                    else if (path[path.Count - 1] == "r")
+                    {
+                        toInstantiate = manguera_lb;
+                    }
+                    else if (path[path.Count - 1] == "d")
+                    {
+                        toInstantiate = manguera_v;
+                    }
+                    path.Add("d"); //down
+                }
+            }
+
+            Vector2 start = transform.position;
+            Debug.Log(start);
+            Vector2 end = start + new Vector2(xDir, yDir);
+            RaycastHit2D hitManguera = Physics2D.Linecast(start, end, mangueraLayer);
+            Debug.DrawLine(start, end, Color.white, 2.5f, false);
+
+            Debug.Log(string.Join(",", path.ToArray()));
+            SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+
+            Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+            if (hitManguera.transform != null)
+            {
+                hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
+                hitManguera.collider.gameObject.SetActive(false);
+                RecullManguera(end, end);
+
+
+            }
+
+        }
+        CheckIfGameOver();
+        GameManager.instance.playersTurn = false;
+    }
+
+    private void RecullManguera(Vector2 end, Vector2 pos)
+    {
+        food++;
+        string dir = path[path.Count - 1];
+        path.RemoveAt(path.Count - 1);
+        Vector2 to = pos;
+        if (dir == "u")
+        {
+            to += new Vector2(0, -1);
+        }
+        else if (dir == "d")
+        {
+            to += new Vector2(0, 1);
+        }
+        else if (dir == "r")
+        {
+            to += new Vector2(-1, 0);
+        }
+        else if (dir == "l")
+        {
+            to += new Vector2(1, 0);
+        }
+
+        RaycastHit2D hitManguera = Physics2D.Linecast(pos, to, mangueraLayer);
+        if (hitManguera.transform != null)
+        {
+            hitManguera.collider.gameObject.SetActive(false);
+            RecullManguera(end, to);
+        }
+        else
+        {
+            foodText.text = "Food: " + food;
+        }
+
+
+    }
+
+    //Al haver posat els colliders a Trigger aquesta funcio de la APi de Unity s'executa quan colisiona cotra food, soda o exit
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Exit")
+        {
+            Invoke("Restart", restartLevelDelay);
+            //aixi es com marquem que s'ha canviat de nivell
+            enabled = false;
+        }
+        else if (other.tag == "Food")
+        {
+            food += pointsPerFood;
+            foodText.text = "+" + pointsPerFood + " Food: " + food;
+            SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
+
+            other.gameObject.SetActive(false);
+        }
+
+        else if (other.tag == "Soda")
+        {
+            food += pointsPerSoda;
+            foodText.text = "+" + pointsPerSoda + " Food: " + food;
+            SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
+
+            other.gameObject.SetActive(false);
+        }
+        else if (other.tag == "Manguera")
+        {
+
+        }
+    }
+
+    protected override void OnCantMove<T>(T component)
+    {
+        //Com que es la funció del jugador el component T sabem que haurà de ser una Wall la qual pot picar i destruir
+        Wall hitWall = component as Wall;
+        hitWall.DamageWall(wallDamage);
+        animator.SetTrigger("playerChop");
+    }
+
+
+    private void Restart()
+    {
+        Debug.Log("Recarego escnea");
+        //Recarreguem l'escena
+        SceneManager.LoadScene(0);
+    }
+
+    //s'executa quan un enemic et pega
+    public void LoseFood(int loss)
+    {
+        animator.SetTrigger("playerHit");
+        food -= loss;
+        foodText.text = "-" + loss + " Food: " + food;
+
+        CheckIfGameOver();
+    }
+
+    private void CheckIfGameOver()
+    {
+        if (food <= 0)
+        {
+            SoundManager.instance.PlaySingle(gameOverSound);
+            SoundManager.instance.muscicSource.Stop();
+            GameManager.instance.GameOver();
+        }
+    }
+
+    public void UpdateVisibility(List<GameObject> losObjects, GameObject player)
+    {
+        foreach (GameObject losObject in losObjects)
+        {
+            Vector2 origin = (Vector2)losObject.transform.position;
+            Vector2 destination = (Vector2)player.transform.position;
+
+            bool hasVisibility = losObject.GetComponent<tileSeen>() != null;
+
+            RaycastHit2D hit;
+            if (losObject.GetComponent<BoxCollider2D>() != null)
+            {
+                losObject.GetComponent<BoxCollider2D>().enabled = false;
+                hit = Physics2D.Raycast(origin, (destination - origin), 5.0f);
+                losObject.GetComponent<BoxCollider2D>().enabled = true;
+            }
+            else
+            {
+                hit = Physics2D.Raycast(origin, (destination - origin));
+            }
+
+            //if the ray hit nothing (died)
+            if (hit.collider == null)
+            {
+
+                if (hasVisibility && losObject.GetComponent<tileSeen>().alreadySeen == true)
+                {
+                    losObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, .5f);
+                    losObject.GetComponent<SpriteRenderer>().enabled = true;
+                }
+                else
+                {
+                    losObject.GetComponent<SpriteRenderer>().enabled = false;
+                }
+
+            }
+            //if the ray hit anything else
+            else if (hit.collider.gameObject.name != "Player")
+            {
+                if (hasVisibility && losObject.GetComponent<tileSeen>().alreadySeen == true)
+                {
+                    losObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, .5f);
+                    losObject.GetComponent<SpriteRenderer>().enabled = true;
+                }
+                else
+                {
+                    losObject.GetComponent<SpriteRenderer>().enabled = false;
+                }
+            }
+            //if the ray hit the player 
+            else
+            {
+                losObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+                losObject.GetComponent<SpriteRenderer>().enabled = true;
+
+                if (hasVisibility)
+                {
+                    losObject.GetComponent<tileSeen>().alreadySeen = true;
+                }
+            }
+        }
+    }
+
+    // All LOS objects should be children of Board GameObject
+    public List<GameObject> GetLosObjects()
+    {
+        Transform[] allChildren = GameObject.Find("Board").GetComponentsInChildren<Transform>();
+        List<GameObject> childObjects = new List<GameObject>();
+
+        bool first = true;
+
+        foreach (Transform child in allChildren)
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                childObjects.Add(child.gameObject);
+            }
+        }
+        return childObjects;
+    }
+}

@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1631859606520376}
+  m_IsPrefabAsset: 1
+--- !u!1 &1631859606520376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4392727617656652}
+  - component: {fileID: 114327514499832114}
+  - component: {fileID: 114884170679704306}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4392727617656652
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631859606520376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.16249484, y: -0.2807194, z: 0.058604375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114327514499832114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631859606520376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9f7b555ad568a94799797c3370c89d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  columns: 8
+  rows: 8
+  wallCount:
+    minimum: 5
+    maximum: 9
+  foodCount:
+    minimum: 1
+    maximum: 5
+  exit: {fileID: 1343263578160074, guid: 5b334574871c59247b9dc685893864c9, type: 2}
+  floorTiles:
+  - {fileID: 1899528540799292, guid: a5b97304589bd604a89b664ae34c23a2, type: 2}
+  - {fileID: 1672404255713348, guid: baa8617cc5749744c8af0ef0efea3066, type: 2}
+  - {fileID: 1993253193647508, guid: d862502174484e449b7f2aeb4eb1f21b, type: 2}
+  - {fileID: 1591769894408924, guid: ef4c041412671de4ca7dfac4cea9a9c6, type: 2}
+  - {fileID: 1983594108309056, guid: 00bebb3fa8f97db4fbdd2a5fa5502d79, type: 2}
+  - {fileID: 1346291510754052, guid: c0c7a6f336c325c4ebdf728bbae4e1f7, type: 2}
+  - {fileID: 1554479823409312, guid: d8875deb61ae67141ac45ec54e76ddbf, type: 2}
+  - {fileID: 1174131277676154, guid: 866c0d7a96865f94d9aae94958a8297b, type: 2}
+  wallTiles:
+  - {fileID: 1913535235843404, guid: 5b780326cec37cc45a8187f4699b760a, type: 2}
+  - {fileID: 1022806223591632, guid: 593a01f69b6b5614f9f4eddfb86f88a4, type: 2}
+  - {fileID: 1559455716328644, guid: 626797d8c5017374081c736bb082a794, type: 2}
+  - {fileID: 1599894947873858, guid: 26271754516e6554aad1bef38f7050ed, type: 2}
+  - {fileID: 1871381863597938, guid: 8b43eaed70bcf3341a4cba138da172c1, type: 2}
+  - {fileID: 1698569045800788, guid: 36e211b07cdfe9542beed8187a7cde3e, type: 2}
+  - {fileID: 1141035372732404, guid: 21a7ee398fba3c749b0a91bfb5141efa, type: 2}
+  - {fileID: 1034920737435246, guid: 0a8ecdd5fbf51884e98f536a65911289, type: 2}
+  foodTiles:
+  - {fileID: 1146386204424224, guid: 76b5dfb8e4ee7ad46b80aad3bbb5ae59, type: 2}
+  - {fileID: 1762161000148184, guid: a23cb25fe991d9149a4b7744817a2591, type: 2}
+  enemyTiles:
+  - {fileID: 1903923341594816, guid: 330d622a7a4c22e488e93eb1715ce5d7, type: 2}
+  - {fileID: 1528788253305842, guid: 1295c39b1dcc6854d9f51a130a40d82d, type: 2}
+  outerWallTiles:
+  - {fileID: 1343476790991498, guid: b510fbe763f82934ebc8bc53594d9ad8, type: 2}
+  - {fileID: 1241069731473004, guid: ed1e35e14a208634883130b28c7dd4c6, type: 2}
+  - {fileID: 1031175253124778, guid: 63f01c61c8d83734c888e69792a69612, type: 2}
+--- !u!114 &114884170679704306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631859606520376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce853069b8f5f134fb9b49906099f16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardScript: {fileID: 0}
