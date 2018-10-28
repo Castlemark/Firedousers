@@ -10,6 +10,7 @@ TagManager:
   - Soda
   - Manguera
   - Wall
+  - Door
   layers:
   - Default
   - TransparentFX

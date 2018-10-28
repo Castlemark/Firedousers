@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-public class Player : MovingObject {
+public class Player : MovingObject
+{
 
     public int wallDamage = 1;
     public int pointsPerFood = 10;
@@ -38,7 +39,8 @@ public class Player : MovingObject {
     private List<GameObject> visibilityTiles;
 
     // Use this for initialization
-    protected override void Start () {
+    protected override void Start()
+    {
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
         foodText.text = "Food: " + food;
@@ -77,6 +79,7 @@ public class Player : MovingObject {
         {
             //Passem el paràmetre Wall ja que es contra el que pot interactuar el jugador  
             AttemptMove<Wall>(horizontal, vertical);
+            AttemptMove<Door>(horizontal, vertical);
         }
     }
 
@@ -151,12 +154,10 @@ public class Player : MovingObject {
             }
 
             Vector2 start = transform.position;
-            Debug.Log(start);
             Vector2 end = start + new Vector2(xDir, yDir);
             RaycastHit2D hitManguera = Physics2D.Linecast(start, end, mangueraLayer);
             Debug.DrawLine(start, end, Color.white, 2.5f, false);
 
-            Debug.Log(string.Join(",", path.ToArray()));
             SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
 
             Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
@@ -165,8 +166,6 @@ public class Player : MovingObject {
                 hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
                 hitManguera.collider.gameObject.SetActive(false);
                 RecullManguera(end, end);
-
-
             }
 
         }
@@ -228,7 +227,6 @@ public class Player : MovingObject {
 
             other.gameObject.SetActive(false);
         }
-
         else if (other.tag == "Soda")
         {
             food += pointsPerSoda;
@@ -245,16 +243,25 @@ public class Player : MovingObject {
 
     protected override void OnCantMove<T>(T component)
     {
-        //Com que es la funció del jugador el component T sabem que haurà de ser una Wall la qual pot picar i destruir
-        Wall hitWall = component as Wall;
-        hitWall.DamageWall(wallDamage);
-        animator.SetTrigger("playerChop");
+        switch (component.tag)
+        {
+            case "Door":
+                Door hitDoor = component as Door;
+                hitDoor.gameObject.layer = 2;
+                hitDoor.OpenDoor();
+                break;
+
+            case "Wall":
+                Wall hitWall = component as Wall;
+                hitWall.DamageWall(wallDamage);
+                animator.SetTrigger("playerChop");
+                break;
+        }
     }
 
 
     private void Restart()
     {
-        Debug.Log("Recarego escnea");
         //Recarreguem l'escena
         SceneManager.LoadScene(0);
     }
@@ -361,6 +368,7 @@ public class Player : MovingObject {
                 childObjects.Add(child.gameObject);
             }
         }
+
         return childObjects;
     }
 }

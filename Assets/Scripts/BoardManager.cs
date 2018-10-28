@@ -19,28 +19,65 @@ public class BoardManager : MonoBehaviour {
         
         }
     }
-    public int columns = 8;
-    public int rows = 8;
 
-    public Count wallCount = new Count(5, 9);
-    public Count foodCount = new Count(1, 5);
-    public GameObject exit;
+    [Serializable]
+    public class Row
+    {
+        public int row;
+        public String[] items;
+    }
+
+    public class Board
+    {
+        public int columns;
+        public Row[] rows;
+    }
+
+    public Board board;
+    public int rows = 21;
+
+    public GameObject[] wallTiles; //H, V, RT, RB, LB, LT
+    public GameObject[] weakWallTiles; //H, V, RT, RB, LB, LT
+    public GameObject[] stairTiles; //H, V
+
+    public GameObject[] survivorTiles;
+    public GameObject[] itemTiles;
     public GameObject[] floorTiles;
-    public GameObject[] wallTiles;
-    public GameObject[] foodTiles;
-    public GameObject[] enemyTiles;
-    public GameObject[] outerWallTiles;
-
+    public GameObject[] furnitureTiles;
+    public GameObject[] doorTiles;
+    public GameObject[] safePointTiles;
    
-
     private Transform boardHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
+
+    void LoadJSON(int level)
+    {
+        String fileName = "first_floor";
+
+        switch (level)
+        {
+            case 1:
+                fileName = "first_floor";
+                break;
+
+            case 2:
+                fileName = "second_floor";
+                break;
+
+            case 3:
+                fileName = "garage";
+                break;
+        }
+
+        TextAsset jsonObj = (TextAsset)Resources.Load("Boards/" + fileName, typeof(TextAsset));
+        board = JsonUtility.FromJson<Board>(jsonObj.text);
+    }
 
     void InitialiseList()
     {
         gridPositions.Clear();
 
-        for(int x = 1; x< columns - 1; x++)
+        for(int x = 1; x < board.columns - 1; x++)
         {
             for(int y = 1; y < rows-1; y++)
             {
@@ -52,13 +89,11 @@ public class BoardManager : MonoBehaviour {
     void BoardSetup()
     {
         boardHolder = new GameObject("Board").transform;
-        for (int x = -1; x < columns + 1; x++)
+        for (int x = -1; x < board.columns + 1; x++)
         {
             for (int y = - 1; y < rows + 1; y++)
             {
                 GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-                if (x == -1 || x == columns || y == -1 || y == rows)
-                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(boardHolder);
             }
@@ -71,6 +106,79 @@ public class BoardManager : MonoBehaviour {
         Vector3 randomPosition = gridPositions[randomIndex];
         gridPositions.RemoveAt(randomIndex);
         return randomPosition;
+    }
+
+    GameObject StringItemToTile(String item)
+    {
+        switch (item)
+        {
+            case "w_h":
+                return wallTiles[0];
+            case "w_v":
+                return wallTiles[1];
+            case "w_rt":
+                return wallTiles[2];
+            case "w_rb":
+                return wallTiles[3];
+            case "w_lb":
+                return wallTiles[4];
+            case "w_lt":
+                return wallTiles[5];
+
+            case "ww_h":
+                return weakWallTiles[0];
+            case "ww_v":
+                return weakWallTiles[1];
+            case "ww_rt":
+                return weakWallTiles[2];
+            case "ww_rb":
+                return weakWallTiles[3];
+            case "ww_lb":
+                return weakWallTiles[4];
+            case "ww_lt":
+                return weakWallTiles[5];
+
+            case "s_h":
+                return stairTiles[0];
+            case "s_v":
+                return stairTiles[1];
+
+            case "f":
+                return furnitureTiles[Random.Range(0, furnitureTiles.Length)];
+            case "d":
+                return doorTiles[0];
+            case "v":
+                return survivorTiles[Random.Range(0, survivorTiles.Length)];
+            case "s":
+                return safePointTiles[Random.Range(0, safePointTiles.Length)];
+            case "i":
+                return itemTiles[Random.Range(0, itemTiles.Length)];
+            case "#":
+                return floorTiles[Random.Range(0, floorTiles.Length)];
+
+            default:
+                return null;
+        }
+    }
+
+    void LayoutObjects()
+    {
+        foreach (Row row in board.rows)
+        {
+            int column = 0;
+            foreach (String item in row.items)
+            {
+                int[] position = { row.row, column };
+                GameObject tile = StringItemToTile(item);
+                LayoutObjectAtPosition(tile, position);
+                column++;
+            }
+        }
+    }
+
+    void LayoutObjectAtPosition(GameObject tileChoice, int[] pos)
+    {
+        Instantiate(tileChoice, new Vector3(pos[1], rows - pos[0], -1), Quaternion.identity);
     }
 
     void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
@@ -87,13 +195,9 @@ public class BoardManager : MonoBehaviour {
 
     public void SetupScene(int level)
     {
+        LoadJSON(level);
         BoardSetup();
         InitialiseList();
-        LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
-        LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
-        int enemyCount = (int)Mathf.Log(level, 2f);
-        LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-        Instantiate(exit, new Vector3(columns - 1, rows - 1, 0F), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
-
+        LayoutObjects();
     }
 }
