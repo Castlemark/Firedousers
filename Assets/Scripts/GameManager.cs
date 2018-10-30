@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
         doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        levelText.text = "Day " + level;
+        levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
         enemies.Clear();
