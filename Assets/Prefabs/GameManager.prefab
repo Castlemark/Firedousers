@@ -80,7 +80,7 @@ MonoBehaviour:
   furnitureTiles:
   - {fileID: 1977624758400802, guid: 621ef61a6108a714488d15dfee45e475, type: 2}
   doorTiles:
-  - {fileID: 1018105114788156, guid: e5caa101fa3909a4a87cf211b43c8268, type: 2}
+  - {fileID: 1941996346473432, guid: e5caa101fa3909a4a87cf211b43c8268, type: 2}
   safePointTiles:
   - {fileID: 1769135685446214, guid: 48d7b20562925b145bec9ed62f4888e1, type: 2}
 --- !u!114 &114884170679704306

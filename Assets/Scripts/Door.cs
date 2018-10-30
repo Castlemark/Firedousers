@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public Sprite openDoor;
+    public Sprite spriteOpenedDoor;
     public AudioClip chopSound1;
     public AudioClip chopSound2;
 
     private SpriteRenderer spriteRenderer;
 
     // Use this for initialization
-    void Awake()
+    public void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void OpenDoor()
+    public void openDoor()
     {
         SoundManager.instance.RandomizeSfx(chopSound1, chopSound2);
-        spriteRenderer.sprite = openDoor;
+        spriteRenderer.sprite = spriteOpenedDoor;
+        gameObject.layer = 2;
     }
 }
