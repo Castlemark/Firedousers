@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour {
     private bool enemiesMoving;
     private bool firstRun = true;
 
-    public int playerFoodPoints = 100;
+    public int playerFoodPoints = 3;
+    public int peopleSaved = 0;
     [HideInInspector] public bool playersTurn = true;
 
 	// Use this for initialization
