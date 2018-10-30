@@ -79,7 +79,7 @@ public class Player : MovingObject
         {
             //Passem el paràmetre Wall ja que es contra el que pot interactuar el jugador  
             AttemptMove<Wall>(horizontal, vertical);
-            AttemptMove<Door>(horizontal, vertical);
+            //AttemptMove<Door>(horizontal, vertical);
         }
     }
 
@@ -243,7 +243,10 @@ public class Player : MovingObject
 
     protected override void OnCantMove<T>(T component)
     {
-        switch (component.tag)
+        Wall hitWall = component as Wall;
+        hitWall.DamageWall(wallDamage);
+        animator.SetTrigger("playerChop");
+        /*switch (component.tag)
         {
             case "Door":
                 Door hitDoor = component as Door;
@@ -256,7 +259,7 @@ public class Player : MovingObject
                 hitWall.DamageWall(wallDamage);
                 animator.SetTrigger("playerChop");
                 break;
-        }
+        }*/
     }
 
 
