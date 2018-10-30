@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour {
     private bool enemiesMoving;
     private bool firstRun = true;
 
-    public int playerFoodPoints = 100;
+    public int playerFoodPoints = 3;
+    public int peopleSaved = 0;
     [HideInInspector] public bool playersTurn = true;
 
 	// Use this for initialization
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour {
         doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        levelText.text = "Day " + level;
+        levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
         enemies.Clear();

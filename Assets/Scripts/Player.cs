@@ -13,6 +13,7 @@ public class Player : MovingObject
     public int pointsPerSoda = 20;
     public float restartLevelDelay = 1f;
     public Text foodText;
+    public Text peopleText;
 
     public AudioClip moveSound1;
     public AudioClip moveSound2;
@@ -34,6 +35,7 @@ public class Player : MovingObject
 
     private Animator animator;
     private int food;
+    private int people;
     private List<string> path = new List<string>();
 
     private List<GameObject> visibilityTiles;
@@ -43,7 +45,9 @@ public class Player : MovingObject
     {
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
-        foodText.text = "Food: " + food;
+        foodText.text = food.ToString();
+        people = GameManager.instance.peopleSaved;
+        peopleText.text = people.ToString();
         path.Add("r");
         base.Start();
 
@@ -54,6 +58,7 @@ public class Player : MovingObject
     private void OnDisable()
     {
         GameManager.instance.playerFoodPoints = food;
+        GameManager.instance.peopleSaved = people;
     }
 
     private void Update()
@@ -85,12 +90,14 @@ public class Player : MovingObject
 
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
-        food--;
-        foodText.text = "Food: " + food;
+
+        if ((food <= 0) && ( xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
         base.AttemptMove<T>(xDir, yDir);
         RaycastHit2D hit;
         if (Move(xDir, yDir, out hit))
         {
+            food--;
+            foodText.text = food.ToString();
             GameObject toInstantiate = manguera_h;
             if (xDir == 1)
             {
@@ -169,7 +176,7 @@ public class Player : MovingObject
             }
 
         }
-        CheckIfGameOver();
+        //CheckIfGameOver();
         GameManager.instance.playersTurn = false;
     }
 
@@ -204,7 +211,7 @@ public class Player : MovingObject
         }
         else
         {
-            foodText.text = "Food: " + food;
+            foodText.text = food.ToString();
         }
 
 
@@ -221,8 +228,8 @@ public class Player : MovingObject
         }
         else if (other.tag == "Food")
         {
-            food += pointsPerFood;
-            foodText.text = "+" + pointsPerFood + " Food: " + food;
+            people += pointsPerFood;
+            peopleText.text = people.ToString();
             SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
 
             other.gameObject.SetActive(false);

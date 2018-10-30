@@ -98,4 +98,5 @@ MonoBehaviour:
   turnDelay: 0.1
   boardScript: {fileID: 0}
   playerFoodPoints: 100
+  peopleSaved: 0
   playersTurn: 1
