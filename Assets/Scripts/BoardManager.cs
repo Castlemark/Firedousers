@@ -178,7 +178,7 @@ public class BoardManager : MonoBehaviour {
 
     void LayoutObjectAtPosition(GameObject tileChoice, int[] pos)
     {
-        Instantiate(tileChoice, new Vector3(pos[1], rows - pos[0], -1), Quaternion.identity);
+        Instantiate(tileChoice, new Vector3(pos[1], rows - pos[0], -1), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
     }
 
     void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
