@@ -125,8 +125,9 @@ MonoBehaviour:
   wallDamage: 1
   pointsPerFood: 10
   pointsPerSoda: 20
+  pointsPerVictim: 20
   restartLevelDelay: 1
-  foodText: {fileID: 114537195127794148, guid: 894699567cc3b7d4d99b1120e7aaac8f, type: 2}
+  foodText: {fileID: 0}
   moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}
   moveSound2: {fileID: 8300000, guid: a826bc3d758db43d6ae9caf415b63d1d, type: 3}
   eatSound1: {fileID: 8300000, guid: 1cb61f83d60374c7389bb547431919e3, type: 3}
@@ -147,6 +148,10 @@ MonoBehaviour:
   mangueraLayer:
     serializedVersion: 2
     m_Bits: 512
+  startingPoint: {x: 13, y: -6, z: 0}
+  spriteWithVictim: {fileID: 21300000, guid: f550f8753f357eb42af9931cfd6792e5, type: 3}
+  spriteWithoutVictim: {fileID: 21300000, guid: a0c7f7c3bf2f4f843af5bb76849b2a35,
+    type: 3}
 --- !u!212 &212624615169050492
 SpriteRenderer:
   m_ObjectHideFlags: 1
