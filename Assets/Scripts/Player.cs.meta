@@ -3,7 +3,28 @@ guid: bccc53edc4636f645b5fb87940efe6f1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - foodText: {instanceID: 0}
+  - peopleText: {instanceID: 0}
+  - moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}
+  - moveSound2: {fileID: 8300000, guid: a826bc3d758db43d6ae9caf415b63d1d, type: 3}
+  - eatSound1: {fileID: 8300000, guid: 1cb61f83d60374c7389bb547431919e3, type: 3}
+  - eatSound2: {fileID: 8300000, guid: 062161c1897a54088a5430f8c197e1b8, type: 3}
+  - drinkSound1: {fileID: 8300000, guid: b6b608537288246c9a464915db27bf52, type: 3}
+  - drinkSound2: {fileID: 8300000, guid: bcb9dda73ee914d3e8f252895f73f461, type: 3}
+  - gameOverSound: {fileID: 8300000, guid: 2d75080d0851d4613ada1117d91ee417, type: 3}
+  - manguera_v: {fileID: 1298838742618850, guid: 8aa8e1b09ef56e745ba0676d2db1cfb4,
+      type: 2}
+  - manguera_h: {fileID: 1095599291022026, guid: e48766c70e9ae9c4483f267a5fa9397b,
+      type: 2}
+  - manguera_lb: {fileID: 1373211994760784, guid: 60417f58342211848b9fec39f2db5feb,
+      type: 2}
+  - manguera_lt: {fileID: 1923570401270928, guid: 38db12cb1733d0c4081dd0383ae2cba3,
+      type: 2}
+  - manguera_rb: {fileID: 1250678781111110, guid: d68fbd5545ac1b84a9c216a8da7c676d,
+      type: 2}
+  - manguera_rt: {fileID: 1031115762901916, guid: 0984fef7153e3dd45b63415ec7e8d36d,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
