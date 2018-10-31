@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61425807396711158}
   m_Layer: 2
   m_Name: Victim
-  m_TagString: Food
+  m_TagString: Victim
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

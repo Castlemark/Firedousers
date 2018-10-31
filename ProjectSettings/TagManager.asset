@@ -11,6 +11,11 @@ TagManager:
   - Manguera
   - Wall
   - Door
+  - Victim
+  - SafePoint
+  - LockedDoor
+  - StairsUp
+  - StairsDown
   layers:
   - Default
   - TransparentFX

@@ -20,8 +20,10 @@ public class GameManager : MonoBehaviour {
     private bool enemiesMoving;
     private bool firstRun = true;
 
-    public int playerFoodPoints = 3;
+    public int playerFoodPoints = 100;
     public int peopleSaved = 0;
+    public int playerVictims;
+    public bool playerHasKey;
     [HideInInspector] public bool playersTurn = true;
 
 	// Use this for initialization
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviour {
         boardScript = GetComponent<BoardManager>();
         InitGame();
 	}
-    //S'execura cada cop que s'ha carregat una escena
+    //S'executa cada cop que s'ha carregat una escena
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode
     mode)
     {

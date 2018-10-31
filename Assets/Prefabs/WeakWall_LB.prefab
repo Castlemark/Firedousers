@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212464006250966182}
   - component: {fileID: 61630600032178550}
   - component: {fileID: 114438479715206142}
+  - component: {fileID: 114688152073747216}
   m_Layer: 8
   m_Name: WeakWall_LB
   m_TagString: Wall
@@ -82,6 +83,18 @@ MonoBehaviour:
   hp: 4
   chopSound1: {fileID: 0}
   chopSound2: {fileID: 0}
+--- !u!114 &114688152073747216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1733308375275884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cda85d1d93334bd6828a94eb93f0665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alreadySeen: 0
 --- !u!212 &212464006250966182
 SpriteRenderer:
   m_ObjectHideFlags: 1

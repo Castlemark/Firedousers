@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4148165601772658}
   - component: {fileID: 212836243218869574}
   - component: {fileID: 61181310468538164}
+  - component: {fileID: 114891099229438624}
   m_Layer: 9
   m_Name: manguera_h
   m_TagString: Manguera
@@ -66,6 +67,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13034469, y: 0.12637667}
   m_EdgeRadius: 0
+--- !u!114 &114891099229438624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1095599291022026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cda85d1d93334bd6828a94eb93f0665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alreadySeen: 0
 --- !u!212 &212836243218869574
 SpriteRenderer:
   m_ObjectHideFlags: 1

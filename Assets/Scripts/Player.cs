@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class Player : MovingObject
 {
-
     public int wallDamage = 1;
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
+    public int pointsPerVictim = 20;
     public float restartLevelDelay = 1f;
     public Text foodText;
     public Text peopleText;
@@ -32,10 +32,16 @@ public class Player : MovingObject
 
     public LayerMask mangueraLayer;
 
+    private SpriteRenderer spriteRenderer;
+    private int victims;
+    private int maxVictims = 1;
+    public Sprite spriteWithVictim;
+    public Sprite spriteWithoutVictim;
 
     private Animator animator;
     private int food;
     private int people;
+    private bool hasKey ;
     private List<string> path = new List<string>();
 
     private List<GameObject> visibilityTiles;
@@ -48,8 +54,15 @@ public class Player : MovingObject
         foodText.text = food.ToString();
         people = GameManager.instance.peopleSaved;
         peopleText.text = people.ToString();
+        hasKey = GameManager.instance.playerHasKey;
+        victims = GameManager.instance.playerVictims;
+
+        foodText.text = "Food: " + food;
         path.Add("r");
         base.Start();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (victims > 0) spriteRenderer.sprite = spriteWithVictim;
 
         visibilityTiles = GetLosObjects();
     }
@@ -59,6 +72,22 @@ public class Player : MovingObject
     {
         GameManager.instance.playerFoodPoints = food;
         GameManager.instance.peopleSaved = people;
+        GameManager.instance.playerHasKey = hasKey;
+        GameManager.instance.playerVictims = victims;
+    }
+
+    public void carryVictim()
+    {
+        victims++;
+        spriteRenderer.sprite = spriteWithVictim;
+    }
+
+    public void saveVictim()
+    {
+        victims--;
+        food += pointsPerVictim;
+        spriteRenderer.sprite = spriteWithoutVictim;
+        foodText.text = "+" + pointsPerVictim + " Food: " + food;
     }
 
     private void Update()
@@ -84,7 +113,6 @@ public class Player : MovingObject
         {
             //Passem el paràmetre Wall ja que es contra el que pot interactuar el jugador  
             AttemptMove<Wall>(horizontal, vertical);
-            //AttemptMove<Door>(horizontal, vertical);
         }
     }
 
@@ -174,7 +202,14 @@ public class Player : MovingObject
                 hitManguera.collider.gameObject.SetActive(false);
                 RecullManguera(end, end);
             }
-
+        }
+        else
+        {
+            if (hit.collider.tag == "Door" || (hit.collider.tag == "LockedDoor" && hasKey))
+            {
+                Door door = hit.collider.gameObject.GetComponent<Door>();
+                door.openDoor();
+            }
         }
         //CheckIfGameOver();
         GameManager.instance.playersTurn = false;
@@ -213,14 +248,12 @@ public class Player : MovingObject
         {
             foodText.text = food.ToString();
         }
-
-
     }
 
     //Al haver posat els colliders a Trigger aquesta funcio de la APi de Unity s'executa quan colisiona cotra food, soda o exit
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Exit")
+        if (other.tag == "StairsUp" || other.tag == "StairsDown")
         {
             Invoke("Restart", restartLevelDelay);
             //aixi es com marquem que s'ha canviat de nivell
@@ -242,9 +275,18 @@ public class Player : MovingObject
 
             other.gameObject.SetActive(false);
         }
-        else if (other.tag == "Manguera")
+        else if (other.tag == "Victim" && victims < maxVictims)
         {
-
+            carryVictim();
+            other.gameObject.SetActive(false);
+        }
+        else if (other.tag == "SafePoint" && victims != 0)
+        {
+            saveVictim();
+        }
+        else if (other.tag == "Key")
+        {
+            hasKey = true;
         }
     }
 
@@ -253,20 +295,6 @@ public class Player : MovingObject
         Wall hitWall = component as Wall;
         hitWall.DamageWall(wallDamage);
         animator.SetTrigger("playerChop");
-        /*switch (component.tag)
-        {
-            case "Door":
-                Door hitDoor = component as Door;
-                hitDoor.gameObject.layer = 2;
-                hitDoor.OpenDoor();
-                break;
-
-            case "Wall":
-                Wall hitWall = component as Wall;
-                hitWall.DamageWall(wallDamage);
-                animator.SetTrigger("playerChop");
-                break;
-        }*/
     }
 
 
@@ -314,7 +342,7 @@ public class Player : MovingObject
             }
             else
             {
-                hit = Physics2D.Raycast(origin, (destination - origin));
+                hit = Physics2D.Raycast(origin, (destination - origin), 5.0f);
             }
 
             //if the ray hit nothing (died)
