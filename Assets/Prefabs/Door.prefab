@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4922862571540204}
   - component: {fileID: 212324670092071964}
   - component: {fileID: 61948263644311050}
+  - component: {fileID: 114997933972189276}
   - component: {fileID: 114492783720654488}
   m_Layer: 8
   m_Name: Door
@@ -81,6 +82,18 @@ MonoBehaviour:
   spriteOpenedDoor: {fileID: 21300000, guid: 343c2a297a2a339459198b4c8822c686, type: 3}
   chopSound1: {fileID: 0}
   chopSound2: {fileID: 0}
+--- !u!114 &114997933972189276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941996346473432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cda85d1d93334bd6828a94eb93f0665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alreadySeen: 0
 --- !u!212 &212324670092071964
 SpriteRenderer:
   m_ObjectHideFlags: 1

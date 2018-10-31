@@ -342,7 +342,7 @@ public class Player : MovingObject
             }
             else
             {
-                hit = Physics2D.Raycast(origin, (destination - origin));
+                hit = Physics2D.Raycast(origin, (destination - origin), 5.0f);
             }
 
             //if the ray hit nothing (died)

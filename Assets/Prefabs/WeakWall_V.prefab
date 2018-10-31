@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212793020748530620}
   - component: {fileID: 61514295366429612}
   - component: {fileID: 114644876783813266}
+  - component: {fileID: 114012520237848402}
   m_Layer: 8
   m_Name: WeakWall_V
   m_TagString: Wall
@@ -67,6 +68,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114012520237848402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403740278305058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cda85d1d93334bd6828a94eb93f0665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alreadySeen: 0
 --- !u!114 &114644876783813266
 MonoBehaviour:
   m_ObjectHideFlags: 1
