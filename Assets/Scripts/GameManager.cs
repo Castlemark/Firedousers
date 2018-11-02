@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
     public int playerFoodPoints = 100;
     public int peopleSaved = 0;
     public int playerVictims;
+    public int playerVictimsTotal;
     public bool playerHasKey;
     [HideInInspector] public bool playersTurn = true;
 

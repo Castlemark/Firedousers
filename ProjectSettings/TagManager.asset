@@ -16,6 +16,7 @@ TagManager:
   - LockedDoor
   - StairsUp
   - StairsDown
+  - Key
   layers:
   - Default
   - TransparentFX
