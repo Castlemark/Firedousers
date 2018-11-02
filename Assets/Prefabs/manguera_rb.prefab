@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4161999342281852}
   - component: {fileID: 212353678477061572}
   - component: {fileID: 61836413062526496}
-  - component: {fileID: 114588533693200908}
+  - component: {fileID: 114681044002388838}
   m_Layer: 9
   m_Name: manguera_rb
   m_TagString: Manguera
@@ -58,8 +58,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.32, y: 0.32}
+    newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -67,7 +67,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13034469, y: 0.12637667}
   m_EdgeRadius: 0
---- !u!114 &114588533693200908
+--- !u!114 &114681044002388838
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +119,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

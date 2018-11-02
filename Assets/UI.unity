@@ -963,6 +963,7 @@ MonoBehaviour:
   wallDamage: 1
   pointsPerFood: 1
   pointsPerSoda: 20
+  pointsPerVictim: 20
   restartLevelDelay: 1
   foodText: {fileID: 1525529481}
   peopleText: {fileID: 934663740}
@@ -986,6 +987,8 @@ MonoBehaviour:
   mangueraLayer:
     serializedVersion: 2
     m_Bits: 512
+  spriteWithVictim: {fileID: 0}
+  spriteWithoutVictim: {fileID: 0}
 --- !u!50 &1551177442
 Rigidbody2D:
   serializedVersion: 4
