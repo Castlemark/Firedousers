@@ -30,7 +30,8 @@ public class BoardManager : MonoBehaviour
 
     public class Board
     {
-        public int[] player_pos;
+        public int[] player_pos_up;
+        public int[] player_pos_down;
         public int columns;
         public Row[] rows;
     }
@@ -139,17 +140,7 @@ public class BoardManager : MonoBehaviour
                 return weakWallTiles[4];
             case "ww_lt":
                 return weakWallTiles[5];
-
-            case "s_h":
-                GameObject s_h = stairTiles[0];
-                s_h.tag = "Untagged";
-                return s_h;
-
-            case "s_v":
-                GameObject s_v = stairTiles[1];
-                s_v.tag = "Untagged";
-                return s_v;
-
+                
             case "s_h_u":
                 GameObject s_h_u = stairTiles[0];
                 s_h_u.tag = "StairsUp";
@@ -200,7 +191,12 @@ public class BoardManager : MonoBehaviour
     void LayoutObjects()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = new Vector3 (board.player_pos[0], board.player_pos[1], 0);
+        
+        switch (GameManager.instance.lastStairs)
+        {
+            case "up": player.transform.position = new Vector3 (board.player_pos_up[0], board.player_pos_up[1], 0); break;
+            case "down": player.transform.position = new Vector3 (board.player_pos_down[0], board.player_pos_down[1], 0); break;
+        }        
 
         foreach (Row row in board.rows)
         {

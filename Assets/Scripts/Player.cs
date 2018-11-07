@@ -40,7 +40,7 @@ public class Player : MovingObject
 
     private Animator animator;
     private int food;
-    private bool hasKey ;
+    private bool hasKey;
     private List<string> path = new List<string>();
 
     private List<GameObject> visibilityTiles;
@@ -72,7 +72,7 @@ public class Player : MovingObject
         GameManager.instance.playerFoodPoints = food;
         GameManager.instance.playerHasKey = hasKey;
         GameManager.instance.playerVictims = victims;
-        GameManager.instance.playerVictimsTotal = victims;
+        GameManager.instance.playerVictimsTotal = victims_total;
     }
 
     public void carryVictim()
@@ -118,7 +118,7 @@ public class Player : MovingObject
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
 
-        if ((food <= 0) && ( xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
+        if ((food <= 0) && (xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
         base.AttemptMove<T>(xDir, yDir);
         RaycastHit2D hit;
         if (Move(xDir, yDir, out hit))
@@ -252,19 +252,19 @@ public class Player : MovingObject
     //Al haver posat els colliders a Trigger aquesta funcio de la APi de Unity s'executa quan colisiona cotra food, soda o exit
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "StairsUp" || other.tag == "StairsDown")
+        if (other.tag == "StairsUp")
         {
             Invoke("Restart", restartLevelDelay);
-            //aixi es com marquem que s'ha canviat de nivell
+            GameManager.instance.level++;
+            GameManager.instance.lastStairs = "up";
             enabled = false;
         }
-        else if (other.tag == "Food")
-        {/*
-            victims += pointsPerVictim;
-            peopleText.text = people.ToString();
-            SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
-
-            other.gameObject.SetActive(false);*/
+        else if (other.tag == "StairsDown")
+        {
+            Invoke("Restart", restartLevelDelay);
+            GameManager.instance.level--;
+            GameManager.instance.lastStairs = "down";
+            enabled = false;
         }
         else if (other.tag == "Soda")
         {
@@ -287,6 +287,7 @@ public class Player : MovingObject
         {
             hasKey = true;
             other.gameObject.SetActive(false);
+            //Destroy(other.gameObject);
         }
     }
 
