@@ -14,15 +14,17 @@ public class GameManager : MonoBehaviour {
     private GameObject levelImage;
     public static GameManager instance = null; //singleton
     public BoardManager boardScript;
-    private int level = 1;
+    public int level = 1;
     private bool doingSetup;    //prevent a l'usuari de moure's quan estem establint el tauler
     private List<Enemy> enemies;        //llista d'enemics a l'escena 
     private bool enemiesMoving;
     private bool firstRun = true;
+    public string lastStairs = "up";
 
     public int playerFoodPoints = 100;
     public int peopleSaved = 0;
     public int playerVictims;
+    public int playerVictimsTotal;
     public bool playerHasKey;
     [HideInInspector] public bool playersTurn = true;
 
@@ -46,8 +48,7 @@ public class GameManager : MonoBehaviour {
             firstRun = false;
             return;
         }
-
-        level++;
+       
         InitGame();
     }
     void OnEnable()

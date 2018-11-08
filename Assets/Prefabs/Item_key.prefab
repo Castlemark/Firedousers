@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114014861687056372}
   m_Layer: 2
   m_Name: Item_key
-  m_TagString: Food
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

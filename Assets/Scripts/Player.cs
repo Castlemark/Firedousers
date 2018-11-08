@@ -11,7 +11,6 @@ public class Player : MovingObject
     public int wallDamage = 1;
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
-    public int pointsPerVictim = 20;
     public float restartLevelDelay = 1f;
     public Text foodText;
     public Text peopleText;
@@ -34,15 +33,15 @@ public class Player : MovingObject
     public LayerMask mangueraLayer;
 
     private SpriteRenderer spriteRenderer;
-    private int victims;
+    private int victims; //Víctimes que portes a sobre
+    private int victims_total;
     private int maxVictims = 1;
     public Sprite spriteWithVictim;
     public Sprite spriteWithoutVictim;
 
     private Animator animator;
     private int food;
-    private int people;
-    private bool hasKey ;
+    private bool hasKey;
     private List<string> path = new List<string>();
 
     private List<GameObject> visibilityTiles;
@@ -53,12 +52,12 @@ public class Player : MovingObject
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
         foodText.text = food.ToString();
-        people = GameManager.instance.peopleSaved;
-        peopleText.text = people.ToString();
-        hasKey = GameManager.instance.playerHasKey;
         victims = GameManager.instance.playerVictims;
+        victims_total = GameManager.instance.playerVictimsTotal;
+        peopleText.text = victims_total.ToString();
+        hasKey = GameManager.instance.playerHasKey;
 
-        foodText.text = "Food: " + food;
+        foodText.text = food.ToString();
         path.Add("r");
         base.Start();
 
@@ -73,9 +72,9 @@ public class Player : MovingObject
     private void OnDisable()
     {
         GameManager.instance.playerFoodPoints = food;
-        GameManager.instance.peopleSaved = people;
         GameManager.instance.playerHasKey = hasKey;
         GameManager.instance.playerVictims = victims;
+        GameManager.instance.playerVictimsTotal = victims_total;
     }
 
     public void carryVictim()
@@ -86,10 +85,10 @@ public class Player : MovingObject
 
     public void saveVictim()
     {
-        victims--;
-        food += pointsPerVictim;
+        victims_total += victims;
+        victims = 0;
         spriteRenderer.sprite = spriteWithoutVictim;
-        foodText.text = "+" + pointsPerVictim + " Food: " + food;
+        peopleText.text = victims_total.ToString();
     }
 
     private void Update()
@@ -122,7 +121,7 @@ public class Player : MovingObject
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
 
-        if ((food <= 0) && ( xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
+        if ((food <= 0) && (xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
         base.AttemptMove<T>(xDir, yDir);
         RaycastHit2D hit;
         if (Move(xDir, yDir, out hit))
@@ -256,19 +255,19 @@ public class Player : MovingObject
     //Al haver posat els colliders a Trigger aquesta funcio de la APi de Unity s'executa quan colisiona cotra food, soda o exit
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "StairsUp" || other.tag == "StairsDown")
+        if (other.tag == "StairsUp")
         {
             Invoke("Restart", restartLevelDelay);
-            //aixi es com marquem que s'ha canviat de nivell
+            GameManager.instance.level++;
+            GameManager.instance.lastStairs = "up";
             enabled = false;
         }
-        else if (other.tag == "Food")
+        else if (other.tag == "StairsDown")
         {
-            people += pointsPerFood;
-            peopleText.text = people.ToString();
-            SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
-
-            other.gameObject.SetActive(false);
+            Invoke("Restart", restartLevelDelay);
+            GameManager.instance.level--;
+            GameManager.instance.lastStairs = "down";
+            enabled = false;
         }
         else if (other.tag == "Soda")
         {
@@ -290,6 +289,8 @@ public class Player : MovingObject
         else if (other.tag == "Key")
         {
             hasKey = true;
+            other.gameObject.SetActive(false);
+            //Destroy(other.gameObject);
         }
     }
 
