@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 
 public class Player : MovingObject
@@ -64,6 +65,7 @@ public class Player : MovingObject
         if (victims > 0) spriteRenderer.sprite = spriteWithVictim;
 
         visibilityTiles = GetLosObjects();
+        Debug.Log(CheckPositions(visibilityTiles));
     }
 
     // S'ecexuta quan es deshabilita el game object quan es canvia de nivell
@@ -93,6 +95,7 @@ public class Player : MovingObject
     {
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
+        visibilityTiles = GetLosObjects();
         UpdateVisibility(visibilityTiles, this.gameObject);
 
         int horizontal = 0;
@@ -194,7 +197,7 @@ public class Player : MovingObject
 
             SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
 
-            Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+            Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
             if (hitManguera.transform != null)
             {
                 hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
@@ -329,6 +332,7 @@ public class Player : MovingObject
     {
         foreach (GameObject losObject in losObjects)
         {
+
             Vector2 origin = (Vector2)losObject.transform.position;
             Vector2 destination = (Vector2)player.transform.position;
 
@@ -338,12 +342,12 @@ public class Player : MovingObject
             if (losObject.GetComponent<BoxCollider2D>() != null)
             {
                 losObject.GetComponent<BoxCollider2D>().enabled = false;
-                hit = Physics2D.Raycast(origin, (destination - origin), 5.0f);
+                hit = Physics2D.Linecast(origin, destination, blockingLayer);
                 losObject.GetComponent<BoxCollider2D>().enabled = true;
             }
             else
             {
-                hit = Physics2D.Raycast(origin, (destination - origin), 5.0f);
+                hit = Physics2D.Linecast(origin, destination, blockingLayer);
             }
 
             //if the ray hit nothing (died)
@@ -409,5 +413,23 @@ public class Player : MovingObject
         }
 
         return childObjects;
+    }
+
+    public bool CheckPositions(List<GameObject> gameObjects)
+    {
+        
+        List<Vector3> positions = new List<Vector3>();
+        foreach(GameObject gameObject in gameObjects)
+        {
+            positions.Add(gameObject.transform.position);
+        }
+
+        if (positions.Count() != positions.Distinct().ToList().Count())
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 }

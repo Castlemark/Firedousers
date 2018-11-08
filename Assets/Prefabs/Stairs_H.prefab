@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114138514681786386}
   m_Layer: 2
   m_Name: Stairs_H
-  m_TagString: StairsUp
+  m_TagString: StairsDown
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -963,6 +963,7 @@ MonoBehaviour:
   wallDamage: 1
   pointsPerFood: 1
   pointsPerSoda: 20
+  pointsPerVictim: 20
   restartLevelDelay: 1
   foodText: {fileID: 1525529481}
   peopleText: {fileID: 934663740}
