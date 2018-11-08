@@ -987,8 +987,9 @@ MonoBehaviour:
   mangueraLayer:
     serializedVersion: 2
     m_Bits: 512
-  spriteWithVictim: {fileID: 0}
-  spriteWithoutVictim: {fileID: 0}
+  spriteWithVictim: {fileID: 21300000, guid: f550f8753f357eb42af9931cfd6792e5, type: 3}
+  spriteWithoutVictim: {fileID: 21300000, guid: a0c7f7c3bf2f4f843af5bb76849b2a35,
+    type: 3}
 --- !u!50 &1551177442
 Rigidbody2D:
   serializedVersion: 4
@@ -1044,7 +1045,7 @@ Animator:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1551177440}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: dd26be16371b25c459aad338396efa67, type: 2}
   m_CullingMode: 0

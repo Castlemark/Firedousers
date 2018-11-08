@@ -36,6 +36,7 @@ public class BoardManager : MonoBehaviour
     }
 
     public Board board;
+    public Board heatmap;
     public int rows = 21;
 
     public GameObject[] wallTiles; //H, V, RT, RB, LB, LT
@@ -71,8 +72,12 @@ public class BoardManager : MonoBehaviour
                 break;
         }
 
-        TextAsset jsonObj = (TextAsset)Resources.Load("Boards/" + fileName, typeof(TextAsset));
-        board = JsonUtility.FromJson<Board>(jsonObj.text);
+        TextAsset jsonBoard = (TextAsset)Resources.Load("Boards/" + fileName, typeof(TextAsset));
+        TextAsset jsonHeatmap = (TextAsset)Resources.Load("Boards/" + fileName + "_heatmap", typeof(TextAsset));
+
+        board = JsonUtility.FromJson<Board>(jsonBoard.text);
+        Debug.Log("change to: " + fileName);
+        heatmap = JsonUtility.FromJson<Board>(jsonHeatmap.text);
     }
 
     void InitialiseList()
@@ -110,7 +115,7 @@ public class BoardManager : MonoBehaviour
         return randomPosition;
     }
 
-    GameObject StringItemToTile(String item)
+    GameObject StringItemToTile(String item, String state)
     {
         switch (item)
         {
@@ -190,7 +195,9 @@ public class BoardManager : MonoBehaviour
             case "i":
                 return itemTiles[Random.Range(0, itemTiles.Length)];
             case "#":
-                return floorTiles[Random.Range(0, floorTiles.Length)];
+                GameObject floor = floorTiles[Random.Range(0, floorTiles.Length)];
+                floor.transform.GetChild(0).GetComponent<FireController>().ChangeState(Int32.Parse(state));
+                return floor;
 
             default:
                 return null;
@@ -207,8 +214,10 @@ public class BoardManager : MonoBehaviour
             int column = 0;
             foreach (String item in row.items)
             {
+                String state = heatmap.rows[row.row].items[column];
                 int[] position = { row.row, column };
-                GameObject tile = StringItemToTile(item);
+                //Debug.Log( item + " ; " + state  + " : " + position[0] + ";" + position[1]);
+                GameObject tile = StringItemToTile(item, state);
                 LayoutObjectAtPosition(tile, position);
                 column++;
             }
