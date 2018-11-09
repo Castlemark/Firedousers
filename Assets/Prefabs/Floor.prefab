@@ -38,7 +38,8 @@ GameObject:
   - component: {fileID: 4398357127264136}
   - component: {fileID: 212174634199365060}
   - component: {fileID: 114886693188022952}
-  m_Layer: 0
+  - component: {fileID: 61682186946224586}
+  m_Layer: 10
   m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1026141005422196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1061.2861, y: 264.48724, z: 0.058604375}
+  m_LocalPosition: {x: -345.56122, y: 215.91643, z: 0.058604375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4398357127264136}
@@ -72,6 +73,31 @@ Transform:
   m_Father: {fileID: 4157909722955912}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61682186946224586
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1115101741473798}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.32}
+    newSize: {x: 0.32, y: 0.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.95, y: 0.95}
+  m_EdgeRadius: 0
 --- !u!114 &114013671425197770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,6 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b196cc8ab581964baea5673f24a8fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   fireStates:
   - {fileID: 21300000, guid: c65c8e19700e272489af1b4d7d24cc93, type: 3}
   - {fileID: 21300000, guid: ba3511d264898704d88e3caac091c8f4, type: 3}
@@ -105,6 +134,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ee43e7b53692129429559e810c1d5914, type: 3}
   - {fileID: 21300000, guid: 7f6235f639c0e56418a4c7e62a460142, type: 3}
   state: 0
+  state_counter: 0
+  max_state: 0
+  min_state: 1
+  state_increase_steps: 0300000004000000040000000500000001000000
 --- !u!212 &212174634199365060
 SpriteRenderer:
   m_ObjectHideFlags: 1
