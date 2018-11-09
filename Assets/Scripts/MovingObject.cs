@@ -7,6 +7,8 @@ public abstract class MovingObject : MonoBehaviour
 
     public float moveTime = .1f;
     public LayerMask blockingLayer;
+    public LayerMask visibilityLayer;
+    public LayerMask fireLayer;
     // Use this for initialization
 
     private BoxCollider2D boxCollider;
@@ -26,11 +28,19 @@ public abstract class MovingObject : MonoBehaviour
         Vector2 end = start + new Vector2(xDir, yDir);
 
         boxCollider.enabled = false;
+        RaycastHit2D brokenHit = Physics2D.Linecast(start, end, visibilityLayer);
+        RaycastHit2D fireHit = Physics2D.Linecast(start, end, fireLayer);
         hit = Physics2D.Linecast(start, end, blockingLayer);
         Debug.DrawLine(start, end, Color.white, 2.5f, false);
 
         boxCollider.enabled = true;
-        if (hit.transform == null)
+
+        if (fireHit.transform != null)
+        {
+            fireHit.transform.gameObject.GetComponent<FireController>().SteppedOnFire();
+        }
+
+        if (hit.transform == null && brokenHit.transform == null)
         {
 
             StartCoroutine(SmoothMovement(end));
