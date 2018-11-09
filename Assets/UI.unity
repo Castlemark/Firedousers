@@ -960,6 +960,12 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 256
+  visibilityLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  fireLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   wallDamage: 1
   pointsPerFood: 1
   pointsPerSoda: 20

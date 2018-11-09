@@ -12,6 +12,8 @@ public class FireController : MonoBehaviour {
     public bool max_state;
     public bool min_state;
 
+    public bool broken = false;
+
     public int[] state_increase_steps;
 
     private readonly Vector2[] directions = { new Vector2(0,1),
@@ -38,14 +40,22 @@ public class FireController : MonoBehaviour {
         else { min_state = false; }
 
         if (state == 5) { ExpandFire(); }
+        if (state == 6) { CollapsableFloor(); }
     }
 
     public void EvolveState()
     {
+
+        if (broken)
+        {
+            this.gameObject.layer = LayerMask.NameToLayer("VisibilityLayer");
+            this.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            Debug.Log(gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>());
+            this.gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = null;
+        }
+
         if (!max_state && !min_state && state_counter >= state_increase_steps[state - 1])
         {
-            bool will_change = !max_state && !min_state;
-            Debug.Log("fire state: " + state + " ; state counter:" + state_counter + "threshold: " + state_increase_steps[state - 1] + " ; min state:" + min_state + " ; will change: " + will_change);
             ChangeState(state + 1);
         }
         else
@@ -81,11 +91,27 @@ public class FireController : MonoBehaviour {
             }
             else if (hit.collider != null && hit.collider.name.Contains("burnable"))
             {
-                Debug.Log("destroyed furniture");
                 Vector3 position = hit.collider.transform.parent.transform.position;
                 Destroy(hit.transform.parent.gameObject);
                 GameObject.Find("GameManager(Clone)").GetComponent<BoardManager>().InstantiateFloor(position);
             }
+        }
+
+        GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    void CollapsableFloor()
+    {
+        this.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        this.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+    }
+
+    public void SteppedOnFire()
+    {
+        if (state == 1) { ChangeState(0); }
+        if (state >= 3)
+        {
+            GameObject.Find("Player").GetComponent<Player>().AddFood(-10 * state);
         }
     }
 }

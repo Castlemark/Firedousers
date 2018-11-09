@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -209,7 +209,7 @@ public class Player : MovingObject
         }
         else
         {
-            if (hit.collider.tag == "Door" || (hit.collider.tag == "LockedDoor" && hasKey))
+            if (hit.collider != null && (hit.collider.tag == "Door" || (hit.collider.tag == "LockedDoor" && hasKey)))
             {
                 Door door = hit.collider.gameObject.GetComponent<Door>();
                 door.openDoor();
@@ -294,6 +294,11 @@ public class Player : MovingObject
             hasKey = true;
             other.gameObject.SetActive(false);
             //Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Burned")
+        {
+            other.gameObject.GetComponent<FireController>().broken = true;
         }
     }
 
@@ -385,12 +390,22 @@ public class Player : MovingObject
                 {
                     losObject.GetComponent<SpriteRenderer>().enabled = false;
                 }
+
+                if (losObject.name.Contains("Floor"))
+                {
+                    losObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                }
             }
             //if the ray hit the player 
             else
             {
                 losObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
                 losObject.GetComponent<SpriteRenderer>().enabled = true;
+
+                if (losObject.name.Contains("Floor"))
+                {
+                    losObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+                }
 
                 if (hasVisibility)
                 {
@@ -442,5 +457,10 @@ public class Player : MovingObject
         {
             return false;
         }
+    }
+
+    public void AddFood(int added_food)
+    {
+        food += added_food;
     }
 }

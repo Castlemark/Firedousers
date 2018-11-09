@@ -17,6 +17,7 @@ TagManager:
   - StairsUp
   - StairsDown
   - Key
+  - Burned
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - BlockingLayer
   - MangueraLayer
   - FireLayer
-  - 
+  - VisibilityLayer
   - 
   - 
   - 
