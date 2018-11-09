@@ -77,7 +77,6 @@ public class BoardManager : MonoBehaviour
         TextAsset jsonHeatmap = (TextAsset)Resources.Load("Boards/" + fileName + "_heatmap", typeof(TextAsset));
 
         board = JsonUtility.FromJson<Board>(jsonBoard.text);
-        Debug.Log("change to: " + fileName);
         heatmap = JsonUtility.FromJson<Board>(jsonHeatmap.text);
     }
 
@@ -97,15 +96,6 @@ public class BoardManager : MonoBehaviour
     void BoardSetup()
     {
         boardHolder = new GameObject("Board").transform;
-        for (int x = -1; x < board.columns + 1; x++)
-        {
-            for (int y = -1; y < rows + 1; y++)
-            {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
-                instance.transform.SetParent(boardHolder);
-            }
-        }
     }
 
     Vector3 RandomPosition()
@@ -212,13 +202,19 @@ public class BoardManager : MonoBehaviour
             {
                 String state = heatmap.rows[row.row].items[column];
                 int[] position = { row.row, column };
-                //Debug.Log( item + " ; " + state  + " : " + position[0] + ";" + position[1]);
                 GameObject tile = StringItemToTile(item, state);
                 LayoutObjectAtPosition(tile, position);
                 column++;
             }
         }
 
+    }
+
+    public void InstantiateFloor(Vector3 position)
+    {
+        GameObject floor = floorTiles[Random.Range(0, floorTiles.Length)];
+        floor.transform.GetChild(0).GetComponent<FireController>().ChangeState(1);
+        Instantiate(floor, position, Quaternion.identity, GameObject.Find("Board").transform);
     }
 
     void LayoutObjectAtPosition(GameObject tileChoice, int[] pos)

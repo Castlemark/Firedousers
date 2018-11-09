@@ -65,7 +65,7 @@ public class Player : MovingObject
         if (victims > 0) spriteRenderer.sprite = spriteWithVictim;
 
         visibilityTiles = GetLosObjects();
-        Debug.Log(CheckPositions(visibilityTiles));
+        UpdateBoard(visibilityTiles, this.gameObject);
     }
 
     // S'ecexuta quan es deshabilita el game object quan es canvia de nivell
@@ -96,7 +96,7 @@ public class Player : MovingObject
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
         visibilityTiles = GetLosObjects();
-        UpdateVisibility(visibilityTiles, this.gameObject);
+        
 
         int horizontal = 0;
         int vertical = 0;
@@ -204,6 +204,8 @@ public class Player : MovingObject
                 hitManguera.collider.gameObject.SetActive(false);
                 RecullManguera(end, end);
             }
+
+            UpdateBoard(visibilityTiles, this.gameObject);
         }
         else
         {
@@ -245,6 +247,7 @@ public class Player : MovingObject
         {
             hitManguera.collider.gameObject.SetActive(false);
             RecullManguera(end, to);
+            Destroy(hitManguera.collider.gameObject);
         }
         else
         {
@@ -328,7 +331,7 @@ public class Player : MovingObject
         }
     }
 
-    public void UpdateVisibility(List<GameObject> losObjects, GameObject player)
+    public void UpdateBoard(List<GameObject> losObjects, GameObject player)
     {
         foreach (GameObject losObject in losObjects)
         {
@@ -337,6 +340,11 @@ public class Player : MovingObject
             Vector2 destination = (Vector2)player.transform.position;
 
             bool hasVisibility = losObject.GetComponent<tileSeen>() != null;
+
+            if (losObject.name.Contains("Floor"))
+            {
+                losObject.transform.GetChild(0).GetComponent<FireController>().EvolveState();
+            }
 
             RaycastHit2D hit;
             if (losObject.GetComponent<BoxCollider2D>() != null)
@@ -408,7 +416,10 @@ public class Player : MovingObject
             }
             else
             {
-                childObjects.Add(child.gameObject);
+                if (child.gameObject.transform.parent.name == "Board")
+                {
+                    childObjects.Add(child.gameObject);
+                }
             }
         }
 
