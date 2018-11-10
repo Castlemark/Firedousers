@@ -218,7 +218,7 @@ public class Player : MovingObject
             if (hitManguera.transform != null)
             {
                 hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
-                hitManguera.collider.gameObject.SetActive(false);
+                Destroy(hitManguera.collider.gameObject);
                 RecullManguera(end, end);
             }
 
@@ -262,7 +262,7 @@ public class Player : MovingObject
         RaycastHit2D hitManguera = Physics2D.Linecast(pos, to, mangueraLayer);
         if (hitManguera.transform != null)
         {
-            hitManguera.collider.gameObject.SetActive(false);
+            Destroy(hitManguera.collider.gameObject);
             RecullManguera(end, to);
             Destroy(hitManguera.collider.gameObject);
         }
