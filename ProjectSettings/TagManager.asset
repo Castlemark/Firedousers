@@ -10,6 +10,14 @@ TagManager:
   - Soda
   - Manguera
   - Wall
+  - Door
+  - Victim
+  - SafePoint
+  - LockedDoor
+  - StairsUp
+  - StairsDown
+  - Key
+  - Burned
   layers:
   - Default
   - TransparentFX
@@ -21,8 +29,8 @@ TagManager:
   - 
   - BlockingLayer
   - MangueraLayer
-  - 
-  - 
+  - FireLayer
+  - VisibilityLayer
   - 
   - 
   - 

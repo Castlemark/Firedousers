@@ -52,43 +52,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f7b555ad568a94799797c3370c89d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 8
   rows: 8
-  wallCount:
-    minimum: 5
-    maximum: 9
-  foodCount:
-    minimum: 1
-    maximum: 5
-  exit: {fileID: 1343263578160074, guid: 5b334574871c59247b9dc685893864c9, type: 2}
-  floorTiles:
-  - {fileID: 1899528540799292, guid: a5b97304589bd604a89b664ae34c23a2, type: 2}
-  - {fileID: 1672404255713348, guid: baa8617cc5749744c8af0ef0efea3066, type: 2}
-  - {fileID: 1993253193647508, guid: d862502174484e449b7f2aeb4eb1f21b, type: 2}
-  - {fileID: 1591769894408924, guid: ef4c041412671de4ca7dfac4cea9a9c6, type: 2}
-  - {fileID: 1983594108309056, guid: 00bebb3fa8f97db4fbdd2a5fa5502d79, type: 2}
-  - {fileID: 1346291510754052, guid: c0c7a6f336c325c4ebdf728bbae4e1f7, type: 2}
-  - {fileID: 1554479823409312, guid: d8875deb61ae67141ac45ec54e76ddbf, type: 2}
-  - {fileID: 1174131277676154, guid: 866c0d7a96865f94d9aae94958a8297b, type: 2}
   wallTiles:
-  - {fileID: 1913535235843404, guid: 5b780326cec37cc45a8187f4699b760a, type: 2}
-  - {fileID: 1022806223591632, guid: 593a01f69b6b5614f9f4eddfb86f88a4, type: 2}
-  - {fileID: 1559455716328644, guid: 626797d8c5017374081c736bb082a794, type: 2}
-  - {fileID: 1599894947873858, guid: 26271754516e6554aad1bef38f7050ed, type: 2}
-  - {fileID: 1871381863597938, guid: 8b43eaed70bcf3341a4cba138da172c1, type: 2}
-  - {fileID: 1698569045800788, guid: 36e211b07cdfe9542beed8187a7cde3e, type: 2}
-  - {fileID: 1141035372732404, guid: 21a7ee398fba3c749b0a91bfb5141efa, type: 2}
-  - {fileID: 1034920737435246, guid: 0a8ecdd5fbf51884e98f536a65911289, type: 2}
-  foodTiles:
-  - {fileID: 1146386204424224, guid: 76b5dfb8e4ee7ad46b80aad3bbb5ae59, type: 2}
-  - {fileID: 1762161000148184, guid: a23cb25fe991d9149a4b7744817a2591, type: 2}
-  enemyTiles:
-  - {fileID: 1903923341594816, guid: 330d622a7a4c22e488e93eb1715ce5d7, type: 2}
-  - {fileID: 1528788253305842, guid: 1295c39b1dcc6854d9f51a130a40d82d, type: 2}
-  outerWallTiles:
-  - {fileID: 1343476790991498, guid: b510fbe763f82934ebc8bc53594d9ad8, type: 2}
-  - {fileID: 1241069731473004, guid: ed1e35e14a208634883130b28c7dd4c6, type: 2}
-  - {fileID: 1031175253124778, guid: 63f01c61c8d83734c888e69792a69612, type: 2}
+  - {fileID: 1221824485314608, guid: 2583d95d208ef304088ffed7545a8930, type: 2}
+  - {fileID: 1178271292378168, guid: 0384b13e92eaaef43afecb8386d9300b, type: 2}
+  - {fileID: 1372136811500276, guid: b0ec10cdf1f2f4945acc73c0d6e039bd, type: 2}
+  - {fileID: 1257922923482266, guid: 12f00200c01e1ac479ee8c085a5cb7f2, type: 2}
+  - {fileID: 1290396809059634, guid: a03703ca27d97274e9c50eef61ae4414, type: 2}
+  - {fileID: 1142713084348364, guid: 76e0b2ece472d3344b4d44961d20e546, type: 2}
+  weakWallTiles:
+  - {fileID: 1273563484147598, guid: 6d6c97b57acf1144ba7abbe0ee99c3a8, type: 2}
+  - {fileID: 1403740278305058, guid: 4a230b77a3ed5f647b95062f869b9651, type: 2}
+  - {fileID: 1195795399580780, guid: f1a521cd5107e9d46b6edfaf245f7a10, type: 2}
+  - {fileID: 1598172456956660, guid: 018371c6b8c8881439b4db7f42c78380, type: 2}
+  - {fileID: 1733308375275884, guid: dd14f42052ad40f48bb6056a08b77ff0, type: 2}
+  - {fileID: 1140682364102216, guid: d0009d0a86e14e94f8e5b5a6d952cf0c, type: 2}
+  stairTiles:
+  - {fileID: 1525409970069258, guid: f7af84b4a2bee994ea3a0471c5e1397e, type: 2}
+  - {fileID: 1752006370121806, guid: 9140a09f2ed575144b04b0d922902339, type: 2}
+  survivorTiles:
+  - {fileID: 1096621595267942, guid: 8ed123b51c7919c44958a6548fe297cb, type: 2}
+  itemTiles:
+  - {fileID: 1377362847835976, guid: 24852305d72455f4fbf20b49beb75dd0, type: 2}
+  - {fileID: 1965580919752828, guid: 69a41fad6a18d5f4ea9818d10638920b, type: 2}
+  floorTiles:
+  - {fileID: 1026141005422196, guid: 69276f455429fd94280a701655d33f56, type: 2}
+  furnitureTiles:
+  - {fileID: 1977624758400802, guid: 621ef61a6108a714488d15dfee45e475, type: 2}
+  doorTiles:
+  - {fileID: 1941996346473432, guid: e5caa101fa3909a4a87cf211b43c8268, type: 2}
+  safePointTiles:
+  - {fileID: 1769135685446214, guid: 48d7b20562925b145bec9ed62f4888e1, type: 2}
 --- !u!114 &114884170679704306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,4 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce853069b8f5f134fb9b49906099f16f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelStartDelay: 2
+  turnDelay: 0.1
   boardScript: {fileID: 0}
+  playerFoodPoints: 100
+  peopleSaved: 0
+  playersTurn: 1
