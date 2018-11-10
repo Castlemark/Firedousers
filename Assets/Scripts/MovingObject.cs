@@ -35,7 +35,7 @@ public abstract class MovingObject : MonoBehaviour
 
         boxCollider.enabled = true;
 
-        if (fireHit.transform != null)
+        if (fireHit.transform != null && fireHit.collider.name.Contains("fire"))
         {
             fireHit.transform.gameObject.GetComponent<FireController>().SteppedOnFire();
         }
