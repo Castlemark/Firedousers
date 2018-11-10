@@ -36,23 +36,17 @@ public class FireController : MonoBehaviour {
         if (state == 6) { max_state = true; }
         else { max_state = false; }
 
-        if (state == 0) { min_state = true; }
+        if (state == 0 || state == 7) { min_state = true; }
         else { min_state = false; }
 
         if (state == 5) { ExpandFire(); }
-        if (state == 6) { CollapsableFloor(); }
+        if (state == 6) { MakeFloorCollapsable(); }
     }
 
     public void EvolveState()
     {
 
-        if (broken)
-        {
-            this.gameObject.layer = LayerMask.NameToLayer("VisibilityLayer");
-            this.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
-            Debug.Log(gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>());
-            this.gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = null;
-        }
+        if (broken) { BreakFloor(); }
 
         if (!max_state && !min_state && state_counter >= state_increase_steps[state - 1])
         {
@@ -69,6 +63,14 @@ public class FireController : MonoBehaviour {
                 state_counter++;
             }
         }
+    }
+
+    private void BreakFloor()
+    {
+        gameObject.layer = LayerMask.NameToLayer("VisibilityLayer");
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        Debug.Log(gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>());
+        this.gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = null;
     }
 
     void ExpandFire()
@@ -89,6 +91,10 @@ public class FireController : MonoBehaviour {
             {
                 hit.collider.GetComponent<FireController>().ChangeState(1);
             }
+            else if (hit.collider != null && hit.collider.name.Contains("fire") && hit.collider.GetComponent<FireController>().state == 7)
+            {
+                hit.collider.GetComponent<FireController>().ChangeState(0);
+            }
             else if (hit.collider != null && hit.collider.name.Contains("burnable"))
             {
                 Vector3 position = hit.collider.transform.parent.transform.position;
@@ -100,7 +106,7 @@ public class FireController : MonoBehaviour {
         GetComponent<BoxCollider2D>().enabled = true;
     }
 
-    void CollapsableFloor()
+    void MakeFloorCollapsable()
     {
         this.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         this.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
@@ -109,7 +115,7 @@ public class FireController : MonoBehaviour {
     public void SteppedOnFire()
     {
         if (state == 1) { ChangeState(0); }
-        if (state >= 3)
+        if (state >= 3 && state < 7)
         {
             GameObject.Find("Player").GetComponent<Player>().AddFood(-10 * state);
         }

@@ -105,6 +105,23 @@ public class Player : MovingObject
         horizontal = (int)(Input.GetAxisRaw("Horizontal"));
         vertical = (int)(Input.GetAxisRaw("Vertical"));
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            ShootWater(new Vector2(1, 0));
+        }
+        else if (Input.GetKeyDown(KeyCode.J))
+        {
+            ShootWater(new Vector2(-1, 0));
+        }
+        else if (Input.GetKeyDown(KeyCode.I))
+        {
+            ShootWater(new Vector2(0, 1));
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            ShootWater(new Vector2(0, -1));
+        }
+
         //Prevé que només es pugui moure en una direcció
         if (horizontal != 0)
         {
@@ -340,16 +357,12 @@ public class Player : MovingObject
     {
         foreach (GameObject losObject in losObjects)
         {
+            UpdateFire(losObject);
 
             Vector2 origin = (Vector2)losObject.transform.position;
             Vector2 destination = (Vector2)player.transform.position;
 
             bool hasVisibility = losObject.GetComponent<tileSeen>() != null;
-
-            if (losObject.name.Contains("Floor"))
-            {
-                losObject.transform.GetChild(0).GetComponent<FireController>().EvolveState();
-            }
 
             RaycastHit2D hit;
             if (losObject.GetComponent<BoxCollider2D>() != null)
@@ -411,6 +424,36 @@ public class Player : MovingObject
                 {
                     losObject.GetComponent<tileSeen>().alreadySeen = true;
                 }
+            }
+        }
+    }
+
+    private static void UpdateFire(GameObject losObject)
+    {
+        if (losObject.name.Contains("Floor"))
+        {
+            losObject.transform.GetChild(0).GetComponent<FireController>().EvolveState();
+        }
+    }
+
+    void ShootWater(Vector2 direction)
+    {
+        Vector2 start = new Vector2(transform.position.x + direction.x, transform.position.y + direction.y);
+        Vector2 end = new Vector2(start.x + (direction.x/100), start.y + (direction.x / 100));
+        RaycastHit2D hit = Physics2D.Linecast(start,end, fireLayer);
+
+        if (hit.collider != null)
+        {
+            GameObject collider = hit.collider.gameObject;
+
+            if (collider.GetComponent<FireController>().state == 0)
+            {
+                collider.GetComponent<FireController>().ChangeState(7);
+            }
+            else if (collider.GetComponent<FireController>().state > 0 && collider.GetComponent<FireController>().state < 6)
+            {
+                collider.GetComponent<FireController>().ChangeState(0);
+                Debug.Log("apagant foc");
             }
         }
     }
