@@ -300,7 +300,7 @@ public class Player : MovingObject
         else if (other.tag == "Victim" && victims < maxVictims)
         {
             carryVictim();
-            other.gameObject.SetActive(false);
+            instantiateFloor(other.gameObject);
         }
         else if (other.tag == "SafePoint" && victims != 0)
         {
@@ -309,14 +309,20 @@ public class Player : MovingObject
         else if (other.tag == "Key")
         {
             hasKey = true;
-            other.gameObject.SetActive(false);
-            //Destroy(other.gameObject);
+            instantiateFloor(other.gameObject);
         }
 
         if (other.tag == "Burned")
         {
             other.gameObject.GetComponent<FireController>().broken = true;
         }
+    }
+
+    private void instantiateFloor(GameObject obj)
+    {
+        Destroy(obj);
+        GameObject instance = Instantiate(GameManager.instance.boardScript.floorTiles[0], obj.transform.position, Quaternion.identity);
+        instance.transform.SetParent(GameObject.Find("Board").transform);
     }
 
     protected override void OnCantMove<T>(T component)
