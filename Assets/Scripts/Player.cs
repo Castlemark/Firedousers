@@ -11,9 +11,11 @@ public class Player : MovingObject
     public int wallDamage = 1;
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
+    public int temperature = 0;
     public float restartLevelDelay = 1f;
     public Text foodText;
     public Text peopleText;
+    private Text temperatureText;
 
     public AudioClip moveSound1;
     public AudioClip moveSound2;
@@ -49,6 +51,8 @@ public class Player : MovingObject
     // Use this for initialization
     protected override void Start()
     {
+        temperatureText = GameObject.Find("TemperatureText").GetComponent<Text>();
+        temperatureText.text = temperature.ToString();
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
         foodText.text = food.ToString();
@@ -232,7 +236,7 @@ public class Player : MovingObject
                 door.openDoor();
             }
         }
-        //CheckIfGameOver();
+        CheckIfGameOver();
         GameManager.instance.playersTurn = false;
     }
 
@@ -323,6 +327,7 @@ public class Player : MovingObject
         Destroy(obj);
         GameObject instance = Instantiate(GameManager.instance.boardScript.floorTiles[0], obj.transform.position, Quaternion.identity);
         instance.transform.SetParent(GameObject.Find("Board").transform);
+        instance.transform.GetChild(0).GetComponent<FireController>().ChangeState(0);
     }
 
     protected override void OnCantMove<T>(T component)
@@ -351,7 +356,7 @@ public class Player : MovingObject
 
     private void CheckIfGameOver()
     {
-        if (food <= 0)
+        if (food <= 0  || temperature >= 100)
         {
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.muscicSource.Stop();
@@ -511,5 +516,11 @@ public class Player : MovingObject
     public void AddFood(int added_food)
     {
         food += added_food;
+    }
+
+    public void IncreaseTemperature()
+    {
+        temperature += 5;
+        temperatureText.text = temperature.ToString();
     }
 }

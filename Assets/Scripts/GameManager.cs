@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour {
 
     public void GameOver()
     {
-        levelText.text = "¡Has durao " + level + " días güey!";
+        levelText.text = "Game Over!";
         levelImage.SetActive(true);
         enabled = false;
     }

@@ -117,7 +117,7 @@ public class FireController : MonoBehaviour {
         if (state == 1) { ChangeState(0); }
         if (state >= 3 && state < 7)
         {
-            GameObject.Find("Player").GetComponent<Player>().AddFood(-10 * state);
+            GameObject.Find("Player").GetComponent<Player>().IncreaseTemperature();
         }
     }
 }
