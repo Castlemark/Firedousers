@@ -24,6 +24,10 @@ public class Tile : MonoBehaviour {
 
 	public void SetUpTile(TYPE typeSetUp, CONTAINED containedSetup, int state)
 	{	
+		foreach (Transform child in transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+		
 		typeObject = Instantiate(Resources.Load("Prefabs/Type"), transform.position, Quaternion.identity, this.transform) as GameObject;
 		typeObject.name = "Type";
 		

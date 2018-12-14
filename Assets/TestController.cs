@@ -8,7 +8,9 @@ public class TestController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		Instantiate(TileUtils.GetTile(), Vector3.right, Quaternion.identity).GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor,0);
+		GameObject aux = Instantiate(TileUtils.GetTile(), Vector3.right, Quaternion.identity) as GameObject;
+		aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor,0);
+		aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.item,0);
 		Instantiate(TileUtils.GetTile(), Vector3.down, Quaternion.identity).GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none,0);
 	}
 	
