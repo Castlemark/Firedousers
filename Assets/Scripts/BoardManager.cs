@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System;
 using System.Collections.Generic;
+using TileEnums;
 using Random = UnityEngine.Random;
 using UnityEngine;
 
@@ -40,19 +41,11 @@ public class BoardManager : MonoBehaviour
     public Board heatmap;
     public int rows = 21;
 
-    public GameObject[] wallTiles; //H, V, RT, RB, LB, LT
-    public GameObject[] weakWallTiles; //H, V, RT, RB, LB, LT
-    public GameObject[] stairTiles; //H, V
-
-    public GameObject[] survivorTiles;
-    public GameObject[] itemTiles;
-    public GameObject[] floorTiles;
-    public GameObject[] furnitureTiles;
-    public GameObject[] doorTiles;
-    public GameObject[] safePointTiles;
+    public GameObject genericTile;
 
     private Transform boardHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
+    public GameObject[,] grid;
 
     void LoadJSON(int level)
     {
@@ -78,10 +71,13 @@ public class BoardManager : MonoBehaviour
 
         board = JsonUtility.FromJson<Board>(jsonBoard.text);
         heatmap = JsonUtility.FromJson<Board>(jsonHeatmap.text);
+
+        GameObject.Find("Player").GetComponent<Player>().SetPosition(board.player_pos_up[0], board.player_pos_up[1]);
     }
 
     void InitialiseList()
     {
+        grid = new GameObject[board.columns, board.rows.Length];
         gridPositions.Clear();
 
         for (int x = 1; x < board.columns - 1; x++)
@@ -98,91 +94,92 @@ public class BoardManager : MonoBehaviour
         boardHolder = new GameObject("Board").transform;
     }
 
-    Vector3 RandomPosition()
+    GameObject StringItemToTile(String item, String state, int[] pos)
     {
-        int randomIndex = Random.Range(0, gridPositions.Count);
-        Vector3 randomPosition = gridPositions[randomIndex];
-        gridPositions.RemoveAt(randomIndex);
-        return randomPosition;
-    }
-
-    GameObject StringItemToTile(String item, String state)
-    {
+        GameObject aux = Instantiate(genericTile,  new Vector3(pos[1], pos[0], -1),Quaternion.identity,GameObject.Find("Board").transform);
+        
         switch (item)
         {
             case "w_h":
-                return wallTiles[0];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.wall,CONTAINED.none,0);
+                break;
             case "w_v":
-                return wallTiles[1];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.wall,CONTAINED.none,0);
+                break;
             case "w_rt":
-                return wallTiles[2];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.wall,CONTAINED.none,0);
+                break;
             case "w_rb":
-                return wallTiles[3];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.wall,CONTAINED.none,0);
+                break;
             case "w_lb":
-                return wallTiles[4];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.wall,CONTAINED.none,0);
+                break;
             case "w_lt":
-                return wallTiles[5];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.wall,CONTAINED.none,0);
+                break;
 
             case "ww_h":
-                return weakWallTiles[0];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall,CONTAINED.none,0);
+                break;
             case "ww_v":
-                return weakWallTiles[1];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall,CONTAINED.none,0);
+                break;
             case "ww_rt":
-                return weakWallTiles[2];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall,CONTAINED.none,0);
+                break;
             case "ww_rb":
-                return weakWallTiles[3];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall,CONTAINED.none,0);
+                break;
             case "ww_lb":
-                return weakWallTiles[4];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall,CONTAINED.none,0);
+                break;
             case "ww_lt":
-                return weakWallTiles[5];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall,CONTAINED.none,0);
+                break;
                 
             case "s_h_u":
-                GameObject s_h_u = stairTiles[0];
-                s_h_u.tag = "StairsUp";
-                return s_h_u;
-
+                aux.GetComponent<Tile>().SetUpTile(TYPE.stair_up,CONTAINED.none,0);
+                break;
             case "s_h_d":
-                GameObject s_h_d = stairTiles[0];
-                s_h_d.tag = "StairsDown";
-                return s_h_d;
-
+                aux.GetComponent<Tile>().SetUpTile(TYPE.stair_down,CONTAINED.none,0);
+                break;
             case "s_v_u":
-                GameObject s_v_u = stairTiles[1];
-                s_v_u.tag = "StairsUp";
-                return s_v_u;
-
+                aux.GetComponent<Tile>().SetUpTile(TYPE.stair_up,CONTAINED.none,0);
+                break;
             case "s_v_d":
-                GameObject s_v_d = stairTiles[1];
-                s_v_d.tag = "StairsDown";
-                return s_v_d;
+                aux.GetComponent<Tile>().SetUpTile(TYPE.stair_down,CONTAINED.none,0);
+                break;
 
             case "f":
-                return furnitureTiles[Random.Range(0, furnitureTiles.Length)];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor,CONTAINED.furniture,0);
+                break;
 
             case "d":
-                GameObject door = doorTiles[0];
-                door.tag = "Door";
-                return doorTiles[0];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor,CONTAINED.door,0);
+                break;
 
             case "d_l":
-                GameObject locked_door = doorTiles[0];
-                locked_door.tag = "LockedDoor";
-                return doorTiles[0];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor,CONTAINED.door,0);
+                break;
 
             case "v":
-                return survivorTiles[Random.Range(0, survivorTiles.Length)];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor,CONTAINED.survivor,0);
+                break;
             case "s":
-                return safePointTiles[Random.Range(0, safePointTiles.Length)];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.safepoint,CONTAINED.none,0);
+                break;
             case "i":
-                return itemTiles[Random.Range(0, itemTiles.Length)];
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor,CONTAINED.item,0);
+                break;
             case "#":
-                GameObject floor = floorTiles[Random.Range(0, floorTiles.Length)];
-                floor.transform.GetChild(0).GetComponent<FireController>().ChangeState(Int32.Parse(state));
-                return floor;
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor,CONTAINED.none,0);
+                break;
 
             default:
                 return null;
         }
+        return aux;
     }
 
     void LayoutObjects()
@@ -191,8 +188,13 @@ public class BoardManager : MonoBehaviour
         
         switch (GameManager.instance.lastStairs)
         {
-            case "up": player.transform.position = new Vector3 (board.player_pos_up[0], board.player_pos_up[1], 0); break;
-            case "down": player.transform.position = new Vector3 (board.player_pos_down[0], board.player_pos_down[1], 0); break;
+            case "up": 
+                player.transform.position = new Vector3 (board.player_pos_up[0], board.player_pos_up[1], 0); 
+                
+                break;
+            case "down": 
+                player.transform.position = new Vector3 (board.player_pos_down[0], board.player_pos_down[1], 0); 
+                break;
         }        
 
         foreach (Row row in board.rows)
@@ -202,35 +204,26 @@ public class BoardManager : MonoBehaviour
             {
                 String state = heatmap.rows[row.row].items[column];
                 int[] position = { row.row, column };
-                GameObject tile = StringItemToTile(item, state);
-                LayoutObjectAtPosition(tile, position);
+                GameObject tile = StringItemToTile(item, state, position);
+                grid[column, row.row] = tile;
                 column++;
             }
         }
+        OrientGrid();
 
     }
 
-    public void InstantiateFloor(Vector3 position)
+    private void OrientGrid()
     {
-        GameObject floor = floorTiles[Random.Range(0, floorTiles.Length)];
-        floor.transform.GetChild(0).GetComponent<FireController>().ChangeState(1);
-        Instantiate(floor, position, Quaternion.identity, GameObject.Find("Board").transform);
-    }
+        int length = grid.GetLength(0);
+        int width = grid.GetLength(1);
 
-    void LayoutObjectAtPosition(GameObject tileChoice, int[] pos)
-    {
-        Instantiate(tileChoice, new Vector3(pos[1], rows - pos[0], -1), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
-    }
-
-    void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
-    {
-        int objectCount = Random.Range(minimum, maximum + 1); // escollim random quants objectes hi hauran daquell tipus a l'escena
-        for (int i = 0; i < objectCount; i++)
+        for (int i = 0; i < length; i++)
         {
-            Vector3 randomPosition = RandomPosition();
-            GameObject tileChoice = tileArray[Random.Range(0, tileArray.Length)];
-            GameObject instance = Instantiate(tileChoice, randomPosition, Quaternion.identity);
-            instance.transform.SetParent(GameObject.Find("Board").transform);
+            for (int j = 0; j < width; j++)
+            {
+
+            }
         }
     }
 
@@ -240,5 +233,15 @@ public class BoardManager : MonoBehaviour
         BoardSetup();
         InitialiseList();
         LayoutObjects();
+    }
+
+    public bool CanMoveTo(int x, int y)
+    {
+        Tile tile = grid[x, y].GetComponent<Tile>();
+
+        bool canMoveTo = tile.CanPass();
+        tile.ExecuteBehaviour();
+
+        return canMoveTo;
     }
 }

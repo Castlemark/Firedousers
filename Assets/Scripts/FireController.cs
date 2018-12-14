@@ -99,7 +99,6 @@ public class FireController : MonoBehaviour {
             {
                 Vector3 position = hit.collider.transform.parent.transform.position;
                 Destroy(hit.transform.parent.gameObject);
-                GameObject.Find("GameManager(Clone)").GetComponent<BoardManager>().InstantiateFloor(position);
             }
         }
 

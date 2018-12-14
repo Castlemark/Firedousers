@@ -53,6 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rows: 8
+  genericTile: {fileID: 1915428926337212, guid: 3960fe9bd70f6427286177a22556f4ba,
+    type: 2}
   wallTiles:
   - {fileID: 1221824485314608, guid: 2583d95d208ef304088ffed7545a8930, type: 2}
   - {fileID: 1178271292378168, guid: 0384b13e92eaaef43afecb8386d9300b, type: 2}
@@ -80,7 +82,7 @@ MonoBehaviour:
   furnitureTiles:
   - {fileID: 1977624758400802, guid: 621ef61a6108a714488d15dfee45e475, type: 2}
   doorTiles:
-  - {fileID: 1941996346473432, guid: e5caa101fa3909a4a87cf211b43c8268, type: 2}
+  - {fileID: 0}
   safePointTiles:
   - {fileID: 1769135685446214, guid: 48d7b20562925b145bec9ed62f4888e1, type: 2}
 --- !u!114 &114884170679704306
@@ -97,6 +99,11 @@ MonoBehaviour:
   levelStartDelay: 2
   turnDelay: 0.1
   boardScript: {fileID: 0}
+  level: 1
+  lastStairs: up
   playerFoodPoints: 100
   peopleSaved: 0
+  playerVictims: 0
+  playerVictimsTotal: 0
+  playerHasKey: 0
   playersTurn: 1
