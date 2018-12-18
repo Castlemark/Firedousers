@@ -15,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
     /*********************************/
 
     public int[,] board;
-    public GameObject genericTile;
+    private GameObject genericTile;
 
     public int hallwayWidth = 2;
     private float hallwaysIterations;
@@ -53,6 +53,10 @@ public class LevelGenerator : MonoBehaviour
        
         switch (item)
         {
+            case 0:
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
+                break; 
+
             case 1:
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0);
                 break;
@@ -62,14 +66,16 @@ public class LevelGenerator : MonoBehaviour
                 break;
 
             default:
-                return null;
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
+                break;
         }
 
         return aux;
     }
 
-    public void BoardSetup(GameObject[,]  grid)
+    public void BoardSetup(GameObject[,]  grid, GameObject genericTile)
     {
+        this.genericTile = genericTile;
         GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos_up[0], player_pos_up[1]);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
@@ -83,15 +89,14 @@ public class LevelGenerator : MonoBehaviour
                 player.transform.position = new Vector3(player_pos_down[0], player_pos_down[1], 0);
                 break;
         }
-
-        for (int row = 0; row < board.GetLength(0); row++)
+        
+        for (int row = 0; row < grid.GetLength(0); row++)
         {
-            for (int col = 0; col < board.GetLength(1); col++)
+            for (int col = 0; col < grid.GetLength(1); col++)
             {
                 //String state = heatmap.rows[row].items[column];
                 int[] position = { row, col };
                 String state = "0";
-                Debug.Log(board[col, row]);
                 GameObject tile = IntItemToTile(board[row, col], state, position);
                 grid[col, row] = tile;
             }

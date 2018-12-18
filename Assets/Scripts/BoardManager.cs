@@ -39,8 +39,9 @@ public class BoardManager : MonoBehaviour
 
     public Board board;
     public Board heatmap;
-    public int rows = 64;
-    public int columns = 64;
+    private int rows = 32;
+    private int columns = 32;
+    public GameObject genericTile;
 
     private Transform boardHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
@@ -49,12 +50,12 @@ public class BoardManager : MonoBehaviour
 
     public void SetupScene(int level)
     {
+        grid = new GameObject[columns, rows];
         levelGenerator = gameObject.AddComponent(typeof(LevelGenerator)) as LevelGenerator;
         boardHolder = new GameObject("Board").transform;
         levelGenerator.Initiate(64, 64);
-        levelGenerator.BoardSetup(grid);
+        levelGenerator.BoardSetup(grid, genericTile);
 
-        grid = new GameObject[columns, rows];
         gridPositions.Clear();
 
         for (int x = 1; x < columns - 1; x++)
@@ -84,6 +85,8 @@ public class BoardManager : MonoBehaviour
 
     public bool CanMoveTo(int x, int y)
     {
+        Debug.Log(grid[0, 0]);
+        Debug.Log(grid.GetLength(1));
         Tile tile = grid[x, y].GetComponent<Tile>();
 
         bool canMoveTo = tile.CanPass();
@@ -119,51 +122,4 @@ public class BoardManager : MonoBehaviour
 
         //GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos_up[0], player_pos_up[1]);
     }*/
-
-    /*
-    void LayoutObjects()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        switch (GameManager.instance.lastStairs)
-        {
-            case "up":
-                player.transform.position = new Vector3(player_pos_up[0], player_pos_up[1], 0);
-
-                break;
-            case "down":
-                player.transform.position = new Vector3(player_pos_down[0], player_pos_down[1], 0);
-                break;
-        }
-
-        for (int row = 0; row < rows; row++)
-        {
-            for (int col = 0; col < columns; col++)
-            {
-                //String state = heatmap.rows[row].items[column];
-                int[] position = { row, col };
-                String state = "0";
-                Debug.Log(grid[col, row]);
-                //GameObject tile = StringItemToTile(grid[row, col], state, position);
-                grid[col, row] = tile;
-            }
-        }
-
-        OrientGrid();
-    }
-
-    private void OrientGrid()
-    {
-        int length = grid.GetLength(0);
-        int width = grid.GetLength(1);
-
-        for (int i = 0; i < length; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-
-            }
-        }
-    }
-    */
 }
