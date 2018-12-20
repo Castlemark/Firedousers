@@ -7,13 +7,6 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    /***** PROVISIONAL ****************************/
-    public GameObject floor; //0
-    public GameObject hallway; //- 1
-    public GameObject wall; //1 
-    public GameObject door; //2
-    /*********************************/
-
     public int[,] board;
     private GameObject genericTile;
 
@@ -21,7 +14,7 @@ public class LevelGenerator : MonoBehaviour
     private float hallwaysIterations;
     public float hallwaysProbability = 0.1f;
     public int minAreaRoom = 100;
-    public int numDoors = 2;
+    public int numDoors = 1;
 
     private int rows, columns;
     public int[] player_pos_up = { 1, 1 };
@@ -50,30 +43,36 @@ public class LevelGenerator : MonoBehaviour
     GameObject IntItemToTile(int item, String state, int[] pos)
     {
         GameObject aux = Instantiate(genericTile, new Vector3(pos[1], pos[0], -1), Quaternion.identity, GameObject.Find("Board").transform);
-       
+
         switch (item)
         {
             case 0:
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
-                break; 
+                break;
 
             case 1:
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0);
                 break;
 
             case 2:
-                //aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0); DOOR
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0);
                 break;
 
             default:
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
                 break;
+
+                //aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall, CONTAINED.none, 0);
+                //aux.GetComponent<Tile>().SetUpTile(TYPE.stair_up, CONTAINED.none, 0);
+                //aux.GetComponent<Tile>().SetUpTile(TYPE.stair_down, CONTAINED.none, 0);
+                //aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
+                //aux.GetComponent<Tile>().SetUpTile(TYPE.safepoint, CONTAINED.none, 0);
         }
 
         return aux;
     }
 
-    public void BoardSetup(GameObject[,]  grid, GameObject genericTile)
+    public void BoardSetup(GameObject[,] grid, GameObject genericTile)
     {
         this.genericTile = genericTile;
         GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos_up[0], player_pos_up[1]);
@@ -89,7 +88,7 @@ public class LevelGenerator : MonoBehaviour
                 player.transform.position = new Vector3(player_pos_down[0], player_pos_down[1], 0);
                 break;
         }
-        
+
         for (int row = 0; row < grid.GetLength(0); row++)
         {
             for (int col = 0; col < grid.GetLength(1); col++)
