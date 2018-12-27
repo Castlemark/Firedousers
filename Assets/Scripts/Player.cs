@@ -38,6 +38,7 @@ public class Player : MovingObject
     private int victims; //Víctimes que portes a sobre
     private int victims_total;
     private int maxVictims = 1;
+    
     public Sprite spriteWithVictim;
     public Sprite spriteWithoutVictim;
 
@@ -45,6 +46,8 @@ public class Player : MovingObject
     private int food;
     private bool hasKey;
     private List<string> path = new List<string>();
+
+    private Vector2Int position;
 
     private List<GameObject> visibilityTiles;
 
@@ -143,10 +146,12 @@ public class Player : MovingObject
     {
 
         if ((food <= 0) && (xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
-        base.AttemptMove<T>(xDir, yDir);
-        RaycastHit2D hit;
-        if (Move(xDir, yDir, out hit))
+
+        if (GameManager.instance.boardScript.CanMoveTo(position.x + xDir, position.y + yDir))
         {
+            Vector2 start = transform.position;
+            Vector2 end = start + new Vector2(xDir, yDir);
+            StartCoroutine(SmoothMovement(end));
             food--;
             foodText.text = food.ToString();
             GameObject toInstantiate = manguera_h;
@@ -211,10 +216,13 @@ public class Player : MovingObject
                 }
             }
 
-            Vector2 start = transform.position;
-            Vector2 end = start + new Vector2(xDir, yDir);
+            //Vector2 start = transform.position;
+            //Vector2 end = start + new Vector2(xDir, yDir);
             RaycastHit2D hitManguera = Physics2D.Linecast(start, end, mangueraLayer);
-            Debug.DrawLine(start, end, Color.white, 2.5f, false);
+            //Debug.DrawLine(start, end, Color.white, 2.5f, false);
+
+            position.x += xDir;
+            position.y += yDir;
 
             SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
 
@@ -228,14 +236,7 @@ public class Player : MovingObject
 
             UpdateBoard(visibilityTiles, this.gameObject);
         }
-        else
-        {
-            if (hit.collider != null && (hit.collider.tag == "Door" || (hit.collider.tag == "LockedDoor" && hasKey)))
-            {
-                Door door = hit.collider.gameObject.GetComponent<Door>();
-                door.openDoor();
-            }
-        }
+
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
     }
@@ -325,9 +326,6 @@ public class Player : MovingObject
     private void instantiateFloor(GameObject obj)
     {
         Destroy(obj);
-        GameObject instance = Instantiate(GameManager.instance.boardScript.floorTiles[0], obj.transform.position, Quaternion.identity);
-        instance.transform.SetParent(GameObject.Find("Board").transform);
-        instance.transform.GetChild(0).GetComponent<FireController>().ChangeState(0);
     }
 
     protected override void OnCantMove<T>(T component)
@@ -369,73 +367,6 @@ public class Player : MovingObject
         foreach (GameObject losObject in losObjects)
         {
             UpdateFire(losObject);
-
-            Vector2 origin = (Vector2)losObject.transform.position;
-            Vector2 destination = (Vector2)player.transform.position;
-
-            bool hasVisibility = losObject.GetComponent<tileSeen>() != null;
-
-            RaycastHit2D hit;
-            if (losObject.GetComponent<BoxCollider2D>() != null)
-            {
-                losObject.GetComponent<BoxCollider2D>().enabled = false;
-                hit = Physics2D.Linecast(origin, destination, blockingLayer);
-                losObject.GetComponent<BoxCollider2D>().enabled = true;
-            }
-            else
-            {
-                hit = Physics2D.Linecast(origin, destination, blockingLayer);
-            }
-
-            //if the ray hit nothing (died)
-            if (hit.collider == null)
-            {
-
-                if (hasVisibility && losObject.GetComponent<tileSeen>().alreadySeen == true)
-                {
-                    losObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, .5f);
-                    losObject.GetComponent<SpriteRenderer>().enabled = true;
-                }
-                else
-                {
-                    losObject.GetComponent<SpriteRenderer>().enabled = false;
-                }
-
-            }
-            //if the ray hit anything else
-            else if (hit.collider.gameObject.name != "Player")
-            {
-                if (hasVisibility && losObject.GetComponent<tileSeen>().alreadySeen == true)
-                {
-                    losObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, .5f);
-                    losObject.GetComponent<SpriteRenderer>().enabled = true;
-                }
-                else
-                {
-                    losObject.GetComponent<SpriteRenderer>().enabled = false;
-                }
-
-                if (losObject.name.Contains("Floor"))
-                {
-                    losObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-                }
-            }
-            //if the ray hit the player 
-            else
-            {
-                losObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
-                losObject.GetComponent<SpriteRenderer>().enabled = true;
-
-                if (losObject.name.Contains("Floor"))
-                {
-                    losObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
-                }
-
-                if (hasVisibility)
-                {
-                    losObject.GetComponent<tileSeen>().alreadySeen = true;
-                }
-            }
         }
     }
 
@@ -522,5 +453,11 @@ public class Player : MovingObject
     {
         temperature += 5;
         temperatureText.text = temperature.ToString();
+    }
+
+    public void SetPosition(int x, int y)
+    {
+        position.x = x;
+        position.y = y;
     }
 }

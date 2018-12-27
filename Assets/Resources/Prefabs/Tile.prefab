@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1915428926337212}
+  m_IsPrefabAsset: 1
+--- !u!1 &1915428926337212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4692673832819866}
+  - component: {fileID: 114848927750148752}
+  m_Layer: 0
+  m_Name: Tile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4692673832819866
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1915428926337212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114848927750148752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1915428926337212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37ea4ca285684593880d4fe81162c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  contained: 4
+  floor_images:
+  - {fileID: 21300000, guid: e9b717e762648d749bc2271a019e5c2a, type: 3}
+  wall_images:
+  - {fileID: 21300000, guid: 551bd1a734b49354b996c17200fe0163, type: 3}
+  - {fileID: 21300000, guid: af02987f99910dc408ca4ef74d389042, type: 3}
+  - {fileID: 21300000, guid: 67a8c7ea54540af4ab573149ca0c4a09, type: 3}
+  - {fileID: 21300000, guid: 4cb3b81866443664992584f09d869939, type: 3}
+  - {fileID: 21300000, guid: 735a995c1add06b4ca75193032a1923f, type: 3}
+  - {fileID: 21300000, guid: 729af61f5a60b2a48b3fbc0da668328a, type: 3}
+  breakable_wall_images:
+  - {fileID: 21300000, guid: 175d41cb31ce82c46a0eb2bc4cf95722, type: 3}
+  - {fileID: 21300000, guid: aa7179d4940a1a14297acbd1cd0d9bf3, type: 3}
+  - {fileID: 21300000, guid: 0e8b95cd3e1b6b34c9ac149164acbb3d, type: 3}
+  - {fileID: 21300000, guid: 906a1b92ec8b3cc4ca92a359450ca671, type: 3}
+  - {fileID: 21300000, guid: 5b2778000f734a143aa517c3cd724a64, type: 3}
+  - {fileID: 21300000, guid: a1fe9ddddcc2a2f4094ac65a5d9b899c, type: 3}
+  stair_up_images:
+  - {fileID: 21300000, guid: 053c7f8e8c33fdf42ae72babdae80890, type: 3}
+  - {fileID: 21300000, guid: a0dc863f85d39014390c2e45fb2e81d9, type: 3}
+  stair_down_images:
+  - {fileID: 21300000, guid: 053c7f8e8c33fdf42ae72babdae80890, type: 3}
+  - {fileID: 21300000, guid: a0dc863f85d39014390c2e45fb2e81d9, type: 3}
+  safepoint_images:
+  - {fileID: 21300000, guid: fbc985a4e95517343a97ef494c8c3584, type: 3}
