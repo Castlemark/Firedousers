@@ -14,11 +14,9 @@ public class LevelGenerator : MonoBehaviour
     private float hallwaysIterations;
     public float hallwaysProbability = 0.1f;
     public int minAreaRoom = 100;
-    public int numDoors = 1;
+    public int numDoors = 3;
 
     private int rows, columns;
-    public int[] player_pos_up = { 1, 1 };
-    public int[] player_pos_down = { 5, 5 };
 
     public List<Room> rooms;
 
@@ -26,21 +24,45 @@ public class LevelGenerator : MonoBehaviour
 
     private char direction = 'N'; //Des d'on llancem la fila/columna -> N, E, S, W 
 
+    private GameObject cube; //el que fa les ombres
+
     public void Initiate(int rows, int columns)
     {
         this.rows = rows;
         this.columns = columns;
         rooms = new List<Room>();
         board = new int[rows, columns];
-        floor = GameObject.Find("Floor");
-        wall = GameObject.Find("Wall");
+        cube = (GameObject)Resources.Load("Prefabs/cube", typeof(GameObject));
+
 
         CreateHallways();
         CreateWalls();
         CreateRooms();
     }
 
-    GameObject IntItemToTile(int item, String state, int[] pos)
+    private int setTileToWall(int[] around)
+    {
+        bool b = false, t = false, r = false, l = false; //Obstacles al voltant
+
+        if (around[0] == 2 && around[2] == 2) return 0;
+        if (around[1] == 2 && around[3] == 2) return 5;
+
+        if (around[0] == 1 || around[0] == 2) b = true;
+        if (around[1] == 1 || around[1] == 2) r = true;
+        if (around[2] == 1 || around[2] == 2) t = true;
+        if (around[3] == 1 || around[3] == 2) l = true;
+
+        if (l && r) return 0;//0 -> horitzontal
+        if (b && t) return 5;//5 -> vertical
+        if (l && b) return 1;//1 -> cantonada top right
+        if (t && l) return 2;//2 -> cantonada bottom right
+        if (r && b) return 3;//3 -> cantonada top left
+        if (r && t) return 4;//4 -> cantonada bottom left
+
+        return 0;
+    }
+
+    GameObject IntItemToTile(int item, String state, int[] pos, int[] around)
     {
         GameObject aux = Instantiate(genericTile, new Vector3(pos[1], pos[0], -1), Quaternion.identity, GameObject.Find("Board").transform);
 
@@ -52,10 +74,21 @@ public class LevelGenerator : MonoBehaviour
 
             case 1:
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0);
+                aux.GetComponent<Tile>().ChangeTypeSpriteTo(setTileToWall(around));
                 break;
 
             case 2:
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0);
+                break;
+
+            case 3:
+                bool possible = Array.IndexOf(around, 2) == -1;
+                possible &= !(around[0] == 1 && around[2] == 1 || around[1] == 1 && around[3] == 1);
+
+                if (possible)
+                    aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.furniture, 0);
+                else
+                    aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
                 break;
 
             default:
@@ -72,22 +105,32 @@ public class LevelGenerator : MonoBehaviour
         return aux;
     }
 
-    public void BoardSetup(GameObject[,] grid, GameObject genericTile)
+    private void SetupPlayerPosition()
     {
-        this.genericTile = genericTile;
-        GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos_up[0], player_pos_up[1]);
+        int[] player_pos;
+        do
+        {
+            player_pos = new int[] { Random.Range(1, rows), Random.Range(1, columns) };
+        } while (board[player_pos[0], player_pos[1]] != 0);
+        
+        GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         switch (GameManager.instance.lastStairs)
         {
             case "up":
-                player.transform.position = new Vector3(player_pos_up[0], player_pos_up[1], 0);
-
+                player.transform.position = new Vector3(player_pos[0], player_pos[1], 0);
                 break;
+
             case "down":
-                player.transform.position = new Vector3(player_pos_down[0], player_pos_down[1], 0);
+                player.transform.position = new Vector3(player_pos[0], player_pos[1], 0);
                 break;
         }
+    }
+
+    public void BoardSetup(GameObject[,] grid, GameObject genericTile)
+    {
+        this.genericTile = genericTile;
 
         for (int row = 0; row < grid.GetLength(0); row++)
         {
@@ -96,10 +139,39 @@ public class LevelGenerator : MonoBehaviour
                 //String state = heatmap.rows[row].items[column];
                 int[] position = { row, col };
                 String state = "0";
-                GameObject tile = IntItemToTile(board[row, col], state, position);
+
+                int[] around = new int[8];
+
+                if (row == 0) around[0] = 0;
+                else around[0] = board[row - 1, col];
+
+                if (col == grid.GetLength(1) - 1) around[1] = 0;
+                else around[1] = board[row, col + 1];
+
+                if (row == grid.GetLength(0) - 1) around[2] = 0;
+                else around[2] = board[row + 1, col];
+
+                if (col == 0) around[3] = 0;
+                else around[3] = board[row, col - 1];
+                
+                if (row == 0 || col == grid.GetLength(1) - 1) around[4] = 0;
+                else around[4] = board[row - 1, col + 1];
+
+                if (row == grid.GetLength(0) - 1 || col == grid.GetLength(1) - 1) around[5] = 0;
+                else around[5] = board[row + 1, col + 1];
+
+                if (row == grid.GetLength(0) - 1 || col == 0) around[6] = 0;
+                else around[6] = board[row + 1, col - 1];
+
+                if (row == 0 || col == 0) around[7] = 0;
+                else around[7] = board[row - 1, col - 1];
+
+                GameObject tile = IntItemToTile(board[row, col], state, position, around);
                 grid[col, row] = tile;
             }
         }
+
+        SetupPlayerPosition();
     }
 
     /****************************** ROOMS ***********************************/
@@ -193,7 +265,6 @@ public class LevelGenerator : MonoBehaviour
     private bool roomsAreDivisibles()
     {
         for (int i = 0; i < rooms.Count; i++) if (rooms[i].isDivisible()) return true;
-
         return false;
     }
     /***************************************************************************/
@@ -216,6 +287,10 @@ public class LevelGenerator : MonoBehaviour
         {
             board[x, 0] = 1;
             board[x, rows - 1] = 1;
+            Instantiate(cube, new Vector3(0, x, 0.5f), Quaternion.identity);
+            Instantiate(cube, new Vector3(rows-1,x, 0.5f), Quaternion.identity);
+
+
         }
 
         //Vertical walls
@@ -223,6 +298,9 @@ public class LevelGenerator : MonoBehaviour
         {
             board[0, y] = 1;
             board[columns - 1, y] = 1;
+            Instantiate(cube, new Vector3( y,0, 0.5f), Quaternion.identity);
+            Instantiate(cube, new Vector3(y, columns-1, 0.5f), Quaternion.identity);
+
         }
     }
 
@@ -232,7 +310,12 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                if (board[x, y] == 0 & board[x + 1, y] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x + 1, y] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+
+                }
             }
         }
 
@@ -240,7 +323,11 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                if (board[x, y] == 0 & board[x - 1, y] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x - 1, y] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+                }
             }
         }
     }
@@ -251,7 +338,11 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int x = 0; x < columns; x++)
             {
-                if (board[x, y] == 0 & board[x, y + 1] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x, y + 1] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+                }
             }
         }
 
@@ -259,7 +350,12 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int x = 0; x < columns; x++)
             {
-                if (board[x, y] == 0 & board[x, y - 1] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x, y - 1] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+
+                }
             }
         }
     }
@@ -271,7 +367,12 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                if (board[x, y] == 5) board[x, y] = 1;
+                if (board[x, y] == 5)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+
+                }
                 if (board[x, y] == 2) board[x, y] = 0;
             }
         }
@@ -279,9 +380,14 @@ public class LevelGenerator : MonoBehaviour
         //Paint doors
         foreach (Room room in rooms)
         {
+            for (int r = 0; r < room.furniture.Count; r++)
+            {
+                board[room.furniture[r].x, room.furniture[r].y] = 3;
+            }
+
             for (int i = 0; i < room.numDoors; i++)
             {
-                RoomDoor door = room.AssignDoor();
+                RoomObject door = room.AssignDoor();
 
                 while (door.x == 0 || door.x == columns - 1 || door.y == 0 || door.y == columns - 1)
                 {
@@ -395,11 +501,4 @@ public class LevelGenerator : MonoBehaviour
         }
     }
     /***************************************************************************/
-
-
-    //Sets up the outer walls and floor (background) of the game board.
-    /*public void BoardSetup()
-    {
-        
-    }*/
 }

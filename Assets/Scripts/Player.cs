@@ -51,6 +51,7 @@ public class Player : MovingObject
 
     private List<GameObject> visibilityTiles;
 
+
     // Use this for initialization
     protected override void Start()
     {
@@ -231,7 +232,7 @@ public class Player : MovingObject
             {
                 hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
                 Destroy(hitManguera.collider.gameObject);
-                RecullManguera(end, end);
+                StartCoroutine(RecullManguera(end, end));
             }
 
             UpdateBoard(visibilityTiles, this.gameObject);
@@ -241,7 +242,7 @@ public class Player : MovingObject
         GameManager.instance.playersTurn = false;
     }
 
-    private void RecullManguera(Vector2 end, Vector2 pos)
+    public IEnumerator RecullManguera(Vector2 end, Vector2 pos)
     {
         food++;
         string dir = path[path.Count - 1];
@@ -267,14 +268,35 @@ public class Player : MovingObject
         RaycastHit2D hitManguera = Physics2D.Linecast(pos, to, mangueraLayer);
         if (hitManguera.transform != null)
         {
+            Animator animatoraux = hitManguera.collider.gameObject.GetComponent<Animator>();
+            int anim = ChooseAnimation(dir, path[path.Count - 1]);
+            animatoraux.SetInteger("grab", anim);
+            GameManager.instance.playersTurn = false;
+            yield return new WaitForSeconds(0.333f);
             Destroy(hitManguera.collider.gameObject);
-            RecullManguera(end, to);
+            StartCoroutine(RecullManguera(end, to));
             Destroy(hitManguera.collider.gameObject);
+
         }
         else
         {
             foodText.text = food.ToString();
+            GameManager.instance.playersTurn = true;
+
         }
+    }
+
+    private int ChooseAnimation(string dir1, string dir2)
+    {
+        int anim = 2;
+
+        if(dir1 == "r" && dir2 == "r" || dir1 == "u" && dir2 == "l" || dir1 == "d" && dir2 == "l" || dir1 == "u" && dir2 == "r" || dir1 == "l" && dir2 == "u" || dir1 == "u" && dir2 == "u")
+        {
+            anim = 1;
+        }
+        Debug.Log("dir 1: " + dir1+ "    dir2: " + dir2 + "   anim:" +anim);
+        return anim;
+
     }
 
     //Al haver posat els colliders a Trigger aquesta funcio de la APi de Unity s'executa quan colisiona cotra food, soda o exit

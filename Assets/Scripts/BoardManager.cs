@@ -36,11 +36,10 @@ public class BoardManager : MonoBehaviour
         public int columns;
         public Row[] rows;
     }
-
-    public Board board;
+    
     public Board heatmap;
-    private int rows = 32;
-    private int columns = 32;
+    public int rows = 32;
+    public int columns = 32;
     public GameObject genericTile;
 
     private Transform boardHolder;
@@ -53,7 +52,7 @@ public class BoardManager : MonoBehaviour
         grid = new GameObject[columns, rows];
         levelGenerator = gameObject.AddComponent(typeof(LevelGenerator)) as LevelGenerator;
         boardHolder = new GameObject("Board").transform;
-        levelGenerator.Initiate(64, 64);
+        levelGenerator.Initiate(rows, columns);
         levelGenerator.BoardSetup(grid, genericTile);
 
         gridPositions.Clear();
@@ -85,8 +84,6 @@ public class BoardManager : MonoBehaviour
 
     public bool CanMoveTo(int x, int y)
     {
-        Debug.Log(grid[0, 0]);
-        Debug.Log(grid.GetLength(1));
         Tile tile = grid[x, y].GetComponent<Tile>();
 
         bool canMoveTo = tile.CanPass();
@@ -94,32 +91,4 @@ public class BoardManager : MonoBehaviour
 
         return canMoveTo;
     }
-
-    /*void LoadBoard(int level)
-    {
-        /*String fileName = "first_floor";
-
-        switch (level)
-        {
-            case 1:
-                fileName = "garage";
-                break;
-
-            case 2:
-                fileName = "first_floor";
-                break;
-
-            case 3:
-                fileName = "second_floor";
-                break;
-        }
-
-        TextAsset jsonBoard = (TextAsset)Resources.Load("Boards/" + fileName, typeof(TextAsset));
-        TextAsset jsonHeatmap = (TextAsset)Resources.Load("Boards/" + fileName + "_heatmap", typeof(TextAsset));
-
-        board = JsonUtility.FromJson<Board>(jsonBoard.text);
-        heatmap = JsonUtility.FromJson<Board>(jsonHeatmap.text);
-
-        //GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos_up[0], player_pos_up[1]);
-    }*/
 }

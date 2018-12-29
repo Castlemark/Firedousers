@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomDoor
+public class RoomObject
 {
     public int x, y;
 
-    public RoomDoor(int x, int y)
+    public RoomObject(int x, int y)
     {
         this.x = x;
         this.y = y;
@@ -19,7 +19,8 @@ public class Room
     private int minArea;
     public int x1, x2, y1, y2, w, h, rows, columns;
 
-    public List<RoomDoor> doors = new List<RoomDoor>();
+    public List<RoomObject> doors = new List<RoomObject>();
+    public List<RoomObject> furniture = new List<RoomObject>();
     public int numDoors;
     private int area;
 
@@ -35,9 +36,28 @@ public class Room
         w = x2 - x1 + 1;
         h = y2 - y1 + 1;
         area = w * h;
+        AssignFurniture();
     }
 
-    public RoomDoor AssignDoor()
+    public void AssignFurniture()
+    {
+        if (w > 2 && h > 2)
+        {
+            for (int x = x1; x <= x2; x++)
+            {
+                if (Random.Range(0f, 1f) > 0.5) furniture.Add(new RoomObject(x, y1));
+                if (Random.Range(0f, 1f) > 0.5) furniture.Add(new RoomObject(x, y2));
+            }
+
+            for (int y = y1; y <= y2; y++)
+            {
+                if (Random.Range(0f, 1f) > 0.5) furniture.Add(new RoomObject(x1, y));
+                if (Random.Range(0f, 1f) > 0.5) furniture.Add(new RoomObject(x2, y));
+            }
+        }
+    }
+
+    public RoomObject AssignDoor()
     {
         char[] axis = { 'x', 'y' };
         int doorX;
@@ -46,11 +66,19 @@ public class Room
         if (axis[Random.Range(0, 2)] == 'x')
         {
             int[] y_axis = { y1, y2 };
-            doorX = Random.Range(x1, x2);
             doorY = y_axis[Random.Range(0, 2)];
-
             if (doorY == y1) doorY--;
             else doorY++;
+            doorX = Random.Range(x1, x2);
+
+            bool nextToDoor = false;
+            foreach (RoomObject door in doors)
+            {
+                do
+                {
+                    doorX = Random.Range(x1, x2);
+                } while (doorX + 1 == door.x || door.x == doorX - 1);
+            }
         }
         else
         {
@@ -62,7 +90,7 @@ public class Room
             else doorX++;
         }
 
-        RoomDoor newDoor = new RoomDoor(doorX, doorY);
+        RoomObject newDoor = new RoomObject(doorX, doorY);
         return newDoor;
     }
 
