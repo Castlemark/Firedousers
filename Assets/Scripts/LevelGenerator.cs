@@ -24,12 +24,16 @@ public class LevelGenerator : MonoBehaviour
 
     private char direction = 'N'; //Des d'on llancem la fila/columna -> N, E, S, W 
 
+    private GameObject cube; //el que fa les ombres
+
     public void Initiate(int rows, int columns)
     {
         this.rows = rows;
         this.columns = columns;
         rooms = new List<Room>();
         board = new int[rows, columns];
+        cube = (GameObject)Resources.Load("Prefabs/cube", typeof(GameObject));
+
 
         CreateHallways();
         CreateWalls();
@@ -107,7 +111,8 @@ public class LevelGenerator : MonoBehaviour
         do
         {
             player_pos = new int[] { Random.Range(1, rows), Random.Range(1, columns) };
-        } while (board[player_pos[0], player_pos[1]] != 0);
+            Debug.Log(board[player_pos[1], player_pos[0]]);
+        } while (board[player_pos[1], player_pos[0]] != 0);
         
         GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -283,6 +288,10 @@ public class LevelGenerator : MonoBehaviour
         {
             board[x, 0] = 1;
             board[x, rows - 1] = 1;
+            Instantiate(cube, new Vector3(0, x, 0.5f), Quaternion.identity);
+            Instantiate(cube, new Vector3(rows-1,x, 0.5f), Quaternion.identity);
+
+
         }
 
         //Vertical walls
@@ -290,6 +299,9 @@ public class LevelGenerator : MonoBehaviour
         {
             board[0, y] = 1;
             board[columns - 1, y] = 1;
+            Instantiate(cube, new Vector3( y,0, 0.5f), Quaternion.identity);
+            Instantiate(cube, new Vector3(y, columns-1, 0.5f), Quaternion.identity);
+
         }
     }
 
@@ -299,7 +311,12 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                if (board[x, y] == 0 & board[x + 1, y] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x + 1, y] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+
+                }
             }
         }
 
@@ -307,7 +324,11 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                if (board[x, y] == 0 & board[x - 1, y] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x - 1, y] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+                }
             }
         }
     }
@@ -318,7 +339,11 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int x = 0; x < columns; x++)
             {
-                if (board[x, y] == 0 & board[x, y + 1] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x, y + 1] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+                }
             }
         }
 
@@ -326,7 +351,12 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int x = 0; x < columns; x++)
             {
-                if (board[x, y] == 0 & board[x, y - 1] == -1) board[x, y] = 1;
+                if (board[x, y] == 0 & board[x, y - 1] == -1)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+
+                }
             }
         }
     }
@@ -338,7 +368,12 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                if (board[x, y] == 5) board[x, y] = 1;
+                if (board[x, y] == 5)
+                {
+                    board[x, y] = 1;
+                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
+
+                }
                 if (board[x, y] == 2) board[x, y] = 0;
             }
         }

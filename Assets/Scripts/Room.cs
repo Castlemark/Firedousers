@@ -70,8 +70,7 @@ public class Room
             if (doorY == y1) doorY--;
             else doorY++;
             doorX = Random.Range(x1, x2);
-
-            bool nextToDoor = false;
+            
             foreach (RoomObject door in doors)
             {
                 do
