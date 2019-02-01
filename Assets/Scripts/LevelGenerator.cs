@@ -111,7 +111,8 @@ public class LevelGenerator : MonoBehaviour
         do
         {
             player_pos = new int[] { Random.Range(1, rows), Random.Range(1, columns) };
-        } while (board[player_pos[0], player_pos[1]] != 0);
+            Debug.Log(board[player_pos[1], player_pos[0]]);
+        } while (board[player_pos[1], player_pos[0]] != 0);
         
         GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
         GameObject player = GameObject.FindGameObjectWithTag("Player");

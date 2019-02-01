@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/FIREDOUSER.unity
     guid: 7acf752cf43d5a14b9cbcd8bae9bffc6
-  - enabled: 1
+  - enabled: 0
     path: Assets/MENU.unity
     guid: cd88b008895974946a364ee2dd89dc0e
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: "Assets/GEN\xCDS-JOC FINAL.unity"
-    guid: c82c46cc83a0add4da61aafdfdaca561
+    path: Assets/20190129-genis.unity
+    guid: 4ddb351837c12934aac487ea30fb9d39
   m_configObjects: {}
