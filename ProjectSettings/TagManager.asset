@@ -31,8 +31,8 @@ TagManager:
   - MangueraLayer
   - FireLayer
   - VisibilityLayer
-  - 
-  - 
+  - shadowCaster
+  - lightning
   - 
   - 
   - 

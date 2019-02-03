@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/UI.unity
+  - enabled: 0
+    path: Assets/FIREDOUSER.unity
     guid: 7acf752cf43d5a14b9cbcd8bae9bffc6
+  - enabled: 0
+    path: Assets/MENU.unity
+    guid: cd88b008895974946a364ee2dd89dc0e
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/20190129-genis.unity
+    guid: 4ddb351837c12934aac487ea30fb9d39
   m_configObjects: {}

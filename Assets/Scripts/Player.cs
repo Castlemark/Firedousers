@@ -51,9 +51,19 @@ public class Player : MovingObject
 
     private List<GameObject> visibilityTiles;
 
+    private bool pickingUpHose;
+    private List<GameObject> hoseList;
+    private List<int> hoseAnim;
+
+
+
     // Use this for initialization
     protected override void Start()
     {
+        pickingUpHose = false;
+        hoseList = new List<GameObject>();
+        hoseAnim = new List<int>();
+
         temperatureText = GameObject.Find("TemperatureText").GetComponent<Text>();
         temperatureText.text = temperature.ToString();
         animator = GetComponent<Animator>();
@@ -102,6 +112,8 @@ public class Player : MovingObject
     {
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
+
+        if (pickingUpHose) return;
         visibilityTiles = GetLosObjects();
         
 
@@ -167,6 +179,7 @@ public class Player : MovingObject
                     toInstantiate = manguera_rt;
                 }
                 path.Add("r"); //right
+                animator.SetTrigger("playerRight");
             }
             else if (xDir == -1)
             {
@@ -179,6 +192,7 @@ public class Player : MovingObject
                     toInstantiate = manguera_lt;
                 }
                 path.Add("l"); //left
+                animator.SetTrigger("playerLeft");
             }
             else
             {
@@ -197,6 +211,7 @@ public class Player : MovingObject
                         toInstantiate = manguera_v;
                     }
                     path.Add("u"); //up
+                    animator.SetTrigger("playerBack");
                 }
                 else
                 {
@@ -213,6 +228,7 @@ public class Player : MovingObject
                         toInstantiate = manguera_v;
                     }
                     path.Add("d"); //down
+                    animator.SetTrigger("playerFront");
                 }
             }
 
@@ -229,6 +245,7 @@ public class Player : MovingObject
             Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
             if (hitManguera.transform != null)
             {
+                pickingUpHose = true;
                 hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
                 Destroy(hitManguera.collider.gameObject);
                 RecullManguera(end, end);
@@ -241,7 +258,7 @@ public class Player : MovingObject
         GameManager.instance.playersTurn = false;
     }
 
-    private void RecullManguera(Vector2 end, Vector2 pos)
+    public void RecullManguera(Vector2 end, Vector2 pos)
     {
         food++;
         string dir = path[path.Count - 1];
@@ -267,14 +284,54 @@ public class Player : MovingObject
         RaycastHit2D hitManguera = Physics2D.Linecast(pos, to, mangueraLayer);
         if (hitManguera.transform != null)
         {
-            Destroy(hitManguera.collider.gameObject);
+            hitManguera.collider.gameObject.layer = 0;
+            hoseList.Add(hitManguera.collider.gameObject);
+            hoseAnim.Add(ChooseAnimation(dir, path[path.Count - 1]));
             RecullManguera(end, to);
+            
+            /*Animator animatoraux = hitManguera.collider.gameObject.GetComponent<Animator>();
+            int anim = ChooseAnimation(dir, path[path.Count - 1]);
+            animatoraux.SetInteger("grab", anim);
+            yield return new WaitForSeconds(0.333f);
             Destroy(hitManguera.collider.gameObject);
+            StartCoroutine(RecullManguera(end, to));
+            Destroy(hitManguera.collider.gameObject);*/
+
         }
         else
         {
             foodText.text = food.ToString();
+            StartCoroutine(AnimationHose());
+            /*pickingUpHose = false;*/
+
         }
+    }
+
+    public IEnumerator AnimationHose()
+    {
+        for(int i = 0; i < hoseList.Count; i++)
+        {
+            Animator animatoraux = hoseList[i].GetComponent<Animator>();
+            animatoraux.SetInteger("grab", hoseAnim[i]);
+            yield return new WaitForSeconds(0.333f);
+            Destroy(hoseList[i]);
+        }
+        hoseList.Clear();
+        hoseAnim.Clear();
+        pickingUpHose = false;
+    
+    }
+
+    private int ChooseAnimation(string dir1, string dir2)
+    {
+        int anim = 2;
+
+        if(dir1 == "r" && dir2 == "r" || dir1 == "u" && dir2 == "l" || dir1 == "d" && dir2 == "l" || dir1 == "u" && dir2 == "r" || dir1 == "l" && dir2 == "u" || dir1 == "u" && dir2 == "u")
+        {
+            anim = 1;
+        }
+        return anim;
+
     }
 
     //Al haver posat els colliders a Trigger aquesta funcio de la APi de Unity s'executa quan colisiona cotra food, soda o exit
