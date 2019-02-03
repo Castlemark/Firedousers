@@ -37,6 +37,7 @@ public class BoardManager : MonoBehaviour
         public Row[] rows;
     }
     
+    private int[] player_position;
     public Board heatmap;
     public int rows = 32;
     public int columns = 32;
@@ -53,7 +54,7 @@ public class BoardManager : MonoBehaviour
         levelGenerator = gameObject.AddComponent(typeof(LevelGenerator)) as LevelGenerator;
         boardHolder = new GameObject("Board").transform;
         levelGenerator.Initiate(rows, columns);
-        levelGenerator.BoardSetup(grid, genericTile);
+        player_position = levelGenerator.BoardSetup(grid, genericTile);
 
         gridPositions.Clear();
 
@@ -64,6 +65,11 @@ public class BoardManager : MonoBehaviour
                 gridPositions.Add(new Vector3(x, y, 0f));
             }
         }
+
+        int[] aux_pos = { player_position[0], player_position[1] + 1 };
+        Tile aux = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>();
+        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, 0, aux_pos);
+        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().StartFire();
 
         OrientGrid();
     }
@@ -82,12 +88,24 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    private void updateFire()
+    {
+        for (int i = 0; i < columns; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                grid[i, j].GetComponent<Tile>().IncreaseFire();
+            }
+        }
+    }
+
     public bool CanMoveTo(int x, int y)
     {
         Tile tile = grid[x, y].GetComponent<Tile>();
 
         bool canMoveTo = tile.CanPass();
         tile.ExecuteBehaviour();
+        updateFire();
 
         return canMoveTo;
     }

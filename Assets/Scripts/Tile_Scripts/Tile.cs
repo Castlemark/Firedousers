@@ -12,9 +12,12 @@ public class Tile : MonoBehaviour
 
     public int[] position;
 
+    private Fire fireScript;
+
     private bool canPass;
     private GameObject typeObject;
     public GameObject containedObject;
+    private GameObject fireObject;
     private IBehaviour behaviour;
     private Sprite[] room_images;
 
@@ -45,6 +48,9 @@ public class Tile : MonoBehaviour
         switch (typeSetUp)
         {
             case TYPE.floor:
+                fireObject = Instantiate(Resources.Load("Prefabs/Fire"), transform.position, Quaternion.identity, this.transform) as GameObject;
+                fireScript = fireObject.GetComponent<Fire>();
+                fireObject.name = "Fire";
                 room_images = getRoomImages(room_tileset, floor_images);
                 break;
 
@@ -142,8 +148,24 @@ public class Tile : MonoBehaviour
         int y = this.position[0];
         
         if (y != 0 && grid[x, y - 1] != null) tiles[2] = grid[x, y - 1].GetComponent<Tile>();//S
-        //if (y != 0 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
-        //if (grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
+        if (y != 0 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
+        if (x != 0 && grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
+        if (x != 0 && grid[x - 1, y] != null) tiles[3] = grid[x - 1, y].GetComponent<Tile>();//W
+
+        return tiles;
+    }
+
+    public Tile[] GetAdjoiningFireTiles()
+    {
+        GameObject[,] grid = GameManager.instance.boardScript.grid;
+        Tile[] tiles = new Tile[4];
+
+        int x = this.position[0];
+        int y = this.position[1];
+
+        if (y != 0 && grid[x, y - 1] != null) tiles[2] = grid[x, y - 1].GetComponent<Tile>();//S
+        if (y != 0 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
+        if (x != 0 && grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
         if (x != 0 && grid[x - 1, y] != null) tiles[3] = grid[x - 1, y].GetComponent<Tile>();//W
 
         return tiles;
@@ -188,4 +210,52 @@ public class Tile : MonoBehaviour
         }
     }
 
+    private void ExpandFire()
+    {
+        Debug.Log("expanding fire");
+        Tile[] tiles = GetAdjoiningFireTiles();
+        for (int i = 0; i < 4; i++)
+        {
+            tiles[i].StartFire();
+        }
+    }
+
+    public void IncreaseFire()
+    {
+        if (fireObject != null && fireScript.state != 0 && fireScript.state != 6)
+        {
+            Debug.Log("updatig fire");
+            if (fireScript.state_counter > 3)
+            {
+                Debug.Log("updated state");
+                fireScript.IncreaseState();
+            }
+            else
+            {
+                fireScript.IncreaseCount();
+            }
+
+            if (fireScript.state == 4)
+            {
+                ExpandFire();
+            }
+        }
+    }
+
+    public void IfSteppedOnTile()
+    {
+        if (fireObject != null && fireScript.state == 5)
+        {
+
+        }
+    }
+
+    public void StartFire()
+    {
+        if (fireObject != null)
+        {
+            fireScript.state = 1;
+            fireScript.GetComponent<SpriteRenderer>().sprite = fireScript.fireStates[1];
+        }
+    }
 }

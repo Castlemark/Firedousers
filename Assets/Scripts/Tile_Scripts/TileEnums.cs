@@ -38,6 +38,8 @@ namespace TileEnums {
 		
 		public static bool IsSafePoint(this TYPE type) { return type == TYPE.safepoint; }
 
+        public static bool IsFlammable(this TYPE type) { return type == TYPE.floor; }
+
 		public static bool ContainsNone(this CONTAINED contained)
 		{
 			return contained == CONTAINED.none;

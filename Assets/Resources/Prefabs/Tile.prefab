@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  contained: 4
+  contained: 5
+  position: 
+  containedObject: {fileID: 0}
   floor_images:
   - {fileID: 21300656, guid: 010fc9619519895499b279adc15b174a, type: 3}
   - {fileID: 21300658, guid: 010fc9619519895499b279adc15b174a, type: 3}

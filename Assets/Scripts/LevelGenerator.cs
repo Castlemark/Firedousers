@@ -107,7 +107,7 @@ public class LevelGenerator : MonoBehaviour
         return aux;
     }
 
-    private void SetupPlayerPosition()
+    private int[] SetupPlayerPosition()
     {
         int[] player_pos;
         do
@@ -128,9 +128,11 @@ public class LevelGenerator : MonoBehaviour
                 player.transform.position = new Vector3(player_pos[0], player_pos[1], 0);
                 break;
         }
+
+        return player_pos;
     }
 
-    public void BoardSetup(GameObject[,] grid, GameObject genericTile)
+    public int[] BoardSetup(GameObject[,] grid, GameObject genericTile)
     {
         this.genericTile = genericTile;
 
@@ -173,7 +175,7 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        SetupPlayerPosition();
+        return SetupPlayerPosition();
     }
 
     /****************************** ROOMS ***********************************/
