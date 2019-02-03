@@ -330,7 +330,6 @@ public class Player : MovingObject
         {
             anim = 1;
         }
-        Debug.Log("dir 1: " + dir1+ "    dir2: " + dir2 + "   anim:" +anim);
         return anim;
 
     }

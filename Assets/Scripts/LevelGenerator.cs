@@ -8,12 +8,14 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     public int[,] board;
+    public int[,] board_rooms;
+
     private GameObject genericTile;
 
     public int hallwayWidth = 2;
     private float hallwaysIterations;
     public float hallwaysProbability = 0.1f;
-    public int minAreaRoom = 100;
+    public int minAreaRoom = 50;
     public int numDoors = 3;
 
     private int rows, columns;
@@ -32,8 +34,8 @@ public class LevelGenerator : MonoBehaviour
         this.columns = columns;
         rooms = new List<Room>();
         board = new int[rows, columns];
+        board_rooms = new int[rows, columns];
         cube = (GameObject)Resources.Load("Prefabs/cube", typeof(GameObject));
-
 
         CreateHallways();
         CreateWalls();
@@ -62,23 +64,23 @@ public class LevelGenerator : MonoBehaviour
         return 0;
     }
 
-    GameObject IntItemToTile(int item, String state, int[] pos, int[] around)
+    GameObject IntItemToTile(int item, String state, int[] pos, int[] around, int room_tileset)
     {
         GameObject aux = Instantiate(genericTile, new Vector3(pos[1], pos[0], -1), Quaternion.identity, GameObject.Find("Board").transform);
 
         switch (item)
         {
             case 0:
-                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
             case 1:
-                aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0);
+                aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0, room_tileset, pos);
                 aux.GetComponent<Tile>().ChangeTypeSpriteTo(setTileToWall(around));
                 break;
 
             case 2:
-                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0);
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0, room_tileset, pos);
                 break;
 
             case 3:
@@ -86,13 +88,13 @@ public class LevelGenerator : MonoBehaviour
                 possible &= !(around[0] == 1 && around[2] == 1 || around[1] == 1 && around[3] == 1);
 
                 if (possible)
-                    aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.furniture, 0);
+                    aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.furniture, 0, room_tileset, pos);
                 else
-                    aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
+                    aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
             default:
-                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
                 //aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall, CONTAINED.none, 0);
@@ -111,9 +113,8 @@ public class LevelGenerator : MonoBehaviour
         do
         {
             player_pos = new int[] { Random.Range(1, rows), Random.Range(1, columns) };
-            Debug.Log(board[player_pos[1], player_pos[0]]);
         } while (board[player_pos[1], player_pos[0]] != 0);
-        
+
         GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
@@ -154,7 +155,7 @@ public class LevelGenerator : MonoBehaviour
 
                 if (col == 0) around[3] = 0;
                 else around[3] = board[row, col - 1];
-                
+
                 if (row == 0 || col == grid.GetLength(1) - 1) around[4] = 0;
                 else around[4] = board[row - 1, col + 1];
 
@@ -167,7 +168,7 @@ public class LevelGenerator : MonoBehaviour
                 if (row == 0 || col == 0) around[7] = 0;
                 else around[7] = board[row - 1, col - 1];
 
-                GameObject tile = IntItemToTile(board[row, col], state, position, around);
+                GameObject tile = IntItemToTile(board[row, col], state, position, around, board_rooms[row, col]);
                 grid[col, row] = tile;
             }
         }
@@ -183,6 +184,7 @@ public class LevelGenerator : MonoBehaviour
             for (int y = room.y1; y <= room.y2; y++)
             {
                 board[x, y] = num;
+                board_rooms[x, y] = room.numTile;
             }
         }
     }
@@ -233,7 +235,7 @@ public class LevelGenerator : MonoBehaviour
                             y2 = row;
                         }
                     }
-
+                    
                     Room newRoom = new Room(x1, x2, y1, y2, minAreaRoom, numDoors);
                     rooms.Add(newRoom);
                     PaintRoom(newRoom, 5);
@@ -289,9 +291,7 @@ public class LevelGenerator : MonoBehaviour
             board[x, 0] = 1;
             board[x, rows - 1] = 1;
             Instantiate(cube, new Vector3(0, x, 0.5f), Quaternion.identity);
-            Instantiate(cube, new Vector3(rows-1,x, 0.5f), Quaternion.identity);
-
-
+            Instantiate(cube, new Vector3(rows - 1, x, 0.5f), Quaternion.identity);
         }
 
         //Vertical walls
@@ -299,8 +299,8 @@ public class LevelGenerator : MonoBehaviour
         {
             board[0, y] = 1;
             board[columns - 1, y] = 1;
-            Instantiate(cube, new Vector3( y,0, 0.5f), Quaternion.identity);
-            Instantiate(cube, new Vector3(y, columns-1, 0.5f), Quaternion.identity);
+            Instantiate(cube, new Vector3(y, 0, 0.5f), Quaternion.identity);
+            Instantiate(cube, new Vector3(y, columns - 1, 0.5f), Quaternion.identity);
 
         }
     }
@@ -384,6 +384,7 @@ public class LevelGenerator : MonoBehaviour
             for (int r = 0; r < room.furniture.Count; r++)
             {
                 board[room.furniture[r].x, room.furniture[r].y] = 3;
+                board_rooms[room.furniture[r].x, room.furniture[r].y] = room.numTile;
             }
 
             for (int i = 0; i < room.numDoors; i++)
@@ -397,6 +398,7 @@ public class LevelGenerator : MonoBehaviour
 
                 room.doors.Add(door);
                 board[door.x, door.y] = 2;
+                board_rooms[door.x, door.y] = room.numTile;
             }
         }
     }

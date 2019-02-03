@@ -8,4 +8,5 @@ public interface IBehaviour
     void ExecuteBehaviour();
     bool CanPass();
     bool IsFlammable();
+    void SetSprite(int room_tileset);
 }

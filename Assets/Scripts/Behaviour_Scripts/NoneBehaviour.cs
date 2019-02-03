@@ -15,4 +15,6 @@ public class NoneBehaviour : MonoBehaviour, IBehaviour {
     {
         return true;
     }
+
+    public void SetSprite(int room_tileset = 0) { }
 }

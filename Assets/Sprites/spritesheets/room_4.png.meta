@@ -1,0 +1,1347 @@
+fileFormatVersion: 2
+guid: f8202b43844ae144eb259dc94d76c5c0
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: tileset32_wood_0
+    21300002: tileset32_wood_1
+    21300004: tileset32_wood_2
+    21300006: tileset32_wood_3
+    21300008: tileset32_wood_4
+    21300010: tileset32_wood_5
+    21300012: tileset32_wood_6
+    21300014: tileset32_wood_7
+    21300016: tileset32_wood_8
+    21300018: tileset32_wood_9
+    21300020: tileset32_wood_10
+    21300022: tileset32_wood_11
+    21300024: tileset32_wood_12
+    21300026: tileset32_wood_13
+    21300028: tileset32_wood_14
+    21300030: tileset32_wood_15
+    21300032: tileset32_wood_16
+    21300034: tileset32_wood_17
+    21300036: tileset32_wood_18
+    21300038: tileset32_wood_19
+    21300040: tileset32_wood_20
+    21300042: tileset32_wood_21
+    21300044: tileset32_wood_22
+    21300046: tileset32_wood_23
+    21300048: tileset32_wood_24
+    21300050: tileset32_wood_25
+    21300052: tileset32_wood_26
+    21300054: tileset32_wood_27
+    21300056: tileset32_wood_28
+    21300058: tileset32_wood_29
+    21300060: tileset32_wood_30
+    21300062: tileset32_wood_31
+    21300064: tileset32_wood_32
+    21300066: tileset32_wood_33
+    21300068: tileset32_wood_34
+    21300070: tileset32_wood_35
+    21300072: tileset32_wood_36
+    21300074: tileset32_wood_37
+    21300076: tileset32_wood_38
+    21300078: tileset32_wood_39
+    21300080: tileset32_wood_40
+    21300082: tileset32_wood_41
+    21300084: tileset32_wood_42
+    21300086: tileset32_wood_43
+    21300088: tileset32_wood_44
+    21300090: tileset32_wood_45
+    21300092: tileset32_wood_46
+    21300094: tileset32_wood_47
+    21300096: tileset32_wood_48
+    21300098: tileset32_wood_49
+    21300100: tileset32_wood_50
+    21300102: tileset32_wood_51
+    21300104: tileset32_wood_52
+    21300106: tileset32_wood_53
+    21300108: tileset32_wood_54
+    21300110: tileset32_wood_55
+    21300112: tileset32_wood_56
+    21300114: tileset32_wood_57
+    21300116: tileset32_wood_58
+    21300118: tileset32_wood_59
+    21300120: tileset32_wood_60
+    21300122: tileset32_wood_61
+    21300124: tileset32_wood_62
+    21300126: tileset32_wood_63
+    21300128: tileset32_wood_64
+    21300130: tileset32_wood_65
+    21300132: tileset32_wood_66
+    21300134: tileset32_wood_67
+    21300136: tileset32_wood_68
+    21300138: tileset32_wood_69
+    21300140: tileset32_wood_70
+    21300142: tileset32_wood_71
+    21300144: tileset32_wood_72
+    21300146: tileset32_wood_73
+    21300148: tileset32_wood_74
+    21300150: tileset32_wood_75
+    21300152: tileset32_wood_76
+    21300154: tileset32_wood_77
+    21300156: tileset32_wood_78
+    21300158: tileset32_wood_79
+    21300160: tileset32_wood_80
+    21300162: tileset32_wood_81
+    21300164: tileset32_wood_82
+    21300166: tileset32_wood_83
+    21300168: tileset32_wood_84
+    21300170: tileset32_wood_85
+    21300172: tileset32_wood_86
+    21300174: tileset32_wood_87
+    21300176: tileset32_wood_88
+    21300178: tileset32_wood_89
+    21300180: tileset32_wood_90
+    21300182: tileset32_wood_91
+    21300184: tileset32_wood_92
+    21300186: tileset32_wood_93
+    21300188: tileset32_wood_94
+    21300190: tileset32_wood_95
+    21300192: tileset32_wood_96
+    21300194: tileset32_wood_97
+    21300196: tileset32_wood_98
+    21300198: tileset32_wood_99
+    21300200: tileset32_wood_100
+    21300202: tileset32_wood_101
+    21300204: tileset32_wood_102
+    21300206: tileset32_wood_103
+    21300208: tileset32_wood_104
+    21300210: tileset32_wood_105
+    21300212: tileset32_wood_106
+    21300214: tileset32_wood_107
+    21300216: tileset32_wood_108
+    21300218: tileset32_wood_109
+    21300220: tileset32_wood_110
+    21300222: tileset32_wood_111
+    21300224: tileset32_wood_112
+    21300226: tileset32_wood_113
+    21300228: tileset32_wood_114
+    21300230: tileset32_wood_115
+    21300232: tileset32_wood_116
+    21300234: tileset32_wood_117
+    21300236: tileset32_wood_118
+    21300238: tileset32_wood_119
+    21300240: tileset32_wood_120
+    21300242: tileset32_wood_121
+    21300244: tileset32_wood_122
+    21300246: tileset32_wood_123
+    21300248: tileset32_wood_124
+    21300250: tileset32_wood_125
+    21300252: tileset32_wood_126
+    21300254: tileset32_wood_127
+    21300256: tileset32_wood_128
+    21300258: tileset32_wood_129
+    21300260: tileset32_wood_130
+    21300262: tileset32_wood_131
+    21300264: tileset32_wood_132
+    21300266: tileset32_wood_133
+    21300268: tileset32_wood_134
+    21300270: tileset32_wood_135
+    21300272: tileset32_wood_136
+    21300274: tileset32_wood_137
+    21300276: tileset32_wood_138
+    21300278: tileset32_wood_139
+    21300280: tileset32_wood_140
+    21300282: tileset32_wood_141
+    21300284: tileset32_wood_142
+    21300286: tileset32_wood_143
+    21300288: tileset32_wood_144
+    21300290: tileset32_wood_145
+    21300292: tileset32_wood_146
+    21300294: tileset32_wood_147
+    21300296: tileset32_wood_148
+    21300298: tileset32_wood_149
+    21300300: tileset32_wood_150
+    21300302: tileset32_wood_151
+    21300304: tileset32_wood_152
+    21300306: tileset32_wood_153
+    21300308: tileset32_wood_154
+    21300310: tileset32_wood_155
+    21300312: tileset32_wood_156
+    21300314: tileset32_wood_157
+    21300316: tileset32_wood_158
+    21300318: tileset32_wood_159
+    21300320: tileset32_wood_160
+    21300322: tileset32_wood_161
+    21300324: tileset32_wood_162
+    21300326: tileset32_wood_163
+    21300328: tileset32_wood_164
+    21300330: tileset32_wood_165
+    21300332: tileset32_wood_166
+    21300334: tileset32_wood_167
+    21300336: tileset32_wood_168
+    21300338: tileset32_wood_169
+    21300340: tileset32_wood_170
+    21300342: tileset32_wood_171
+    21300344: tileset32_wood_172
+    21300346: tileset32_wood_173
+    21300348: tileset32_wood_174
+    21300350: tileset32_wood_175
+    21300352: tileset32_wood_176
+    21300354: tileset32_wood_177
+    21300356: tileset32_wood_178
+    21300358: tileset32_wood_179
+    21300360: tileset32_wood_180
+    21300362: tileset32_wood_181
+    21300364: tileset32_wood_182
+    21300366: tileset32_wood_183
+    21300368: tileset32_wood_184
+    21300370: tileset32_wood_185
+    21300372: tileset32_wood_186
+    21300374: tileset32_wood_187
+    21300376: tileset32_wood_188
+    21300378: tileset32_wood_189
+    21300380: tileset32_wood_190
+    21300382: tileset32_wood_191
+    21300384: wood_0
+    21300386: wood_1
+    21300388: wood_2
+    21300390: wood_3
+    21300392: wood_4
+    21300394: wood_5
+    21300396: wood_6
+    21300398: wood_7
+    21300400: wood_8
+    21300402: wood_9
+    21300404: wood_10
+    21300406: wood_11
+    21300408: wood_12
+    21300410: wood_13
+    21300412: wood_14
+    21300414: wood_15
+    21300416: wood_16
+    21300418: wood_17
+    21300420: wood_18
+    21300422: wood_19
+    21300424: wood_20
+    21300426: wood_21
+    21300428: wood_22
+    21300430: wood_23
+    21300432: wood_24
+    21300434: wood_25
+    21300436: wood_26
+    21300438: wood_27
+    21300440: wood_28
+    21300442: wood_29
+    21300444: wood_30
+    21300446: wood_31
+    21300448: wood_32
+    21300450: wood_33
+    21300452: wood_34
+    21300454: wood_35
+    21300456: wood_36
+    21300458: wood_37
+    21300460: wood_38
+    21300462: wood_39
+    21300464: wood_40
+    21300466: wood_41
+    21300468: wood_42
+    21300470: wood_43
+    21300472: wood_44
+    21300474: wood_45
+    21300476: wood_46
+    21300478: wood_47
+    21300480: room_4_0
+    21300482: room_4_1
+    21300484: room_4_2
+    21300486: room_4_3
+    21300488: room_4_4
+    21300490: room_4_5
+    21300492: room_4_6
+    21300494: room_4_7
+    21300496: room_4_8
+    21300498: room_4_9
+    21300500: room_4_10
+    21300502: room_4_11
+    21300504: room_4_12
+    21300506: room_4_13
+    21300508: room_4_14
+    21300510: room_4_15
+    21300512: room_4_16
+    21300514: room_4_17
+    21300516: room_4_18
+    21300518: room_4_19
+    21300520: room_4_20
+    21300522: room_4_21
+    21300524: room_4_22
+    21300526: room_4_23
+    21300528: room_4_24
+    21300530: room_4_25
+    21300532: room_4_26
+    21300534: room_4_27
+    21300536: room_4_28
+    21300538: room_4_29
+    21300540: room_4_30
+    21300542: room_4_31
+    21300544: room_4_32
+    21300546: room_4_33
+    21300548: room_4_34
+    21300550: room_4_35
+    21300552: room_4_36
+    21300554: room_4_37
+    21300556: room_4_38
+    21300558: room_4_39
+    21300560: room_4_40
+    21300562: room_4_41
+    21300564: room_4_42
+    21300566: room_4_43
+    21300568: room_4_44
+    21300570: room_4_45
+    21300572: room_4_46
+    21300574: room_4_47
+  externalObjects: {}
+  serializedVersion: 7
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: room_4_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48f5500696ee43845899e3cf9bdd2360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 069e882f8814ba041a373f0031f329a1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 316160beb6c66b94cba9695454bca639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6c985b026110c540b156b59b9ab04d9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3e2963ff54a3a443b003637d760f368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dab0904c0be419c4faafb228f55dd532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e63e2179d7376a479d26031426c0887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17180aa6356be2f4299ee9fb8da50766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14b89257741e66646b21f1453c5c1f9b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dace58d88954014683d29065881f751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 328ee86343aeebe42b7b09109231c3ee
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f2c6c4d4964de5438e2d7a945270280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_12
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad8659b134e59d34a8fcf018e68ac908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_13
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e4f3eef9f233c04ba619b7a83ffa5a3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_14
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ab62bd4630fbdd4eb44aed4b24c8b82
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_15
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ee4c1a8a8f7250438cbee9abf550e6c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bac9ef1d9a3d0d4488bc9694737c7bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_17
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea07173f45d4de14ab8527c979d301b1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3048c268bafb58f4bb6323634e58783c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_19
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a6aa16d96015c041acebd2df04a3fe0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_20
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad974b42a4a63946888710eaed00fc9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_21
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b0f7c5bf543ba8469dead89492b9d8a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_22
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9dad2326653ac94b82f2b526b252cb5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_23
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b76dbf0d37b2c646a5ce6ae0c9d9c9b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8ecca48dd5ec134ea4e4e21baccb8e8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_25
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9d8ba2e48aafa643a0e668d7460243c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_26
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fb2814de8889614f8f71535c79fa55e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_27
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8aff96eb27bca043bf8375a230f6628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_28
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43ab07ef5764215498639a952a90074a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_29
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09595d9517f6e454ab01a7ae38519ec4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_30
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd920b9c80b38904e8bb3926ff076862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_31
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 450207ce7034de24c88895d31c2fac70
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf41a8509a82afc4d85a17d18f7bb60a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_33
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f104cdc58d3c010409e472da25e24ba3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_34
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b0b0778928b1434383f481025cb4958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_35
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f55f96114ec693046b495f322e84907e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_36
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fb7e039dbe0df14ab289148513597ff
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_37
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76ad3773529a8d94ab9dbc2e582384e8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_38
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c51a5100cf8468d4b96d129998cbb708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_39
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e83c42a6fc608e441bc699abee19e430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea9496093516765469b7782c4a27775c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_41
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 229a363bf8f5f9145873f67cf4668d62
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_42
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7508902a0ed7ebd48bc9567653234392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_43
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85ef265ec508a3a44acb058722069250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_44
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aef410b8c97dc9f4f97c15ddbc7934ed
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_45
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4632e73bbfb05f7469e708f6b31683e7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_46
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6c7546cc02b5cc4ca0f54ad5431c4ea
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: room_4_47
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 896f06bfa22059b488ea5980ff405aeb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 500be49023fd56a4b881fa6b0f2d6c09
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

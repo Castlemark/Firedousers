@@ -22,6 +22,7 @@ public class Room
     public List<RoomObject> doors = new List<RoomObject>();
     public List<RoomObject> furniture = new List<RoomObject>();
     public int numDoors;
+    public int numTile;
     private int area;
 
     public Room(int x1, int x2, int y1, int y2, int minArea, int numDoors)
@@ -32,6 +33,8 @@ public class Room
         this.y2 = y2;
         this.minArea = minArea;
         this.numDoors = numDoors;
+
+        this.numTile = Random.Range(0, 5);
 
         w = x2 - x1 + 1;
         h = y2 - y1 + 1;
@@ -73,10 +76,10 @@ public class Room
             
             foreach (RoomObject door in doors)
             {
-                do
-                {
+                //do
+                //{
                     doorX = Random.Range(x1, x2);
-                } while (doorX + 1 == door.x || door.x == doorX - 1);
+                //} while (doorX + 1 == door.x || door.x == doorX - 1);
             }
         }
         else
