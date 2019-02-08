@@ -66,8 +66,7 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        int[] aux_pos = { player_position[0], player_position[1] + 1 };
-        Tile aux = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>();
+        int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
         grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, 0, aux_pos);
         grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().StartFire();
 
@@ -105,7 +104,8 @@ public class BoardManager : MonoBehaviour
 
         bool canMoveTo = tile.CanPass();
         tile.ExecuteBehaviour();
-        updateFire();
+
+        if (canMoveTo) updateFire();
 
         return canMoveTo;
     }

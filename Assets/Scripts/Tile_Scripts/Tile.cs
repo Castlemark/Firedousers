@@ -155,22 +155,6 @@ public class Tile : MonoBehaviour
         return tiles;
     }
 
-    public Tile[] GetAdjoiningFireTiles()
-    {
-        GameObject[,] grid = GameManager.instance.boardScript.grid;
-        Tile[] tiles = new Tile[4];
-
-        int x = this.position[0];
-        int y = this.position[1];
-
-        if (y != 0 && grid[x, y - 1] != null) tiles[2] = grid[x, y - 1].GetComponent<Tile>();//S
-        if (y != 0 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
-        if (x != 0 && grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
-        if (x != 0 && grid[x - 1, y] != null) tiles[3] = grid[x - 1, y].GetComponent<Tile>();//W
-
-        return tiles;
-    }
-
     public void ChangeTypeSpriteTo(int index)
     {
         Transform typeSprite = typeObject.transform;
@@ -212,8 +196,7 @@ public class Tile : MonoBehaviour
 
     private void ExpandFire()
     {
-        Debug.Log("expanding fire");
-        Tile[] tiles = GetAdjoiningFireTiles();
+        Tile[] tiles = GetAdjoiningTiles();
         for (int i = 0; i < 4; i++)
         {
             tiles[i].StartFire();
@@ -224,15 +207,10 @@ public class Tile : MonoBehaviour
     {
         if (fireObject != null && fireScript.state != 0 && fireScript.state != 6)
         {
-            Debug.Log("updatig fire");
-            if (fireScript.state_counter > 3)
+            fireScript.IncreaseCount();
+            if (fireScript.state_counter > 1)
             {
-                Debug.Log("updated state");
                 fireScript.IncreaseState();
-            }
-            else
-            {
-                fireScript.IncreaseCount();
             }
 
             if (fireScript.state == 4)
@@ -242,17 +220,9 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void IfSteppedOnTile()
-    {
-        if (fireObject != null && fireScript.state == 5)
-        {
-
-        }
-    }
-
     public void StartFire()
     {
-        if (fireObject != null)
+        if (fireObject != null && fireScript.state < 1)
         {
             fireScript.state = 1;
             fireScript.GetComponent<SpriteRenderer>().sprite = fireScript.fireStates[1];
