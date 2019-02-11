@@ -97,8 +97,10 @@ namespace Prime31
 			// if our camera orthoSize changes we need to change our orthoSize
 			if( mainCamera.orthographicSize != _previousCameraOrthoSize || _lastScreenWidth != Screen.width || _lastScreenHeight != Screen.height )
 			{
-				_spriteLightCamera.orthographicSize = mainCamera.orthographicSize;
-				_previousCameraOrthoSize = mainCamera.orthographicSize;
+                //_spriteLightCamera.orthographicSize = mainCamera.orthographicSize;
+                _spriteLightCamera.orthographicSize = 6;
+
+                _previousCameraOrthoSize = 6;
 
 				updateTexture();
 			}
@@ -109,7 +111,7 @@ namespace Prime31
 		{
 			if( _spriteLightCamera != null )
 			{
-				_previousCameraOrthoSize = mainCamera.orthographicSize;
+				_previousCameraOrthoSize = 6;
 				return;
 			}
 
@@ -172,7 +174,7 @@ namespace Prime31
 					format = RenderTextureFormat.Default;
 				}
 
-				_texture = new RenderTexture( rtWidth, rtHeight, (int)rtTextureDepth, format );
+				_texture = new RenderTexture( 2100, 900, (int)rtTextureDepth, format );
 				_texture.name = "SpriteLightKit RT";
 				_texture.Create();
 				_texture.filterMode = rtFilterMode;
