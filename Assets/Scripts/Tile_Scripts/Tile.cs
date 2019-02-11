@@ -194,38 +194,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private void ExpandFire()
-    {
-        Tile[] tiles = GetAdjoiningTiles();
-        for (int i = 0; i < 4; i++)
-        {
-            tiles[i].StartFire();
-        }
-    }
+    public void IncreaseFire() { if (fireObject != null) fireScript.EvolveFire(); }
 
-    public void IncreaseFire()
-    {
-        if (fireObject != null && fireScript.state != 0 && fireScript.state != 6)
-        {
-            fireScript.IncreaseCount();
-            if (fireScript.state_counter > 1)
-            {
-                fireScript.IncreaseState();
-            }
-
-            if (fireScript.state == 4)
-            {
-                ExpandFire();
-            }
-        }
-    }
-
-    public void StartFire()
-    {
-        if (fireObject != null && fireScript.state < 1)
-        {
-            fireScript.state = 1;
-            fireScript.GetComponent<SpriteRenderer>().sprite = fireScript.fireStates[1];
-        }
-    }
+    public void StartFire() { if (fireObject != null) fireScript.StartFire(); }
 }
