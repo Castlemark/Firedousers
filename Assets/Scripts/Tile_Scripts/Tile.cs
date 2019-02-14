@@ -15,6 +15,8 @@ public class Tile : MonoBehaviour
     private Fire fireScript;
 
     private bool canPass;
+    private bool isConsumed = false;
+    private bool isCollapsed = false;
     private GameObject typeObject;
     public GameObject containedObject;
     private GameObject fireObject;
@@ -124,9 +126,28 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void ExecuteBehaviour()
+    public void ExecutePreBehaviour()
     {
         behaviour.ExecuteBehaviour();
+        if (fireObject != null)
+        {
+            fireScript.StepOnFire();
+        }
+    }
+
+    public void ExecutePostBehaviour()
+    {
+        CollapseFloorIfNecessary();
+    }
+
+    private void CollapseFloorIfNecessary()
+    {
+        if (isConsumed && !isCollapsed)
+        {
+            canPass = false;
+            isCollapsed = true;
+            fireScript.ChangeState(6);
+        }
     }
 
     public bool CanPass()
@@ -194,38 +215,13 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private void ExpandFire()
-    {
-        Tile[] tiles = GetAdjoiningTiles();
-        for (int i = 0; i < 4; i++)
-        {
-            tiles[i].StartFire();
-        }
-    }
-
     public void IncreaseFire()
     {
-        if (fireObject != null && fireScript.state != 0 && fireScript.state != 6)
-        {
-            fireScript.IncreaseCount();
-            if (fireScript.state_counter > 1)
-            {
-                fireScript.IncreaseState();
-            }
-
-            if (fireScript.state == 4)
-            {
-                ExpandFire();
-            }
-        }
+        if (fireObject != null) isConsumed = fireScript.EvolveFire();
     }
 
     public void StartFire()
     {
-        if (fireObject != null && fireScript.state < 1)
-        {
-            fireScript.state = 1;
-            fireScript.GetComponent<SpriteRenderer>().sprite = fireScript.fireStates[1];
-        }
+        if (fireObject != null) fireScript.StartFire();
     }
 }

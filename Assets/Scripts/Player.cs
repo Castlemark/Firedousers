@@ -159,7 +159,7 @@ public class Player : MovingObject
 
         if ((food <= 0) && (xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
 
-        if (GameManager.instance.boardScript.CanMoveTo(position.x + xDir, position.y + yDir))
+        if (GameManager.instance.boardScript.CanMoveTo(position.x + xDir, position.y + yDir, position.x, position.y))
         {
             Vector2 start = transform.position;
             Vector2 end = start + new Vector2(xDir, yDir);
