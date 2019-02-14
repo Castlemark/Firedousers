@@ -98,15 +98,17 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public bool CanMoveTo(int x, int y)
+    public bool CanMoveTo(int x, int y, int ox, int oy)
     {
-        Tile tile = grid[x, y].GetComponent<Tile>();
+        Tile ctile = grid[ox, oy].GetComponent<Tile>();
+        Tile gtile = grid[x, y].GetComponent<Tile>();
 
-        bool canMoveTo = tile.CanPass();
-        tile.ExecuteBehaviour();
+        ctile.ExecutePostBehaviour();
+        gtile.ExecutePreBehaviour();
+        bool canMoveTo = gtile.CanPass();
 
         if (canMoveTo) updateFire();
-
+        
         return canMoveTo;
     }
 }

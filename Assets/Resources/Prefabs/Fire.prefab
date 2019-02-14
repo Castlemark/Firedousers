@@ -106,4 +106,4 @@ MonoBehaviour:
   max_state: 0
   min_state: 0
   broken: 0
-  state_increase_steps: 0000000001000000020000000300000004000000
+  state_increase_steps: 0000000003000000020000000300000004000000
