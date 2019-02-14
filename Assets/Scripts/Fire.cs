@@ -16,13 +16,16 @@ public class Fire : MonoBehaviour
 
     public int[] state_increase_steps;
 
+    private Animator animator;
+
+
     public void ChangeState(int new_state)
     {
         state = new_state;
         state_counter = 0;
-        GetComponent<SpriteRenderer>().sprite = fireStates[state];
+        animator.SetInteger("state", new_state);
     }
-    
+
     private void IncreaseCount() { state_counter++; }
 
     public bool EvolveFire()
@@ -64,10 +67,12 @@ public class Fire : MonoBehaviour
 
     public void StartFire()
     {
+        animator = GetComponent<Animator>();
+
         if (state < 1)
         {
+            animator.SetInteger("state",1);
             state = 1;
-            GetComponent<SpriteRenderer>().sprite = fireStates[1];
         }
     }
 
