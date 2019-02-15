@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TileEnums;
 
 public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 
@@ -13,8 +14,9 @@ public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 
 	public void ExecuteBehaviour()
 	{
-        Debug.Log("Behaviour not yet implemented");
-	}
+        GameObject.Find("Player").GetComponent<Player>().carryVictim();
+        transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+    }
 
 	public bool CanPass()
     {

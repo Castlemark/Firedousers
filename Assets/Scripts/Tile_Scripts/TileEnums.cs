@@ -11,8 +11,7 @@ namespace TileEnums {
 		wall,
 		breakable_wall,
 		stair_up,
-		stair_down,
-		safepoint
+		stair_down
 	}
 
 	public enum CONTAINED
@@ -21,9 +20,9 @@ namespace TileEnums {
 		door,
 		furniture,
 		survivor,
-		none
-		
-	}
+		none,
+        safepoint
+    }
 
 	public static class EnumExtensions
 	{
@@ -36,8 +35,6 @@ namespace TileEnums {
 
 		public static bool IsStair(this TYPE type) { return type == TYPE.stair_up || type == TYPE.stair_down; }
 		
-		public static bool IsSafePoint(this TYPE type) { return type == TYPE.safepoint; }
-
         public static bool IsFlammable(this TYPE type) { return type == TYPE.floor; }
 
 		public static bool ContainsNone(this CONTAINED contained)

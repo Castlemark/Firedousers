@@ -12,6 +12,8 @@ public class Tile : MonoBehaviour
 
     public int[] position;
 
+    public int tileset;
+
     private Fire fireScript;
 
     private bool canPass;
@@ -47,6 +49,8 @@ public class Tile : MonoBehaviour
         contained = containedSetup;
         canPass = true;
 
+        tileset = room_tileset;
+
         switch (typeSetUp)
         {
             case TYPE.floor:
@@ -74,10 +78,6 @@ public class Tile : MonoBehaviour
                 room_images = getRoomImages(room_tileset, stair_down_images);
                 break;
 
-            case TYPE.safepoint:
-                room_images = getRoomImages(room_tileset, safepoint_images);
-                break;
-
             default:
                 Debug.Log("Tile type " + typeSetUp + " entered default state (Floor)");
                 type = typeSetUp;
@@ -97,6 +97,19 @@ public class Tile : MonoBehaviour
         behaviour.SetSprite(room_tileset);
 
         this.name = contained.ContainsNone() ? type.ToString() : contained.ToString();
+    }
+
+    public void ReplaceContained(CONTAINED newContained, int state)
+    {
+        Destroy(this.transform.Find(contained.ToString()).gameObject);
+        contained = newContained;
+
+        containedObject = Instantiate(contained.GetPrefab(), transform.position, Quaternion.identity, this.transform) as GameObject;
+        containedObject.name = newContained.ToString();
+        behaviour = containedObject.GetComponent<IBehaviour>();
+
+        behaviour.Initialize(state);
+        behaviour.SetSprite(tileset);
     }
 
     //Returns images of specific room tileset
@@ -120,7 +133,7 @@ public class Tile : MonoBehaviour
     //Throws error if tile combination is invalid
     private void CheckTileIntegrity()
     {
-        if ((type.IsWall() || type.IsStair() || type.IsSafePoint()) && !contained.ContainsNone())
+        if ((type.IsWall() || type.IsStair()) && !contained.ContainsNone())
         {
             throw new Exception("Tile of type " + type + " can't have any contained object ");
         }
@@ -202,10 +215,6 @@ public class Tile : MonoBehaviour
 
             case TYPE.stair_down:
                 typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_images[index];
-                break;
-
-            case TYPE.safepoint:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = safepoint_images[index];
                 break;
 
             default:

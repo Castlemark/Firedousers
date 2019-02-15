@@ -1549,7 +1549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 09755a4891f8d4526a7e0690a23dec7b, type: 3}
-  spriteLightRT: {fileID: 2010487957}
+  spriteLightRT: {fileID: 1962019536}
   intensity: 1
 --- !u!1 &1395327323
 GameObject:
@@ -2008,7 +2008,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770186122}
   m_CullTransparentMesh: 0
---- !u!84 &2010487957
+--- !u!84 &1962019536
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2236,7 +2236,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 12288
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 2010487957}
+  m_TargetTexture: {fileID: 1962019536}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0

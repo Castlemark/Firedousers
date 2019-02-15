@@ -35,7 +35,6 @@ public class Fire : MonoBehaviour
             IncreaseCount();
             if (state_counter > state_increase_steps[state])
             {
-                Debug.Log("Cahnging state");
                 ChangeState(state + 1);
             }
 
@@ -80,9 +79,7 @@ public class Fire : MonoBehaviour
     {
         if (state == 1)
         {
-            Debug.Log("state to 0");
             this.ChangeState(0);
-            Debug.Log(state);
         }
         if (state ==3 || state ==4)
         {

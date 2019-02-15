@@ -67,8 +67,17 @@ public class BoardManager : MonoBehaviour
         }
 
         int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
-        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, 0, aux_pos);
+        int tileset = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().tileset;
+        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, tileset, aux_pos);
         grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().StartFire();
+
+        int[] aux_pos_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().position;
+        int tileset_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().tileset;
+        grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, 0, tileset_2, aux_pos_2);
+
+        int[] aux_pos_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().position;
+        int tileset_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().tileset;
+        grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, 3, aux_pos_3);
 
         OrientGrid();
     }
@@ -103,9 +112,9 @@ public class BoardManager : MonoBehaviour
         Tile ctile = grid[ox, oy].GetComponent<Tile>();
         Tile gtile = grid[x, y].GetComponent<Tile>();
 
+        bool canMoveTo = gtile.CanPass();
         ctile.ExecutePostBehaviour();
         gtile.ExecutePreBehaviour();
-        bool canMoveTo = gtile.CanPass();
 
         if (canMoveTo) updateFire();
         
