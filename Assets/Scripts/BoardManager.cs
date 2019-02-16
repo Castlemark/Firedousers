@@ -96,7 +96,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void updateFire()
+    public void updateFire()
     {
         for (int i = 0; i < columns; i++)
         {

@@ -1,15 +1,11 @@
 fileFormatVersion: 2
-guid: 812ce2db6ba6edc4585213e54b38a0eb
+guid: ad7e96ae4cf00144e99a6ab673c7dea1
 TextureImporter:
   fileIDToRecycleName:
-    21300000: water32_0
-    21300002: water32_1
-    21300004: water32_2
-    21300006: water32_3
-    21300008: water32_4
-    21300010: water32_5
-    21300012: water32_6
-    21300014: water32_7
+    21300000: civilians32_0
+    21300002: civilians32_1
+    21300004: civilians32_2
+    21300006: civilians32_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -71,7 +67,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -82,7 +78,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -92,161 +88,81 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: water32_0
+      name: civilians32_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 64
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 206b80dafb0dbfd48a8bd4c9958cc539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: civilians32_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 32
+        y: 0
         width: 32
-        height: 32
+        height: 64
       alignment: 9
-      pivot: {x: 1.5, y: 0.5}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9ca1ac142e669443951dd1c52d42a59
+      spriteID: 65e6fd4f2a5e5cf4ab549e70c10b7eb7
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: water32_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 1.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: edb2f46e073eed44494b2b96b763e916
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: water32_2
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 1.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 72bc5d6cd115c824eadabaa0d6678a7f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: water32_3
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: -0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 59c94badb8c824544b08f123ab769f04
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: water32_4
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: -0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b8a183741bc531f4f9139460c686e59e
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: water32_5
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: -0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cfa720e1f7606d34b86d631be50e0447
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: water32_6
+      name: civilians32_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
-        height: 32
+        height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 1.5}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd6344d6902a2b54d8277127de282f7b
+      spriteID: ae81e0ca46a694044a37e2ae8d3cfe4d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: water32_7
+      name: civilians32_3
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
-        height: 32
+        height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 1.5}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c775e2e931a98ed4080fdaf6606decac
+      spriteID: cc158ea1d6cbbe445912c10b056e8749
       vertices: []
       indices: 
       edges: []
@@ -254,7 +170,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 560b6ff3491296a4989b1cfa36babc61
+    spriteID: 39e1d63a2220b2e4f87a3430bac7e05b
     vertices: []
     indices: 
     edges: []
