@@ -174,7 +174,7 @@ namespace Prime31
 					format = RenderTextureFormat.Default;
 				}
 
-				_texture = new RenderTexture( 2100, 900, (int)rtTextureDepth, format );
+				_texture = new RenderTexture( 1920, 1080, (int)rtTextureDepth, format );
 				_texture.name = "SpriteLightKit RT";
 				_texture.Create();
 				_texture.filterMode = rtFilterMode;
