@@ -16,13 +16,74 @@ public class Fire : MonoBehaviour
 
     public int[] state_increase_steps;
 
+    private Animator animator;
 
-    public void IncreaseState()
+
+    public void ChangeState(int new_state)
     {
-        state++;
+        state = new_state;
         state_counter = 0;
-        GetComponent<SpriteRenderer>().sprite = fireStates[state];
+        animator.SetInteger("state", new_state);
     }
-    
-    public void IncreaseCount() { state_counter++; }
+
+    private void IncreaseCount() { state_counter++; }
+
+    public bool EvolveFire()
+    {
+        if (state != 0 && state < 5)
+        {
+            IncreaseCount();
+            if (state_counter > state_increase_steps[state])
+            {
+                ChangeState(state + 1);
+            }
+
+            if (state == 4 && state_counter == 0)
+            {
+                ExpandFire();
+            }
+        }
+
+        return IsConsumed();
+    }
+
+    private bool IsConsumed()
+    {
+        return state > 4;
+    }
+
+    private void ExpandFire()
+    {
+        Tile[] tiles = transform.parent.GetComponent<Tile>().GetAdjoiningTiles();
+        for (int i = 0; i < 4; i++)
+        {
+            if (tiles[i].transform.Find("Fire") != null)
+            {
+                tiles[i].transform.Find("Fire").GetComponent<Fire>().StartFire();
+            }
+        }
+    }
+
+    public void StartFire()
+    {
+        animator = GetComponent<Animator>();
+
+        if (state < 1)
+        {
+            animator.SetInteger("state",1);
+            state = 1;
+        }
+    }
+
+    public void StepOnFire()
+    {
+        if (state == 1)
+        {
+            this.ChangeState(0);
+        }
+        if (state ==3 || state ==4)
+        {
+            GameObject.Find("Player").GetComponent<Player>().IncreaseTemperature();
+        }
+    }
 }

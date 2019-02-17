@@ -9,11 +9,9 @@ using System.Linq;
 public class Player : MovingObject
 {
     public int wallDamage = 1;
-    public int pointsPerFood = 10;
-    public int pointsPerSoda = 20;
     public int temperature = 0;
     public float restartLevelDelay = 1f;
-    public Text foodText;
+    public Text hoseText;
     public Text peopleText;
     private Text temperatureText;
 
@@ -32,6 +30,8 @@ public class Player : MovingObject
     public GameObject manguera_rb;
     public GameObject manguera_rt;
 
+    public GameObject water;
+
     public LayerMask mangueraLayer;
 
     private SpriteRenderer spriteRenderer;
@@ -43,7 +43,8 @@ public class Player : MovingObject
     public Sprite spriteWithoutVictim;
 
     private Animator animator;
-    private int food;
+    private Animator animatorWater;
+    private int metersHose;
     private bool hasKey;
     private List<string> path = new List<string>();
 
@@ -67,14 +68,16 @@ public class Player : MovingObject
         temperatureText = GameObject.Find("TemperatureText").GetComponent<Text>();
         temperatureText.text = temperature.ToString();
         animator = GetComponent<Animator>();
-        food = GameManager.instance.playerFoodPoints;
-        foodText.text = food.ToString();
+        animatorWater = water.GetComponent<Animator>();
+
+        metersHose = GameManager.instance.playerFoodPoints;
+        hoseText.text = metersHose.ToString();
         victims = GameManager.instance.playerVictims;
         victims_total = GameManager.instance.playerVictimsTotal;
         peopleText.text = victims_total.ToString();
         hasKey = GameManager.instance.playerHasKey;
 
-        foodText.text = food.ToString();
+        hoseText.text = metersHose.ToString();
         path.Add("r");
         base.Start();
 
@@ -88,7 +91,7 @@ public class Player : MovingObject
     // S'ecexuta quan es deshabilita el game object quan es canvia de nivell
     private void OnDisable()
     {
-        GameManager.instance.playerFoodPoints = food;
+        GameManager.instance.playerFoodPoints = metersHose;
         GameManager.instance.playerHasKey = hasKey;
         GameManager.instance.playerVictims = victims;
         GameManager.instance.playerVictimsTotal = victims_total;
@@ -120,26 +123,10 @@ public class Player : MovingObject
         int horizontal = 0;
         int vertical = 0;
 
+       
         //Obtenim Input de Unity segons el teclat i ho arrodonim a un enter
         horizontal = (int)(Input.GetAxisRaw("Horizontal"));
         vertical = (int)(Input.GetAxisRaw("Vertical"));
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ShootWater(new Vector2(1, 0));
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            ShootWater(new Vector2(-1, 0));
-        }
-        else if (Input.GetKeyDown(KeyCode.I))
-        {
-            ShootWater(new Vector2(0, 1));
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            ShootWater(new Vector2(0, -1));
-        }
 
         //Prevé que només es pugui moure en una direcció
         if (horizontal != 0)
@@ -150,22 +137,50 @@ public class Player : MovingObject
         if (horizontal != 0 || vertical != 0)
         {
             //Passem el paràmetre Wall ja que es contra el que pot interactuar el jugador  
-            AttemptMove<Wall>(horizontal, vertical);
+            if (!Input.GetKey(KeyCode.Space))
+            {
+                AttemptMove<Wall>(horizontal, vertical);
+            }
+            else
+            {
+                if(horizontal == 1)
+                {
+                    animatorWater.SetTrigger("right");
+                    animator.SetTrigger("idleRight");
+                }else if(horizontal == -1)
+                {
+                    animatorWater.SetTrigger("left");
+                    animator.SetTrigger("idleLeft");
+
+                }
+                else if(vertical == -1){
+                    animatorWater.SetTrigger("bottom");
+                    animator.SetTrigger("idleFront");
+                }
+                else
+                {
+                    animator.SetTrigger("idleBack");
+
+                }
+                ShootWater(new Vector2(horizontal, vertical));
+                GameManager.instance.playersTurn = false;
+
+            }
         }
     }
 
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
 
-        if ((food <= 0) && (xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
+        if ((metersHose <= 0) && (xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
 
-        if (GameManager.instance.boardScript.CanMoveTo(position.x + xDir, position.y + yDir))
+        if (GameManager.instance.boardScript.CanMoveTo(position.x + xDir, position.y + yDir, position.x, position.y))
         {
             Vector2 start = transform.position;
             Vector2 end = start + new Vector2(xDir, yDir);
             StartCoroutine(SmoothMovement(end));
-            food--;
-            foodText.text = food.ToString();
+            metersHose--;
+            hoseText.text = metersHose.ToString();
             GameObject toInstantiate = manguera_h;
             if (xDir == 1)
             {
@@ -260,7 +275,7 @@ public class Player : MovingObject
 
     public void RecullManguera(Vector2 end, Vector2 pos)
     {
-        food++;
+        metersHose++;
         string dir = path[path.Count - 1];
         path.RemoveAt(path.Count - 1);
         Vector2 to = pos;
@@ -300,7 +315,7 @@ public class Player : MovingObject
         }
         else
         {
-            foodText.text = food.ToString();
+            hoseText.text = metersHose.ToString();
             StartCoroutine(AnimationHose());
             /*pickingUpHose = false;*/
 
@@ -351,14 +366,6 @@ public class Player : MovingObject
             GameManager.instance.lastStairs = "down";
             enabled = false;
         }
-        else if (other.tag == "Soda")
-        {
-            food += pointsPerSoda;
-            foodText.text = "+" + pointsPerSoda + " Food: " + food;
-            SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
-
-            other.gameObject.SetActive(false);
-        }
         else if (other.tag == "Victim" && victims < maxVictims)
         {
             carryVictim();
@@ -403,15 +410,15 @@ public class Player : MovingObject
     public void LoseFood(int loss)
     {
         animator.SetTrigger("playerHit");
-        food -= loss;
-        foodText.text = "-" + loss + " Food: " + food;
+        metersHose -= loss;
+        hoseText.text = "-" + loss + " Food: " + metersHose;
 
         CheckIfGameOver();
     }
 
     private void CheckIfGameOver()
     {
-        if (food <= 0  || temperature >= 100)
+        if (metersHose <= 0  || temperature >= 100)
         {
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.muscicSource.Stop();
@@ -437,6 +444,7 @@ public class Player : MovingObject
 
     void ShootWater(Vector2 direction)
     {
+        Debug.Log("Flush flush");
         Vector2 start = new Vector2(transform.position.x + direction.x, transform.position.y + direction.y);
         Vector2 end = new Vector2(start.x + (direction.x/100), start.y + (direction.x / 100));
         RaycastHit2D hit = Physics2D.Linecast(start,end, fireLayer);
@@ -455,6 +463,9 @@ public class Player : MovingObject
                 Debug.Log("apagant foc");
             }
         }
+        GameManager.instance.boardScript.updateFire();
+        UpdateBoard(visibilityTiles, this.gameObject);
+
     }
 
     // All LOS objects should be children of Board GameObject
@@ -503,7 +514,7 @@ public class Player : MovingObject
 
     public void AddFood(int added_food)
     {
-        food += added_food;
+        metersHose += added_food;
     }
 
     public void IncreaseTemperature()

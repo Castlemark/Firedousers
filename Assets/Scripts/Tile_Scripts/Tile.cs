@@ -12,15 +12,18 @@ public class Tile : MonoBehaviour
 
     public int[] position;
 
+    public int tileset;
+
     private Fire fireScript;
 
     private bool canPass;
+    private bool isConsumed = false;
+    private bool isCollapsed = false;
     private GameObject typeObject;
     public GameObject containedObject;
     private GameObject fireObject;
     private IBehaviour behaviour;
 
-    public Sprite safepoint_image;
     private Sprite[] room_images;
     public Sprite[] floor_images;
     public Sprite[] wall_images;
@@ -45,6 +48,8 @@ public class Tile : MonoBehaviour
         type = typeSetUp;
         contained = containedSetup;
         canPass = true;
+
+        tileset = room_tileset;
 
         switch (typeSetUp)
         {
@@ -80,11 +85,10 @@ public class Tile : MonoBehaviour
             case TYPE.stair_down:
                 room_images = getRoomImages(room_tileset, stair_down_images);
                 break;
-
-            case TYPE.safepoint:
+                
+            /*case TYPE.safepoint:
                 typeSprite.GetComponent<SpriteRenderer>().sprite = safepoint_image;
-                break;
-
+                break;*/
             default:
                 Debug.Log("Tile type " + typeSetUp + " entered default state (Floor)");
                 type = typeSetUp;
@@ -102,6 +106,19 @@ public class Tile : MonoBehaviour
         behaviour.SetSprite(room_tileset);
 
         this.name = contained.ContainsNone() ? type.ToString() : contained.ToString();
+    }
+
+    public void ReplaceContained(CONTAINED newContained, int state)
+    {
+        Destroy(this.transform.Find(contained.ToString()).gameObject);
+        contained = newContained;
+
+        containedObject = Instantiate(contained.GetPrefab(), transform.position, Quaternion.identity, this.transform) as GameObject;
+        containedObject.name = newContained.ToString();
+        behaviour = containedObject.GetComponent<IBehaviour>();
+
+        behaviour.Initialize(state);
+        behaviour.SetSprite(tileset);
     }
 
     //Returns images of specific room tileset
@@ -125,15 +142,34 @@ public class Tile : MonoBehaviour
     //Throws error if tile combination is invalid
     private void CheckTileIntegrity()
     {
-        if ((type.IsWall() || type.IsStair() || type.IsSafePoint()) && !contained.ContainsNone())
+        if ((type.IsWall() || type.IsStair()) && !contained.ContainsNone())
         {
             throw new Exception("Tile of type " + type + " can't have any contained object ");
         }
     }
 
-    public void ExecuteBehaviour()
+    public void ExecutePreBehaviour()
     {
         behaviour.ExecuteBehaviour();
+        if (fireObject != null)
+        {
+            fireScript.StepOnFire();
+        }
+    }
+
+    public void ExecutePostBehaviour()
+    {
+        CollapseFloorIfNecessary();
+    }
+
+    private void CollapseFloorIfNecessary()
+    {
+        if (isConsumed && !isCollapsed)
+        {
+            canPass = false;
+            isCollapsed = true;
+            fireScript.ChangeState(6);
+        }
     }
 
     public bool CanPass()
@@ -195,10 +231,6 @@ public class Tile : MonoBehaviour
                 typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_images[index];
                 break;
 
-            case TYPE.safepoint:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = safepoint_image;
-                break;
-
             default:
                 Debug.Log("Tile type " + type + " entered default state (Floor)");
                 typeSprite.GetComponent<SpriteRenderer>().sprite = floor_images[index];
@@ -206,38 +238,13 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private void ExpandFire()
-    {
-        Tile[] tiles = GetAdjoiningTiles();
-        for (int i = 0; i < 4; i++)
-        {
-            tiles[i].StartFire();
-        }
-    }
-
     public void IncreaseFire()
     {
-        if (fireObject != null && fireScript.state != 0 && fireScript.state != 6)
-        {
-            fireScript.IncreaseCount();
-            if (fireScript.state_counter > 1)
-            {
-                fireScript.IncreaseState();
-            }
-
-            if (fireScript.state == 4)
-            {
-                ExpandFire();
-            }
-        }
+        if (fireObject != null) isConsumed = fireScript.EvolveFire();
     }
 
     public void StartFire()
     {
-        if (fireObject != null && fireScript.state < 1)
-        {
-            fireScript.state = 1;
-            fireScript.GetComponent<SpriteRenderer>().sprite = fireScript.fireStates[1];
-        }
+        if (fireObject != null) fireScript.StartFire();
     }
 }

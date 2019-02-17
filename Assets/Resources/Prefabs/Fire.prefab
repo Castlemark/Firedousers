@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4661483841440053809}
   - component: {fileID: 4576278680578757651}
   - component: {fileID: 8806462895845423709}
+  - component: {fileID: 4736431555879180810}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -100,9 +101,29 @@ MonoBehaviour:
   - {fileID: 21300000, guid: efbf92ae17ff37c48abc652385dff10c, type: 3}
   - {fileID: 21300000, guid: 7bd65fb7e9c1d0040be82be2d3b2c565, type: 3}
   - {fileID: 21300000, guid: ee43e7b53692129429559e810c1d5914, type: 3}
+  - {fileID: 21300000, guid: 7f6235f639c0e56418a4c7e62a460142, type: 3}
   state: 0
   state_counter: 0
   max_state: 0
   min_state: 0
   broken: 0
-  state_increase_steps: 
+  state_increase_steps: 0000000003000000020000000300000004000000
+--- !u!95 &4736431555879180810
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5843466107097973108}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9d274ea6a8dcd5f49b87d29b0b5ac1f9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

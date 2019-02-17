@@ -116,7 +116,7 @@ public class LevelGenerator : MonoBehaviour
                 break;
 
             case 5: //safepoints
-                aux.GetComponent<Tile>().SetUpTile(TYPE.safepoint, CONTAINED.none, 0, room_tileset, pos);
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, room_tileset, pos);
                 break;
 
             default: //floor
