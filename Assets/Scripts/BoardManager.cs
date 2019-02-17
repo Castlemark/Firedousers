@@ -53,7 +53,7 @@ public class BoardManager : MonoBehaviour
         grid = new GameObject[columns, rows];
         levelGenerator = gameObject.AddComponent(typeof(LevelGenerator)) as LevelGenerator;
         boardHolder = new GameObject("Board").transform;
-        levelGenerator.Initiate(rows, columns);
+        levelGenerator.Initiate(columns, rows);
         player_position = levelGenerator.BoardSetup(grid, genericTile);
 
         gridPositions.Clear();

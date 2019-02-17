@@ -19,14 +19,15 @@ public class Tile : MonoBehaviour
     public GameObject containedObject;
     private GameObject fireObject;
     private IBehaviour behaviour;
-    private Sprite[] room_images;
 
+    public Sprite safepoint_image;
+    private Sprite[] room_images;
     public Sprite[] floor_images;
     public Sprite[] wall_images;
+    public Sprite[] front_wall_images;
     public Sprite[] breakable_wall_images;
     public Sprite[] stair_up_images;
     public Sprite[] stair_down_images;
-    public Sprite[] safepoint_images;
 
     public void SetUpTile(TYPE typeSetUp, CONTAINED containedSetup, int state, int room_tileset, int[] position)
     {
@@ -52,10 +53,18 @@ public class Tile : MonoBehaviour
                 fireScript = fireObject.GetComponent<Fire>();
                 fireObject.name = "Fire";
                 room_images = getRoomImages(room_tileset, floor_images);
+                typeSprite.GetComponent<SpriteRenderer>().sprite = room_images[Random.Range(0, room_images.Length - 1)];
                 break;
 
             case TYPE.wall:
                 room_images = getRoomImages(room_tileset, wall_images);
+                typeSprite.GetComponent<SpriteRenderer>().sprite = room_images[Random.Range(0, room_images.Length - 1)];
+                canPass = false;
+                break;
+
+            case TYPE.front_wall:
+                room_images = getRoomImages(room_tileset, front_wall_images);
+                typeSprite.GetComponent<SpriteRenderer>().sprite = room_images[Random.Range(0, room_images.Length - 1)];
                 canPass = false;
                 break;
 
@@ -73,7 +82,7 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.safepoint:
-                room_images = getRoomImages(room_tileset, safepoint_images);
+                typeSprite.GetComponent<SpriteRenderer>().sprite = safepoint_image;
                 break;
 
             default:
@@ -82,8 +91,6 @@ public class Tile : MonoBehaviour
                 room_images = getRoomImages(room_tileset, floor_images);
                 break;
         }
-
-        typeSprite.GetComponent<SpriteRenderer>().sprite = room_images[Random.Range(0, room_images.Length - 1)];
 
         CheckTileIntegrity();
 
@@ -146,7 +153,7 @@ public class Tile : MonoBehaviour
 
         int x = this.position[1];
         int y = this.position[0];
-        
+
         if (y != 0 && grid[x, y - 1] != null) tiles[2] = grid[x, y - 1].GetComponent<Tile>();//S
         if (y != 0 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
         if (x != 0 && grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
@@ -166,7 +173,12 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.wall:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = wall_images[index];
+                typeSprite.GetComponent<SpriteRenderer>().sprite = wall_images[0];
+                canPass = false;
+                break;
+
+            case TYPE.front_wall:
+                typeSprite.GetComponent<SpriteRenderer>().sprite = front_wall_images[index];
                 canPass = false;
                 break;
 
@@ -184,7 +196,7 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.safepoint:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = safepoint_images[index];
+                typeSprite.GetComponent<SpriteRenderer>().sprite = safepoint_image;
                 break;
 
             default:

@@ -12,11 +12,12 @@ public class LevelGenerator : MonoBehaviour
 
     private GameObject genericTile;
 
-    public int hallwayWidth = 2;
+    public int hallwayWidth = 5;
     private float hallwaysIterations;
-    public float hallwaysProbability = 0.1f;
+    public float hallwaysProbability = 0.3f;
+    public float safepointsProbability = 0.3f;
     public int minAreaRoom = 50;
-    public int numDoors = 3;
+    public int numDoors = 1;
 
     private int rows, columns;
 
@@ -28,18 +29,34 @@ public class LevelGenerator : MonoBehaviour
 
     private GameObject cube; //el que fa les ombres
 
-    public void Initiate(int rows, int columns)
+    public void Initiate(int columns, int rows)
     {
         this.rows = rows;
         this.columns = columns;
         rooms = new List<Room>();
-        board = new int[rows, columns];
-        board_rooms = new int[rows, columns];
+        board = new int[columns, rows];
+        board_rooms = new int[columns, rows];
         cube = (GameObject)Resources.Load("Prefabs/cube", typeof(GameObject));
 
         CreateHallways();
-        CreateWalls();
+        CreateExternalWalls();
         CreateRooms();
+        CreateSafePoints();
+    }
+
+    private void CreateSafePoints()
+    {
+        for (int x = 0; x < columns; x++)
+        {
+            if (Random.Range(0, 1f) < safepointsProbability && (board[x, 1] == 0 || board[x, 1] == 3)) board[x, 1] = 5;
+            if (Random.Range(0, 1f) < safepointsProbability && (board[x, columns - 2] == 0 || board[x, columns - 2] == 3)) board[x, columns - 2] = 5;
+        }
+
+        for (int y = 0; y < rows; y++)
+        {
+            if (Random.Range(0, 1f) < safepointsProbability && (board[1, y] == 0 || board[1, y] == 3)) board[1, y] = 5;
+            if (Random.Range(0, 1f) < safepointsProbability && (board[rows - 3, y] == 0 || board[rows - 3, y] == 3)) board[rows - 3, y] = 5;
+        }
     }
 
     private int setTileToWall(int[] around)
@@ -67,23 +84,24 @@ public class LevelGenerator : MonoBehaviour
     GameObject IntItemToTile(int item, String state, int[] pos, int[] around, int room_tileset)
     {
         GameObject aux = Instantiate(genericTile, new Vector3(pos[1], pos[0], -1), Quaternion.identity, GameObject.Find("Board").transform);
+        if (item == 1) Instantiate(cube, new Vector3(pos[1], pos[0], 0.5f), Quaternion.identity);
 
         switch (item)
         {
-            case 0:
+            case 0: //floor
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
-            case 1:
+            case 1: //wall
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0, room_tileset, pos);
                 aux.GetComponent<Tile>().ChangeTypeSpriteTo(setTileToWall(around));
                 break;
 
-            case 2:
+            case 2: //door
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0, room_tileset, pos);
                 break;
 
-            case 3:
+            case 3: //furniture
                 bool possible = Array.IndexOf(around, 2) == -1;
                 possible &= !(around[0] == 1 && around[2] == 1 || around[1] == 1 && around[3] == 1);
 
@@ -93,15 +111,17 @@ public class LevelGenerator : MonoBehaviour
                     aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
-            default:
-                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
+            case 4: //front_wall
+                aux.GetComponent<Tile>().SetUpTile(TYPE.front_wall, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
-                //aux.GetComponent<Tile>().SetUpTile(TYPE.breakable_wall, CONTAINED.none, 0);
-                //aux.GetComponent<Tile>().SetUpTile(TYPE.stair_up, CONTAINED.none, 0);
-                //aux.GetComponent<Tile>().SetUpTile(TYPE.stair_down, CONTAINED.none, 0);
-                //aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0);
-                //aux.GetComponent<Tile>().SetUpTile(TYPE.safepoint, CONTAINED.none, 0);
+            case 5: //safepoints
+                aux.GetComponent<Tile>().SetUpTile(TYPE.safepoint, CONTAINED.none, 0, room_tileset, pos);
+                break;
+
+            default: //floor
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
+                break;
         }
 
         return aux;
@@ -237,7 +257,7 @@ public class LevelGenerator : MonoBehaviour
                             y2 = row;
                         }
                     }
-                    
+
                     Room newRoom = new Room(x1, x2, y1, y2, minAreaRoom, numDoors);
                     rooms.Add(newRoom);
                     PaintRoom(newRoom, 5);
@@ -278,13 +298,6 @@ public class LevelGenerator : MonoBehaviour
 
 
     /****************************** WALLS ***********************************/
-    public void CreateWalls()
-    {
-        CreateExternalWalls();
-        CreateVerticalWalls();
-        CreateHorizontalWalls();
-    }
-
     private void CreateExternalWalls()
     {
         //Horizontal walls
@@ -292,8 +305,6 @@ public class LevelGenerator : MonoBehaviour
         {
             board[x, 0] = 1;
             board[x, rows - 1] = 1;
-            Instantiate(cube, new Vector3(0, x, 0.5f), Quaternion.identity);
-            Instantiate(cube, new Vector3(rows - 1, x, 0.5f), Quaternion.identity);
         }
 
         //Vertical walls
@@ -301,86 +312,43 @@ public class LevelGenerator : MonoBehaviour
         {
             board[0, y] = 1;
             board[columns - 1, y] = 1;
-            Instantiate(cube, new Vector3(y, 0, 0.5f), Quaternion.identity);
-            Instantiate(cube, new Vector3(y, columns - 1, 0.5f), Quaternion.identity);
-
-        }
-    }
-
-    private void CreateVerticalWalls()
-    {
-        for (int x = 1; x < columns - 1; x++)
-        {
-            for (int y = 0; y < rows; y++)
-            {
-                if (board[x, y] == 0 & board[x + 1, y] == -1)
-                {
-                    board[x, y] = 1;
-                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
-
-                }
-            }
-        }
-
-        for (int x = columns - 1; x > 0; x--)
-        {
-            for (int y = 0; y < rows; y++)
-            {
-                if (board[x, y] == 0 & board[x - 1, y] == -1)
-                {
-                    board[x, y] = 1;
-                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
-                }
-            }
-        }
-    }
-
-    private void CreateHorizontalWalls()
-    {
-        for (int y = 1; y < rows - 1; y++)
-        {
-            for (int x = 0; x < columns; x++)
-            {
-                if (board[x, y] == 0 & board[x, y + 1] == -1)
-                {
-                    board[x, y] = 1;
-                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
-                }
-            }
-        }
-
-        for (int y = rows - 1; y > 0; y--)
-        {
-            for (int x = 0; x < columns; x++)
-            {
-                if (board[x, y] == 0 & board[x, y - 1] == -1)
-                {
-                    board[x, y] = 1;
-                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
-
-                }
-            }
         }
     }
 
     private void PaintBoard()
     {
-        //Paint internal walls
+        //Floor 
         for (int x = 0; x < columns; x++)
         {
             for (int y = 0; y < rows; y++)
             {
-                if (board[x, y] == 5)
-                {
-                    board[x, y] = 1;
-                    Instantiate(cube, new Vector3(y, x, 0.5f), Quaternion.identity);
-
-                }
                 if (board[x, y] == 2) board[x, y] = 0;
             }
         }
 
-        //Paint doors
+        //walls
+        foreach (Room room in rooms)
+        {
+            for (int y = room.x1 - 1; y <= room.x2 + 1; y++)
+            {
+                board[y, room.y1 - 1] = 1;
+                board[y, room.y2 + 1] = 1;
+            }
+
+            for (int x = room.y1; x <= room.y2; x++)
+            {
+                board[room.x1 - 1, x] = 1;
+                board[room.x2 + 1, x] = 1;
+                board[room.x2, x] = 4;
+            }
+
+            for (int x = room.y1 - 1; x <= room.y2 + 1; x++)
+            {
+                if (room.x1 > 1 && board[room.x1 - 2, x] != 1) board[room.x1 - 2, x] = 4;
+            }
+        }
+
+        //Paint room objects
         foreach (Room room in rooms)
         {
             for (int r = 0; r < room.furniture.Count; r++)
@@ -389,19 +357,22 @@ public class LevelGenerator : MonoBehaviour
                 board_rooms[room.furniture[r].x, room.furniture[r].y] = room.numTile;
             }
 
-            for (int i = 0; i < room.numDoors; i++)
+            foreach (RoomObject door in room.doors)
             {
-                RoomObject door = room.AssignDoor();
-
-                while (door.x == 0 || door.x == columns - 1 || door.y == 0 || door.y == columns - 1)
+                if (door.y > 0 && door.y < columns - 1 && door.x > 0 && door.x < rows - 2)
                 {
-                    door = room.AssignDoor();
-                }
+                    board[door.x, door.y] = 2;
+                    Instantiate(cube, new Vector3(door.y, door.x, 0.5f), Quaternion.identity);
 
-                room.doors.Add(door);
-                board[door.x, door.y] = 2;
-                board_rooms[door.x, door.y] = room.numTile;
+                    board[door.x + 1, door.y] = 0;
+                    Instantiate(cube, new Vector3(door.y, door.x + 1, 0.5f), Quaternion.identity);
+                }
             }
+        }
+
+        for (int x = 0; x < columns; x++)
+        {
+            if (board[rows - 2, x] != 1) board[rows - 2, x] = 4;
         }
     }
     /***************************************************************************/
@@ -454,7 +425,8 @@ public class LevelGenerator : MonoBehaviour
                 break;
 
             case 'W':
-                int row = Random.Range(x1, y2 - hallwayWidth);
+                int row = Random.Range(y1, y2 - hallwayWidth);
+                Debug.Log(row);
                 for (int x = x1; x < x2; x++)
                 {
                     for (int w = 0; w < hallwayWidth; w++)

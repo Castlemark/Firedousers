@@ -9,6 +9,7 @@ namespace TileEnums {
 	{
 		floor,
 		wall,
+		front_wall,
 		breakable_wall,
 		stair_up,
 		stair_down,
@@ -22,8 +23,7 @@ namespace TileEnums {
 		furniture,
 		survivor,
 		none
-		
-	}
+    }
 
 	public static class EnumExtensions
 	{

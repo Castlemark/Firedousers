@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DoorBehaviour : MonoBehaviour, IBehaviour
 {
-
 	public Sprite[] sprites;
 	public Sprite locked;
 	public Sprite open;
@@ -61,7 +60,6 @@ public class DoorBehaviour : MonoBehaviour, IBehaviour
     public void SetSprite(int room_tileset = 0)
     {
         Sprite[] sprites = this.transform.parent.GetComponent<Tile>().getRoomImages(room_tileset, this.sprites);
-
         GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length - 1)];
     }
 }
