@@ -146,20 +146,20 @@ public class Player : MovingObject
                 if(horizontal == 1)
                 {
                     animatorWater.SetTrigger("right");
-                    animator.SetTrigger("idleRight");
+                    animator.SetTrigger("waterRight");
                 }else if(horizontal == -1)
                 {
                     animatorWater.SetTrigger("left");
-                    animator.SetTrigger("idleLeft");
+                    animator.SetTrigger("waterLeft");
 
                 }
                 else if(vertical == -1){
                     animatorWater.SetTrigger("bottom");
-                    animator.SetTrigger("idleFront");
+                    animator.SetTrigger("waterFront");
                 }
                 else
                 {
-                    animator.SetTrigger("idleBack");
+                    animator.SetTrigger("waterBack");
 
                 }
                 ShootWater(new Vector2(horizontal, vertical));
