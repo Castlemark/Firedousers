@@ -18,6 +18,11 @@ public class Fire : MonoBehaviour
 
     private Animator animator;
 
+    private void Awake()
+    {
+       animator = GetComponent<Animator>();
+
+    }
 
     public void ChangeState(int new_state)
     {
@@ -67,7 +72,6 @@ public class Fire : MonoBehaviour
 
     public void StartFire()
     {
-        animator = GetComponent<Animator>();
 
         if (state < 1)
         {
