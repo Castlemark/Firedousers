@@ -162,7 +162,7 @@ public class Player : MovingObject
                     animator.SetTrigger("waterBack");
 
                 }
-                ShootWater(new Vector2(horizontal, vertical));
+                ShootWater(horizontal, vertical);
                 GameManager.instance.playersTurn = false;
 
             }
@@ -349,7 +349,6 @@ public class Player : MovingObject
 
     }
 
-    //Al haver posat els colliders a Trigger aquesta funcio de la APi de Unity s'executa quan colisiona cotra food, soda o exit
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "StairsUp")
@@ -442,29 +441,12 @@ public class Player : MovingObject
         }
     }
 
-    void ShootWater(Vector2 direction)
+    void ShootWater(int horizontal, int vertical)
     {
         Debug.Log("Flush flush");
-        Vector2 start = new Vector2(transform.position.x + direction.x, transform.position.y + direction.y);
-        Vector2 end = new Vector2(start.x + (direction.x/100), start.y + (direction.x / 100));
-        RaycastHit2D hit = Physics2D.Linecast(start,end, fireLayer);
+        GameObject[,] grid = GameManager.instance.boardScript.grid;
 
-        if (hit.collider != null)
-        {
-            GameObject collider = hit.collider.gameObject;
-
-            if (collider.GetComponent<FireController>().state == 0)
-            {
-                collider.GetComponent<FireController>().ChangeState(7);
-            }
-            else if (collider.GetComponent<FireController>().state > 0 && collider.GetComponent<FireController>().state < 6)
-            {
-                collider.GetComponent<FireController>().ChangeState(0);
-                Debug.Log("apagant foc");
-            }
-        }
-        GameManager.instance.boardScript.updateFire();
-        UpdateBoard(visibilityTiles, this.gameObject);
+        grid[position.x + horizontal, position.y + vertical].GetComponent<Tile>().DrownTile();
 
     }
 
