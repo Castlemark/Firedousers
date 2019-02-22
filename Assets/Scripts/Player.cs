@@ -50,8 +50,6 @@ public class Player : MovingObject
 
     private Vector2Int position;
 
-    private List<GameObject> visibilityTiles;
-
     private bool pickingUpHose;
     private List<GameObject> hoseList;
     private List<int> hoseAnim;
@@ -84,8 +82,6 @@ public class Player : MovingObject
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (victims > 0) spriteRenderer.sprite = spriteWithVictim;
 
-        visibilityTiles = GetLosObjects();
-        UpdateBoard(visibilityTiles, this.gameObject);
     }
 
     // S'ecexuta quan es deshabilita el game object quan es canvia de nivell
@@ -116,9 +112,7 @@ public class Player : MovingObject
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
 
-        if (pickingUpHose) return;
-        visibilityTiles = GetLosObjects();
-        
+        if (pickingUpHose) return;        
 
         int horizontal = 0;
         int vertical = 0;
@@ -139,7 +133,7 @@ public class Player : MovingObject
             //Passem el paràmetre Wall ja que es contra el que pot interactuar el jugador  
             if (!Input.GetKey(KeyCode.Space))
             {
-                AttemptMove<Wall>(horizontal, vertical);
+                AttemptMove(horizontal, vertical);
             }
             else
             {
@@ -169,7 +163,7 @@ public class Player : MovingObject
         }
     }
 
-    protected override void AttemptMove<T>(int xDir, int yDir)
+    protected void AttemptMove(int xDir, int yDir)
     {
 
         if ((metersHose <= 0) && (xDir == 1 && path[path.Count - 1] != "l" || xDir == -1 && path[path.Count - 1] != "r" || yDir == 1 && path[path.Count - 1] != "d" || yDir == -1 && path[path.Count - 1] != "u")) return;
@@ -265,8 +259,6 @@ public class Player : MovingObject
                 Destroy(hitManguera.collider.gameObject);
                 RecullManguera(end, end);
             }
-
-            UpdateBoard(visibilityTiles, this.gameObject);
         }
 
         CheckIfGameOver();
@@ -349,48 +341,6 @@ public class Player : MovingObject
 
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "StairsUp")
-        {
-            Invoke("Restart", restartLevelDelay);
-            GameManager.instance.level++;
-            GameManager.instance.lastStairs = "up";
-            enabled = false;
-        }
-        else if (other.tag == "StairsDown")
-        {
-            Invoke("Restart", restartLevelDelay);
-            GameManager.instance.level--;
-            GameManager.instance.lastStairs = "down";
-            enabled = false;
-        }
-        else if (other.tag == "Victim" && victims < maxVictims)
-        {
-            carryVictim();
-            instantiateFloor(other.gameObject);
-        }
-        else if (other.tag == "SafePoint" && victims != 0)
-        {
-            saveVictim();
-        }
-        else if (other.tag == "Key")
-        {
-            hasKey = true;
-            instantiateFloor(other.gameObject);
-        }
-
-        if (other.tag == "Burned")
-        {
-            other.gameObject.GetComponent<FireController>().broken = true;
-        }
-    }
-
-    private void instantiateFloor(GameObject obj)
-    {
-        Destroy(obj);
-    }
-
     protected override void OnCantMove<T>(T component)
     {
         Wall hitWall = component as Wall;
@@ -425,22 +375,6 @@ public class Player : MovingObject
         }
     }
 
-    public void UpdateBoard(List<GameObject> losObjects, GameObject player)
-    {
-        foreach (GameObject losObject in losObjects)
-        {
-            UpdateFire(losObject);
-        }
-    }
-
-    private static void UpdateFire(GameObject losObject)
-    {
-        if (losObject.name.Contains("Floor"))
-        {
-            losObject.transform.GetChild(0).GetComponent<FireController>().EvolveState();
-        }
-    }
-
     void ShootWater(int horizontal, int vertical)
     {
         Debug.Log("Flush flush");
@@ -448,55 +382,6 @@ public class Player : MovingObject
 
         grid[position.x + horizontal, position.y + vertical].GetComponent<Tile>().DrownTile();
 
-    }
-
-    // All LOS objects should be children of Board GameObject
-    public List<GameObject> GetLosObjects()
-    {
-        Transform[] allChildren = GameObject.Find("Board").GetComponentsInChildren<Transform>();
-        List<GameObject> childObjects = new List<GameObject>();
-
-        bool first = true;
-
-        foreach (Transform child in allChildren)
-        {
-            if (first)
-            {
-                first = false;
-            }
-            else
-            {
-                if (child.gameObject.transform.parent.name == "Board")
-                {
-                    childObjects.Add(child.gameObject);
-                }
-            }
-        }
-
-        return childObjects;
-    }
-
-    public bool CheckPositions(List<GameObject> gameObjects)
-    {
-        
-        List<Vector3> positions = new List<Vector3>();
-        foreach(GameObject gameObject in gameObjects)
-        {
-            positions.Add(gameObject.transform.position);
-        }
-
-        if (positions.Count() != positions.Distinct().ToList().Count())
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
-    }
-
-    public void AddFood(int added_food)
-    {
-        metersHose += added_food;
     }
 
     public void IncreaseTemperature()
