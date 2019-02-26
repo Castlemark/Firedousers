@@ -68,7 +68,7 @@ public class Player : MovingObject
         animator = GetComponent<Animator>();
         animatorWater = water.GetComponent<Animator>();
 
-        metersHose = GameManager.instance.playerFoodPoints;
+        metersHose = GameManager.instance.playerHoseMeters;
         hoseText.text = metersHose.ToString();
         victims = GameManager.instance.playerVictims;
         victims_total = GameManager.instance.playerVictimsTotal;
@@ -87,7 +87,7 @@ public class Player : MovingObject
     // S'ecexuta quan es deshabilita el game object quan es canvia de nivell
     private void OnDisable()
     {
-        GameManager.instance.playerFoodPoints = metersHose;
+        GameManager.instance.playerHoseMeters = metersHose;
         GameManager.instance.playerHasKey = hasKey;
         GameManager.instance.playerVictims = victims;
         GameManager.instance.playerVictimsTotal = victims_total;
@@ -296,13 +296,7 @@ public class Player : MovingObject
             hoseAnim.Add(ChooseAnimation(dir, path[path.Count - 1]));
             RecullManguera(end, to);
             
-            /*Animator animatoraux = hitManguera.collider.gameObject.GetComponent<Animator>();
-            int anim = ChooseAnimation(dir, path[path.Count - 1]);
-            animatoraux.SetInteger("grab", anim);
-            yield return new WaitForSeconds(0.333f);
-            Destroy(hitManguera.collider.gameObject);
-            StartCoroutine(RecullManguera(end, to));
-            Destroy(hitManguera.collider.gameObject);*/
+           
 
         }
         else
@@ -341,28 +335,11 @@ public class Player : MovingObject
 
     }
 
-    protected override void OnCantMove<T>(T component)
-    {
-        Wall hitWall = component as Wall;
-        hitWall.DamageWall(wallDamage);
-        animator.SetTrigger("playerChop");
-    }
-
 
     private void Restart()
     {
         //Recarreguem l'escena
         SceneManager.LoadScene(0);
-    }
-
-    //s'executa quan un enemic et pega
-    public void LoseFood(int loss)
-    {
-        animator.SetTrigger("playerHit");
-        metersHose -= loss;
-        hoseText.text = "-" + loss + " Food: " + metersHose;
-
-        CheckIfGameOver();
     }
 
     private void CheckIfGameOver()
@@ -377,7 +354,6 @@ public class Player : MovingObject
 
     void ShootWater(int horizontal, int vertical)
     {
-        Debug.Log("Flush flush");
         GameObject[,] grid = GameManager.instance.boardScript.grid;
 
         grid[position.x + horizontal, position.y + vertical].GetComponent<Tile>().DrownTile();
