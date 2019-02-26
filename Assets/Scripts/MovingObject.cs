@@ -29,16 +29,10 @@ public abstract class MovingObject : MonoBehaviour
 
         boxCollider.enabled = false;
         RaycastHit2D brokenHit = Physics2D.Linecast(start, end, visibilityLayer);
-        RaycastHit2D fireHit = Physics2D.Linecast(start, end, fireLayer);
         hit = Physics2D.Linecast(start, end, blockingLayer);
         Debug.DrawLine(start, end, Color.white, 2.5f, false);
 
         boxCollider.enabled = true;
-
-        if (fireHit.transform != null && fireHit.collider.name.Contains("fire"))
-        {
-            fireHit.transform.gameObject.GetComponent<FireController>().SteppedOnFire();
-        }
 
         if (hit.transform == null && brokenHit.transform == null)
         {

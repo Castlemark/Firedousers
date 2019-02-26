@@ -36,7 +36,7 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
             default:
                 GetComponent<SpriteRenderer>().sprite = items[0];
                 this.state = 0;
-                Debug.Log("Invalid state (" + state + ") for Door, reset state to 0 : Locked");
+                Debug.Log("Invalid state (" + state + ")");
                 break;
         }
     }
