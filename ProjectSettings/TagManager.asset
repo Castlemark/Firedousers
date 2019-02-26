@@ -58,6 +58,9 @@ TagManager:
   - name: Floor
     uniqueID: 3131993583
     locked: 0
+  - name: Hose
+    uniqueID: 1623533531
+    locked: 0
   - name: Items
     uniqueID: 1861650685
     locked: 0

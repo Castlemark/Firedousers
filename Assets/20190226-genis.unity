@@ -198,7 +198,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1861650685
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -211,6 +211,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!84 &359670264
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SpriteLightKit RT
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_Width: 1920
+  m_Height: 1080
+  m_AntiAliasing: 1
+  m_DepthFormat: 0
+  m_ColorFormat: 7
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &567582713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,38 +1103,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118458482}
   m_CullTransparentMesh: 0
---- !u!84 &1154234384
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: SpriteLightKit RT
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_Width: 1920
-  m_Height: 1080
-  m_AntiAliasing: 1
-  m_DepthFormat: 0
-  m_ColorFormat: 7
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 0
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1259427372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 09755a4891f8d4526a7e0690a23dec7b, type: 3}
-  spriteLightRT: {fileID: 1154234384}
+  spriteLightRT: {fileID: 359670264}
   intensity: 1
 --- !u!1 &1551177440
 GameObject:
@@ -1371,7 +1371,7 @@ MonoBehaviour:
   drinkSound2: {fileID: 8300000, guid: bcb9dda73ee914d3e8f252895f73f461, type: 3}
   gameOverSound: {fileID: 8300000, guid: e2beefeb2273f4efe992adf5b8d67c29, type: 3}
   manguera_v: {fileID: 1298838742618850, guid: 8aa8e1b09ef56e745ba0676d2db1cfb4, type: 3}
-  manguera_h: {fileID: 1095599291022026, guid: e48766c70e9ae9c4483f267a5fa9397b, type: 3}
+  manguera_h: {fileID: 1095599291022026, guid: 769f82ec48425074188ed25bf255bdc4, type: 3}
   manguera_lb: {fileID: 1373211994760784, guid: 60417f58342211848b9fec39f2db5feb,
     type: 3}
   manguera_lt: {fileID: 1923570401270928, guid: 38db12cb1733d0c4081dd0383ae2cba3,
@@ -1379,6 +1379,8 @@ MonoBehaviour:
   manguera_rb: {fileID: 1250678781111110, guid: d68fbd5545ac1b84a9c216a8da7c676d,
     type: 3}
   manguera_rt: {fileID: 1031115762901916, guid: 0984fef7153e3dd45b63415ec7e8d36d,
+    type: 3}
+  manguera_empty: {fileID: 1095599291022026, guid: e48766c70e9ae9c4483f267a5fa9397b,
     type: 3}
   water: {fileID: 120040193}
   mangueraLayer:
@@ -1492,7 +1494,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1861650685
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2306,7 +2308,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 12288
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1154234384}
+  m_TargetTexture: {fileID: 359670264}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0

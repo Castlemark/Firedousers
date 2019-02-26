@@ -29,6 +29,7 @@ public class Player : MovingObject
     public GameObject manguera_lt;
     public GameObject manguera_rb;
     public GameObject manguera_rt;
+    public GameObject manguera_empty;
 
     public GameObject water;
 
@@ -187,6 +188,10 @@ public class Player : MovingObject
                 {
                     toInstantiate = manguera_rt;
                 }
+                else if (path[path.Count - 1] == "l")
+                {
+                    toInstantiate = manguera_empty;
+                }
                 path.Add("r"); //right
                 animator.SetTrigger("playerRight");
             }
@@ -199,6 +204,10 @@ public class Player : MovingObject
                 else if (path[path.Count - 1] == "d")
                 {
                     toInstantiate = manguera_lt;
+                }
+                else if (path[path.Count - 1] == "r")
+                {
+                    toInstantiate = manguera_empty;
                 }
                 path.Add("l"); //left
                 animator.SetTrigger("playerLeft");
@@ -219,7 +228,11 @@ public class Player : MovingObject
                     {
                         toInstantiate = manguera_v;
                     }
-                    path.Add("u"); //up
+                    else if (path[path.Count - 1] == "d")
+                    {
+                        toInstantiate = manguera_empty;
+                    }
+                        path.Add("u"); //up
                     animator.SetTrigger("playerBack");
                 }
                 else
@@ -236,6 +249,10 @@ public class Player : MovingObject
                     {
                         toInstantiate = manguera_v;
                     }
+                    else if (path[path.Count - 1] == "u")
+                    {
+                        toInstantiate = manguera_empty;
+                    }
                     path.Add("d"); //down
                     animator.SetTrigger("playerFront");
                 }
@@ -250,8 +267,10 @@ public class Player : MovingObject
             position.y += yDir;
 
             SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
-
+            
             Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
+
+            
             if (hitManguera.transform != null)
             {
                 pickingUpHose = true;
@@ -313,8 +332,12 @@ public class Player : MovingObject
         for(int i = 0; i < hoseList.Count; i++)
         {
             Animator animatoraux = hoseList[i].GetComponent<Animator>();
-            animatoraux.SetInteger("grab", hoseAnim[i]);
-            yield return new WaitForSeconds(0.333f);
+            if(animatoraux != null)
+            {
+                animatoraux.SetInteger("grab", hoseAnim[i]);
+                yield return new WaitForSeconds(0.333f);
+            }
+           
             Destroy(hoseList[i]);
         }
         hoseList.Clear();
@@ -330,6 +353,9 @@ public class Player : MovingObject
         if(dir1 == "r" && dir2 == "r" || dir1 == "u" && dir2 == "l" || dir1 == "d" && dir2 == "l" || dir1 == "u" && dir2 == "r" || dir1 == "l" && dir2 == "u" || dir1 == "u" && dir2 == "u")
         {
             anim = 1;
+        }else if(dir1 == "r" && dir2 == "l" || dir1 == "l" && dir2 == "r" || dir1 == "u" && dir2 == "d" || dir1 == "d" && dir2 == "u")
+        {
+            anim = 0;
         }
         return anim;
 
