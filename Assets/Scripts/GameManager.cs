@@ -108,9 +108,9 @@ public class GameManager : MonoBehaviour {
     IEnumerator MoveEnemies()
     {
         enemiesMoving = true;
-        yield return new WaitForSeconds(turnDelay);
+        yield return new WaitForSeconds(turnDelay*2);
         //al primer nivell no hi haurà enemics i per això hem de controlar el temps de torn especialment.
-        if(enemies.Count == 0)
+        /*if(enemies.Count == 0)
         {
             yield return new WaitForSeconds(turnDelay);
         }
@@ -119,7 +119,8 @@ public class GameManager : MonoBehaviour {
         {
             enemies[i].MoveEnemy();
             yield return new WaitForSeconds(enemies[i].moveTime);
-        }
+        }*/
+        boardScript.updateFire();
         playersTurn = true;
         enemiesMoving = false;
     }

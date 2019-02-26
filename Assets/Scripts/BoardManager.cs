@@ -116,7 +116,7 @@ public class BoardManager : MonoBehaviour
         ctile.ExecutePostBehaviour();
         gtile.ExecutePreBehaviour();
 
-        if (canMoveTo) updateFire();
+        //if (canMoveTo) updateFire();
         
         return canMoveTo;
     }
