@@ -18,6 +18,11 @@ public class Fire : MonoBehaviour
 
     private Animator animator;
 
+    private void Awake()
+    {
+       animator = GetComponent<Animator>();
+
+    }
 
     public void ChangeState(int new_state)
     {
@@ -28,6 +33,7 @@ public class Fire : MonoBehaviour
 
     private void IncreaseCount() { state_counter++; }
 
+    //if state between 1 and 4, will evolve
     public bool EvolveFire()
     {
         if (state != 0 && state < 5)
@@ -66,12 +72,14 @@ public class Fire : MonoBehaviour
 
     public void StartFire()
     {
-        animator = GetComponent<Animator>();
 
         if (state < 1)
         {
-            animator.SetInteger("state",1);
-            state = 1;
+            ChangeState(1);
+        }
+        else if (state == 7)
+        {
+            ChangeState(0);
         }
     }
 
@@ -84,6 +92,18 @@ public class Fire : MonoBehaviour
         if (state ==3 || state ==4)
         {
             GameObject.Find("Player").GetComponent<Player>().IncreaseTemperature();
+        }
+    }
+
+    public void DrownFire()
+    {
+        if (state == 0)
+        {
+            this.ChangeState(7);
+        }
+        else
+        {
+            this.ChangeState(0);
         }
     }
 }

@@ -244,4 +244,9 @@ public class Tile : MonoBehaviour
     {
         if (fireObject != null) fireScript.StartFire();
     }
+
+    public void DrownTile()
+    {
+        if (fireObject != null) fireScript.DrownFire();
+    }
 }
