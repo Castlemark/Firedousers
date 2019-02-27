@@ -36,7 +36,7 @@ public class BoardManager : MonoBehaviour
         public int columns;
         public Row[] rows;
     }
-    
+
     private int[] player_position;
     public Board heatmap;
     public int rows = 32;
@@ -78,22 +78,6 @@ public class BoardManager : MonoBehaviour
         int[] aux_pos_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().position;
         int tileset_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().tileset;
         grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, 3, aux_pos_3);
-
-        OrientGrid();
-    }
-
-    private void OrientGrid()
-    {
-        int length = grid.GetLength(0);
-        int width = grid.GetLength(1);
-
-        for (int i = 0; i < length; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-
-            }
-        }
     }
 
     public void updateFire()
@@ -117,7 +101,7 @@ public class BoardManager : MonoBehaviour
         gtile.ExecutePreBehaviour();
 
         if (canMoveTo) updateFire();
-        
+
         return canMoveTo;
     }
 }

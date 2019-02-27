@@ -62,8 +62,7 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.wall:
-                room_images = getRoomImages(room_tileset, wall_images);
-                typeSprite.GetComponent<SpriteRenderer>().sprite = room_images[Random.Range(0, room_images.Length - 1)];
+                typeSprite.GetComponent<SpriteRenderer>().sprite = wall_images[Random.Range(0, wall_images.Length - 1)];
                 canPass = false;
                 break;
 
@@ -74,25 +73,22 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.breakable_wall:
-                room_images = getRoomImages(room_tileset, breakable_wall_images);
+                //room_images = getRoomImages(room_tileset, breakable_wall_images);
                 canPass = false;
                 break;
 
             case TYPE.stair_up:
-                room_images = getRoomImages(room_tileset, stair_up_images);
+                //room_images = getRoomImages(room_tileset, stair_up_images);
                 break;
 
             case TYPE.stair_down:
-                room_images = getRoomImages(room_tileset, stair_down_images);
+                //room_images = getRoomImages(room_tileset, stair_down_images);
                 break;
-                
-            /*case TYPE.safepoint:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = safepoint_image;
-                break;*/
+
             default:
                 Debug.Log("Tile type " + typeSetUp + " entered default state (Floor)");
                 type = typeSetUp;
-                room_images = getRoomImages(room_tileset, floor_images);
+                //room_images = getRoomImages(room_tileset, floor_images);
                 break;
         }
 
@@ -136,6 +132,7 @@ public class Tile : MonoBehaviour
             }
         }
 
+        Array.Resize(ref room_images, room_images.Length - 1);
         return room_images;
     }
 
@@ -191,8 +188,8 @@ public class Tile : MonoBehaviour
         int y = this.position[0];
 
         if (y != 0 && grid[x, y - 1] != null) tiles[2] = grid[x, y - 1].GetComponent<Tile>();//S
-        if (y != 0 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
-        if (x != 0 && grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
+        if (y < grid.GetLength(1) - 1 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
+        if (x < grid.GetLength(0) - 1 && grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
         if (x != 0 && grid[x - 1, y] != null) tiles[3] = grid[x - 1, y].GetComponent<Tile>();//W
 
         return tiles;
@@ -209,7 +206,7 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.wall:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = wall_images[0];
+                typeSprite.GetComponent<SpriteRenderer>().sprite = wall_images[index];
                 canPass = false;
                 break;
 

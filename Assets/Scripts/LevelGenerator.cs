@@ -14,8 +14,11 @@ public class LevelGenerator : MonoBehaviour
 
     public int hallwayWidth = 5;
     private float hallwaysIterations;
+
     public float hallwaysProbability = 0.3f;
     public float safepointsProbability = 0.3f;
+    public float survivorsProbability = 0.05f;
+
     public int minAreaRoom = 50;
     public int numDoors = 1;
 
@@ -42,41 +45,85 @@ public class LevelGenerator : MonoBehaviour
         CreateExternalWalls();
         CreateRooms();
         CreateSafePoints();
+        CreateCivils();
+    }
+
+    private bool cellIsEmpty(int x, int y, float probability)
+    {
+        if (Random.Range(0, 1f) <= probability && board[x, y] == 0 && (board[x - 1, y] != 2 || board[x, y] == 3)) return true;
+        return false;
+    }
+
+    private void CreateCivils()
+    {
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                if (cellIsEmpty(x, y, survivorsProbability)) board[x, y] = 6;
+            }
+        }
     }
 
     private void CreateSafePoints()
     {
         for (int x = 0; x < columns; x++)
         {
-            if (Random.Range(0, 1f) < safepointsProbability && (board[x, 1] == 0 || board[x, 1] == 3)) board[x, 1] = 5;
-            if (Random.Range(0, 1f) < safepointsProbability && (board[x, columns - 2] == 0 || board[x, columns - 2] == 3)) board[x, columns - 2] = 5;
+            if (cellIsEmpty(x, 1, safepointsProbability)) board[x, 1] = 5;
+            if (cellIsEmpty(x, columns - 2, safepointsProbability)) board[x, columns - 2] = 5;
         }
 
         for (int y = 0; y < rows; y++)
         {
-            if (Random.Range(0, 1f) < safepointsProbability && (board[1, y] == 0 || board[1, y] == 3)) board[1, y] = 5;
-            if (Random.Range(0, 1f) < safepointsProbability && (board[rows - 3, y] == 0 || board[rows - 3, y] == 3)) board[rows - 3, y] = 5;
+            if (cellIsEmpty(1, y, safepointsProbability)) board[1, y] = 5;
+            if (cellIsEmpty(rows - 3, y, safepointsProbability)) board[rows - 3, y] = 5;
         }
     }
 
-    private int setTileToWall(int[] around)
+    private String GetSpriteSuffix(int[] around)
     {
         bool b = false, t = false, r = false, l = false; //Obstacles al voltant
 
-        if (around[0] == 2 && around[2] == 2) return 0;
-        if (around[1] == 2 && around[3] == 2) return 5;
+        if (around[0] == 1) t = true;
+        if (around[1] == 1) r = true;
+        if (around[2] == 1) b = true;
+        if (around[3] == 1) l = true;
 
-        if (around[0] == 1 || around[0] == 2) b = true;
-        if (around[1] == 1 || around[1] == 2) r = true;
-        if (around[2] == 1 || around[2] == 2) t = true;
-        if (around[3] == 1 || around[3] == 2) l = true;
+        if (b && around[0] == 2 || around[1] == 0 && around[3] == 0 && b && !t || around[1] == 0 && b && !t && !l) return "top";
+        if (l && around[1] == 0) return "right";
+        if (t && around[2] == 0) return "bottom";
+        if (r && around[3] == 0 && !b) return "left";
 
-        if (l && r) return 0;//0 -> horitzontal
-        if (b && t) return 5;//5 -> vertical
-        if (l && b) return 1;//1 -> cantonada top right
-        if (t && l) return 2;//2 -> cantonada bottom right
-        if (r && b) return 3;//3 -> cantonada top left
-        if (r && t) return 4;//4 -> cantonada bottom left
+        if (b && l && !t && !r || l && !t && !r && around[2] == 0 || b && !t && !r && around[3] == 0) return "tr";
+        if (b && r && !l && !t || b && !t && !l && around[1] == 0) return "tl";
+        if (t && l && !b && !r || l && !r && !b && around[0] == 2 || around[3] == 2 && t && !b && !r) return "br";
+        if (t && r && !b && !l || r && !l && !b && around[0] == 2 || around[0] == 2 && around[1] == 0 && !b && !l || around[1] == 0 && t && !b && !l) return "bl";
+
+        if (b && around[0] == 2) return "top";
+        if (l && around[1] == 0) return "right";
+        if (t && around[2] == 0) return "bottom";
+        if (r && around[3] == 0 && !b) return "left";
+
+        if (t && b && r) return "rc";
+        if (t && b && l) return "lc";
+        if (r && l && t) return "tc";
+        if (r && l && b) return "bc";
+
+        if (t && b) return "v";
+        if (r && l) return "h";
+
+        return "none";
+    }
+
+    private int SetTileToWall(int[] around, Sprite[] sprites)
+    {
+        int size = sprites.Length;
+        for (int i = 0; i < size; i++)
+        {
+            String prefix = sprites[i].name.Substring(0, 7);
+            String suffix = sprites[i].name.Replace(prefix, "");
+            if (suffix == GetSpriteSuffix(around)) return i;
+        }
 
         return 0;
     }
@@ -94,7 +141,9 @@ public class LevelGenerator : MonoBehaviour
 
             case 1: //wall
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0, room_tileset, pos);
-                aux.GetComponent<Tile>().ChangeTypeSpriteTo(setTileToWall(around));
+                Sprite[] sprites = aux.GetComponent<Tile>().getRoomImages(0, aux.GetComponent<Tile>().wall_images);
+                aux.GetComponent<Tile>().ChangeTypeSpriteTo(SetTileToWall(around, sprites));
+                Instantiate(cube, new Vector3(pos[1], pos[0], 0.5f), Quaternion.identity);
                 break;
 
             case 2: //door
@@ -119,6 +168,10 @@ public class LevelGenerator : MonoBehaviour
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, room_tileset, pos);
                 break;
 
+            case 6: //survivors
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, 0, room_tileset, pos);
+                break;
+
             default: //floor
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
                 break;
@@ -132,7 +185,7 @@ public class LevelGenerator : MonoBehaviour
         int[] player_pos;
         do
         {
-            player_pos = new int[] { Random.Range(1, rows), Random.Range(1, columns) };
+            player_pos = new int[] { Random.Range(1, columns), Random.Range(1, rows) };
         } while (board[player_pos[1], player_pos[0]] != 0);
 
         GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
@@ -152,6 +205,40 @@ public class LevelGenerator : MonoBehaviour
         return player_pos;
     }
 
+    private int[] getAroundObjects(GameObject[,] grid, int[] position)
+    {
+        int col = position[1];
+        int row = position[0];
+
+        int[] around = new int[8];
+
+        if (row == grid.GetLength(0) - 1) around[0] = -5;
+        else around[0] = board[row + 1, col];
+
+        if (col == grid.GetLength(1) - 1) around[1] = -5;
+        else around[1] = board[row, col + 1];
+
+        if (row == 0) around[2] = -5;
+        else around[2] = board[row - 1, col];
+
+        if (col == 0) around[3] = -5;
+        else around[3] = board[row, col - 1];
+
+        if (row == 0 || col == grid.GetLength(1) - 1) around[4] = -5;
+        else around[4] = board[row - 1, col + 1];
+
+        if (row == grid.GetLength(0) - 1 || col == grid.GetLength(1) - 1) around[5] = -5;
+        else around[5] = board[row + 1, col + 1];
+
+        if (row == grid.GetLength(0) - 1 || col == 0) around[6] = -5;
+        else around[6] = board[row + 1, col - 1];
+
+        if (row == 0 || col == 0) around[7] = -5;
+        else around[7] = board[row - 1, col - 1];
+
+        return around;
+    }
+
     public int[] BoardSetup(GameObject[,] grid, GameObject genericTile)
     {
         this.genericTile = genericTile;
@@ -161,36 +248,8 @@ public class LevelGenerator : MonoBehaviour
             for (int col = 0; col < grid.GetLength(1); col++)
             {
                 //String state = heatmap.rows[row].items[column];
-                int[] position = { row, col };
-                String state = "0";
-
-                int[] around = new int[8];
-
-                if (row == 0) around[0] = 0;
-                else around[0] = board[row - 1, col];
-
-                if (col == grid.GetLength(1) - 1) around[1] = 0;
-                else around[1] = board[row, col + 1];
-
-                if (row == grid.GetLength(0) - 1) around[2] = 0;
-                else around[2] = board[row + 1, col];
-
-                if (col == 0) around[3] = 0;
-                else around[3] = board[row, col - 1];
-
-                if (row == 0 || col == grid.GetLength(1) - 1) around[4] = 0;
-                else around[4] = board[row - 1, col + 1];
-
-                if (row == grid.GetLength(0) - 1 || col == grid.GetLength(1) - 1) around[5] = 0;
-                else around[5] = board[row + 1, col + 1];
-
-                if (row == grid.GetLength(0) - 1 || col == 0) around[6] = 0;
-                else around[6] = board[row + 1, col - 1];
-
-                if (row == 0 || col == 0) around[7] = 0;
-                else around[7] = board[row - 1, col - 1];
-
-                GameObject tile = IntItemToTile(board[row, col], state, position, around, board_rooms[row, col]);
+                int[] position = { col, row };
+                GameObject tile = IntItemToTile(board[col, row], "0", position, getAroundObjects(grid, position), board_rooms[col, row]);
                 grid[col, row] = tile;
             }
         }
@@ -351,21 +410,40 @@ public class LevelGenerator : MonoBehaviour
         //Paint room objects
         foreach (Room room in rooms)
         {
-            for (int r = 0; r < room.furniture.Count; r++)
-            {
-                board[room.furniture[r].x, room.furniture[r].y] = 3;
-                board_rooms[room.furniture[r].x, room.furniture[r].y] = room.numTile;
-            }
-
             foreach (RoomObject door in room.doors)
             {
                 if (door.y > 0 && door.y < columns - 1 && door.x > 0 && door.x < rows - 2)
                 {
-                    board[door.x, door.y] = 2;
-                    Instantiate(cube, new Vector3(door.y, door.x, 0.5f), Quaternion.identity);
+                    bool nextToDoor = false;
+                    if (door.y > 0) nextToDoor |= board[door.x, door.y - 1] == 2;
+                    if (door.y < columns) nextToDoor |= board[door.x, door.y + 1] == 2;
+                    if (door.x < rows) nextToDoor |= board[door.x + 2, door.y] == 2;
+                    if (door.x > 1) nextToDoor |= board[door.x - 2, door.y] == 2;
 
-                    board[door.x + 1, door.y] = 0;
-                    Instantiate(cube, new Vector3(door.y, door.x + 1, 0.5f), Quaternion.identity);
+                    if (!(nextToDoor || board[door.x, door.y] == 2))
+                    {
+                        if (board[door.x, door.y - 1] == 4 && board[door.x, door.y + 1] == 4)
+                        {
+                            board[door.x + 1, door.y] = 0;
+                            Instantiate(cube, new Vector3(door.y, door.x + 1, 0.5f), Quaternion.identity);
+                        }
+                        else
+                        {
+                            Instantiate(cube, new Vector3(door.y, door.x, 0.5f), Quaternion.identity);
+                            board[door.x + 1, door.y] = 1;
+                        }
+
+                        board[door.x, door.y] = 2;
+                    }
+                }
+            }
+
+            for (int r = 0; r < room.furniture.Count; r++)
+            {
+                if (room.furniture[r].x > 1 && board[room.furniture[r].x - 2, room.furniture[r].y] != 2)
+                {
+                    board[room.furniture[r].x, room.furniture[r].y] = 3;
+                    board_rooms[room.furniture[r].x, room.furniture[r].y] = room.numTile;
                 }
             }
         }
@@ -425,8 +503,7 @@ public class LevelGenerator : MonoBehaviour
                 break;
 
             case 'W':
-                int row = Random.Range(y1, y2 - hallwayWidth);
-                Debug.Log(row);
+                int row = Random.Range(y1, y2 - hallwayWidth - 1);
                 for (int x = x1; x < x2; x++)
                 {
                     for (int w = 0; w < hallwayWidth; w++)
@@ -461,7 +538,7 @@ public class LevelGenerator : MonoBehaviour
                 break;
 
             case 'E':
-                int r = Random.Range(y1, y2 - hallwayWidth);
+                int r = Random.Range(y1, y2 - hallwayWidth - 1);
                 for (int x = x2 - 1; x >= x1; x--)
                 {
                     for (int w = 0; w < hallwayWidth; w++)

@@ -34,6 +34,8 @@ namespace TileEnums {
 
 		public static bool IsWall(this TYPE type) { return type == TYPE.wall || type == TYPE.breakable_wall; }
 
+		public static bool IsFloor(this TYPE type) { return type == TYPE.floor; }
+
 		public static bool IsStair(this TYPE type) { return type == TYPE.stair_up || type == TYPE.stair_down; }
 		
         public static bool IsFlammable(this TYPE type) { return type == TYPE.floor; }

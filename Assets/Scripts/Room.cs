@@ -48,7 +48,7 @@ public class Room
 
     public void AssignFurniture()
     {
-        if (w > 2 && h > 2)
+        if (w > 2 && h > 3)
         {
             for (int x = x1; x < x2 - 1; x++)
             {
@@ -67,12 +67,12 @@ public class Room
     public void AssignDoors()
     {
         //Horizontal walls
-        doors.Add(new RoomObject(x2, Random.Range(y1, y2))); //top
-        doors.Add(new RoomObject(x1 - 2, Random.Range(y1, y2))); //down
+        doors.Add(new RoomObject(x2, Random.Range(y1 + 1, y2 - 1))); //top
+        doors.Add(new RoomObject(x1 - 2, Random.Range(y1 + 1, y2 - 1))); //down
 
         //Vertical walls
-        doors.Add(new RoomObject(Random.Range(x1, x2), y2 + 1)); //right
-        doors.Add(new RoomObject(Random.Range(x1, x2), y1 - 1)); //left
+        doors.Add(new RoomObject(Random.Range(x1, x2 - 2), y2 + 1)); //right
+        doors.Add(new RoomObject(Random.Range(x1, x2 - 2), y1 - 1)); //left
     }
 
     public bool isDivisible()
@@ -87,13 +87,13 @@ public class Room
 
         if (isDivisible())
         {
-            if (w > h)
+            if (w > h && w > 2)
             {
                 int col = Random.Range(x1 + 1, x2 - 1);
                 subrooms.Add(new Room(x1, col - 1, y1, y2, minArea, numDoors));
                 subrooms.Add(new Room(col + 1, x2, y1, y2, minArea, numDoors));
             }
-            else
+            else if (h > 2)
             {
                 int row = Random.Range(y1 + 1, y2 - 1);
                 subrooms.Add(new Room(x1, x2, y1, row - 1, minArea, numDoors));

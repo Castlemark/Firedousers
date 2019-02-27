@@ -2,34 +2,34 @@ fileFormatVersion: 2
 guid: 57d1b1d6be9b78a4fb219c54d97ebf33
 TextureImporter:
   fileIDToRecycleName:
-    21300000: room_2_0
-    21300002: room_2_1
-    21300004: room_2_2
-    21300006: room_2_3
+    21300000: room_2_left
+    21300002: room_2_top
+    21300004: room_2_center
+    21300006: room_2_none
     21300008: room_2_4
     21300010: room_2_5
     21300012: room_2_6
     21300014: room_2_7
-    21300016: room_2_8
-    21300018: room_2_9
-    21300020: room_2_10
-    21300022: room_2_11
+    21300016: room_2_bottom
+    21300018: room_2_right
+    21300020: room_2_v
+    21300022: room_2_h
     21300024: room_2_12
     21300026: room_2_13
     21300028: room_2_14
     21300030: room_2_15
-    21300032: room_2_16
-    21300034: room_2_17
-    21300036: room_2_18
-    21300038: room_2_19
+    21300032: room_2_rc
+    21300034: room_2_bc
+    21300036: room_2_tl
+    21300038: room_2_tr
     21300040: room_2_20
     21300042: room_2_21
     21300044: room_2_22
     21300046: room_2_23
-    21300048: room_2_24
-    21300050: room_2_25
-    21300052: room_2_26
-    21300054: room_2_27
+    21300048: room_2_tc
+    21300050: room_2_lc
+    21300052: room_2_bl
+    21300054: room_2_br
     21300056: room_2_28
     21300058: room_2_29
     21300060: room_2_30
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: room_2_0
+      name: room_2_left
       rect:
         serializedVersion: 2
         x: 0
@@ -146,7 +146,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_1
+      name: room_2_top
       rect:
         serializedVersion: 2
         x: 32
@@ -166,7 +166,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_2
+      name: room_2_center
       rect:
         serializedVersion: 2
         x: 64
@@ -186,7 +186,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_3
+      name: room_2_none
       rect:
         serializedVersion: 2
         x: 96
@@ -286,7 +286,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_8
+      name: room_2_bottom
       rect:
         serializedVersion: 2
         x: 0
@@ -306,7 +306,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_9
+      name: room_2_right
       rect:
         serializedVersion: 2
         x: 32
@@ -326,7 +326,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_10
+      name: room_2_v
       rect:
         serializedVersion: 2
         x: 64
@@ -346,7 +346,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_11
+      name: room_2_h
       rect:
         serializedVersion: 2
         x: 96
@@ -446,7 +446,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_16
+      name: room_2_rc
       rect:
         serializedVersion: 2
         x: 0
@@ -466,7 +466,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_17
+      name: room_2_bc
       rect:
         serializedVersion: 2
         x: 32
@@ -486,7 +486,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_18
+      name: room_2_tl
       rect:
         serializedVersion: 2
         x: 64
@@ -506,7 +506,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_19
+      name: room_2_tr
       rect:
         serializedVersion: 2
         x: 96
@@ -606,7 +606,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_24
+      name: room_2_tc
       rect:
         serializedVersion: 2
         x: 0
@@ -626,7 +626,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_25
+      name: room_2_lc
       rect:
         serializedVersion: 2
         x: 32
@@ -646,7 +646,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_26
+      name: room_2_bl
       rect:
         serializedVersion: 2
         x: 64
@@ -666,7 +666,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: room_2_27
+      name: room_2_br
       rect:
         serializedVersion: 2
         x: 96

@@ -46,8 +46,8 @@ MonoBehaviour:
   type: 1
   contained: 5
   position: 
+  tileset: 0
   containedObject: {fileID: 0}
-  safepoint_image: {fileID: 21300000, guid: fbc985a4e95517343a97ef494c8c3584, type: 3}
   floor_images:
   - {fileID: 21300172, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
   - {fileID: 21300174, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
@@ -58,12 +58,22 @@ MonoBehaviour:
   - {fileID: 21300080, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
   - {fileID: 21300082, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
   wall_images:
+  - {fileID: 21300126, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300144, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300108, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300146, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300096, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300114, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300142, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
   - {fileID: 21300092, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
-  - {fileID: 21300002, guid: 8216f5a82e271764ea6210c10569ed8b, type: 3}
-  - {fileID: 21300034, guid: 57d1b1d6be9b78a4fb219c54d97ebf33, type: 3}
-  - {fileID: 21300040, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
-  - {fileID: 21300042, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
-  - {fileID: 21300044, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
+  - {fileID: 21300098, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300124, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300110, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300140, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300128, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300094, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300130, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300112, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
   front_wall_images:
   - {fileID: 21300156, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
   - {fileID: 21300064, guid: 8216f5a82e271764ea6210c10569ed8b, type: 3}
