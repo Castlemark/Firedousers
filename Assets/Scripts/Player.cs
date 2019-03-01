@@ -50,16 +50,19 @@ public class Player : MovingObject
     private List<string> path = new List<string>();
 
     private Vector2Int position;
+    private Vector2Int endHose; 
 
     private bool pickingUpHose;
     private List<GameObject> hoseList;
     private List<int> hoseAnim;
+    private bool holdingHose; // false quan has deixat anar la manguera
 
 
 
     // Use this for initialization
     protected override void Start()
     {
+        holdingHose = true;
         pickingUpHose = false;
         hoseList = new List<GameObject>();
         hoseAnim = new List<int>();
@@ -162,6 +165,16 @@ public class Player : MovingObject
 
             }
         }
+        else if (Input.GetKey(KeyCode.J))
+        {
+            if (holdingHose)
+            {
+                endHose.x = position.x;
+                endHose.y = position.y;
+                holdingHose = false;
+            }
+            
+        }
     }
 
     protected void AttemptMove(int xDir, int yDir)
@@ -174,109 +187,143 @@ public class Player : MovingObject
             Vector2 start = transform.position;
             Vector2 end = start + new Vector2(xDir, yDir);
             StartCoroutine(SmoothMovement(end));
-            metersHose--;
-            hoseText.text = metersHose.ToString();
-            GameObject toInstantiate = manguera_h;
-            if (xDir == 1)
+            if (holdingHose)
             {
+                metersHose--;
+                hoseText.text = metersHose.ToString();
+                GameObject toInstantiate = manguera_h;
+                if (xDir == 1)
+                {
 
-                if (path[path.Count - 1] == "u")
-                {
-                    toInstantiate = manguera_rb;
-                }
-                else if (path[path.Count - 1] == "d")
-                {
-                    toInstantiate = manguera_rt;
-                }
-                else if (path[path.Count - 1] == "l")
-                {
-                    toInstantiate = manguera_empty;
-                }
-                path.Add("r"); //right
-                animator.SetTrigger("playerRight");
-            }
-            else if (xDir == -1)
-            {
-                if (path[path.Count - 1] == "u")
-                {
-                    toInstantiate = manguera_lb;
-                }
-                else if (path[path.Count - 1] == "d")
-                {
-                    toInstantiate = manguera_lt;
-                }
-                else if (path[path.Count - 1] == "r")
-                {
-                    toInstantiate = manguera_empty;
-                }
-                path.Add("l"); //left
-                animator.SetTrigger("playerLeft");
-            }
-            else
-            {
-                if (yDir == 1)
-                {
-                    if (path[path.Count - 1] == "l")
-                    {
-                        toInstantiate = manguera_rt;
-                    }
-                    else if (path[path.Count - 1] == "r")
-                    {
-                        toInstantiate = manguera_lt;
-                    }
-                    else if (path[path.Count - 1] == "u")
-                    {
-                        toInstantiate = manguera_v;
-                    }
-                    else if (path[path.Count - 1] == "d")
-                    {
-                        toInstantiate = manguera_empty;
-                    }
-                        path.Add("u"); //up
-                    animator.SetTrigger("playerBack");
-                }
-                else
-                {
-                    if (path[path.Count - 1] == "l")
+                    if (path[path.Count - 1] == "u")
                     {
                         toInstantiate = manguera_rb;
                     }
-                    else if (path[path.Count - 1] == "r")
+                    else if (path[path.Count - 1] == "d")
+                    {
+                        toInstantiate = manguera_rt;
+                    }
+                    else if (path[path.Count - 1] == "l")
+                    {
+                        toInstantiate = manguera_empty;
+                    }
+                    path.Add("r"); //right
+                    animator.SetTrigger("playerRight");
+                }
+                else if (xDir == -1)
+                {
+                    if (path[path.Count - 1] == "u")
                     {
                         toInstantiate = manguera_lb;
                     }
                     else if (path[path.Count - 1] == "d")
                     {
-                        toInstantiate = manguera_v;
+                        toInstantiate = manguera_lt;
                     }
-                    else if (path[path.Count - 1] == "u")
+                    else if (path[path.Count - 1] == "r")
                     {
                         toInstantiate = manguera_empty;
                     }
-                    path.Add("d"); //down
-                    animator.SetTrigger("playerFront");
+                    path.Add("l"); //left
+                    animator.SetTrigger("playerLeft");
+                }
+                else
+                {
+                    if (yDir == 1)
+                    {
+                        if (path[path.Count - 1] == "l")
+                        {
+                            toInstantiate = manguera_rt;
+                        }
+                        else if (path[path.Count - 1] == "r")
+                        {
+                            toInstantiate = manguera_lt;
+                        }
+                        else if (path[path.Count - 1] == "u")
+                        {
+                            toInstantiate = manguera_v;
+                        }
+                        else if (path[path.Count - 1] == "d")
+                        {
+                            toInstantiate = manguera_empty;
+                        }
+                        path.Add("u"); //up
+                        animator.SetTrigger("playerBack");
+                    }
+                    else
+                    {
+                        if (path[path.Count - 1] == "l")
+                        {
+                            toInstantiate = manguera_rb;
+                        }
+                        else if (path[path.Count - 1] == "r")
+                        {
+                            toInstantiate = manguera_lb;
+                        }
+                        else if (path[path.Count - 1] == "d")
+                        {
+                            toInstantiate = manguera_v;
+                        }
+                        else if (path[path.Count - 1] == "u")
+                        {
+                            toInstantiate = manguera_empty;
+                        }
+                        path.Add("d"); //down
+                        animator.SetTrigger("playerFront");
+                    }
+                }
+
+                //Vector2 start = transform.position;
+                //Vector2 end = start + new Vector2(xDir, yDir);
+                RaycastHit2D hitManguera = Physics2D.Linecast(start, end, mangueraLayer);
+                //Debug.DrawLine(start, end, Color.white, 2.5f, false);
+
+                position.x += xDir;
+                position.y += yDir;
+
+                
+
+
+                SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+
+                Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
+
+
+                if (hitManguera.transform != null)
+                {
+                    pickingUpHose = true;
+                    hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
+                    Destroy(hitManguera.collider.gameObject);
+                    RecullManguera(end, end);
                 }
             }
-
-            //Vector2 start = transform.position;
-            //Vector2 end = start + new Vector2(xDir, yDir);
-            RaycastHit2D hitManguera = Physics2D.Linecast(start, end, mangueraLayer);
-            //Debug.DrawLine(start, end, Color.white, 2.5f, false);
-
-            position.x += xDir;
-            position.y += yDir;
-
-            SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
-            
-            Instantiate(toInstantiate, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.SetParent(GameObject.Find("Board").transform);
-
-            
-            if (hitManguera.transform != null)
+            else
             {
-                pickingUpHose = true;
-                hitManguera.transform.localScale += new Vector3(1.0F, 0, 0);
-                Destroy(hitManguera.collider.gameObject);
-                RecullManguera(end, end);
+                if (xDir == 1)
+                {
+
+                    animator.SetTrigger("playerRight");
+                }
+                else if (xDir == -1)
+                {
+                   
+                    animator.SetTrigger("playerLeft");
+                }
+                else
+                {
+                    if (yDir == 1)
+                    {
+                      
+                        animator.SetTrigger("playerBack");
+                    }
+                    else
+                    {
+                        animator.SetTrigger("playerFront");
+                    }
+                }
+                position.x += xDir;
+                position.y += yDir;
+                if (endHose == position) holdingHose = true;
             }
         }
 
@@ -370,7 +417,7 @@ public class Player : MovingObject
 
     private void CheckIfGameOver()
     {
-        if (metersHose <= 0  || temperature >= 100)
+        if (temperature >= 100)
         {
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.muscicSource.Stop();
