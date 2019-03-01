@@ -382,7 +382,7 @@ public class Player : MovingObject
             if(animatoraux != null)
             {
                 animatoraux.SetInteger("grab", hoseAnim[i]);
-                yield return new WaitForSeconds(0.333f);
+                yield return new WaitForSeconds(0.1f);
             }
            
             Destroy(hoseList[i]);
@@ -402,7 +402,7 @@ public class Player : MovingObject
             anim = 1;
         }else if(dir1 == "r" && dir2 == "l" || dir1 == "l" && dir2 == "r" || dir1 == "u" && dir2 == "d" || dir1 == "d" && dir2 == "u")
         {
-            anim = 0;
+            anim = 3;
         }
         return anim;
 

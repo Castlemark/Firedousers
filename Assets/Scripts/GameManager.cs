@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public float levelStartDelay = 2f;  //segons que dura la transició entre un nivell i el seguent
 
-    public float turnDelay = 0.1f;                          //Delay entre cada torn del jugador
+    public float turnDelay = 50f;                          //Delay entre cada torn del jugador
 
     private Text levelText;
     private GameObject levelImage;
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour {
     IEnumerator MoveEnemies()
     {
         enemiesMoving = true;
-        yield return new WaitForSeconds(turnDelay*2);
+        yield return new WaitForSeconds(turnDelay*1.3f);
         boardScript.updateFire();
         playersTurn = true;
         enemiesMoving = false;
