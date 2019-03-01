@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour
 
     private Fire fireScript;
 
-    private bool canPass;
+    public bool canPass;
     private bool isConsumed = false;
     private bool isCollapsed = false;
     private GameObject typeObject;

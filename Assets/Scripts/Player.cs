@@ -48,7 +48,7 @@ public class Player : MovingObject
     private bool hasKey;
     private List<string> path = new List<string>();
 
-    private Vector2Int position;
+    public Vector2Int position;
 
     private bool pickingUpHose;
     private List<GameObject> hoseList;

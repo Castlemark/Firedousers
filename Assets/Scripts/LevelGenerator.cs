@@ -130,9 +130,10 @@ public class LevelGenerator : MonoBehaviour
 
     GameObject IntItemToTile(int item, String state, int[] pos, int[] around, int room_tileset)
     {
-        GameObject aux = Instantiate(genericTile, new Vector3(pos[1], pos[0], -1), Quaternion.identity, GameObject.Find("Board").transform);
-        if (item == 1) Instantiate(cube, new Vector3(pos[1], pos[0], 0.5f), Quaternion.identity);
+        GameObject aux = Instantiate(genericTile, new Vector3(pos[0], pos[1], -1), Quaternion.identity, GameObject.Find("Board").transform);
+        if (item == 1) Instantiate(cube, new Vector3(pos[0], pos[1], 0.5f), Quaternion.identity);
 
+        
         switch (item)
         {
             case 0: //floor
@@ -143,7 +144,7 @@ public class LevelGenerator : MonoBehaviour
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0, room_tileset, pos);
                 Sprite[] sprites = aux.GetComponent<Tile>().getRoomImages(0, aux.GetComponent<Tile>().wall_images);
                 aux.GetComponent<Tile>().ChangeTypeSpriteTo(SetTileToWall(around, sprites));
-                Instantiate(cube, new Vector3(pos[1], pos[0], 0.5f), Quaternion.identity);
+                Instantiate(cube, new Vector3(pos[0], pos[1], 0.5f), Quaternion.identity);
                 break;
 
             case 2: //door
@@ -247,7 +248,6 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int col = 0; col < grid.GetLength(1); col++)
             {
-                //String state = heatmap.rows[row].items[column];
                 int[] position = { col, row };
                 GameObject tile = IntItemToTile(board[col, row], "0", position, getAroundObjects(grid, position), board_rooms[col, row]);
                 grid[col, row] = tile;
