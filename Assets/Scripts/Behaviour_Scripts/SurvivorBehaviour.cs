@@ -10,7 +10,10 @@ public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 	/*
 	 * Doesn't have states
 	 */
-	public void Initialize(int state) {}
+	public void Initialize(int state) {
+        Animator anim = GetComponent<Animator>();
+        anim.SetInteger("selector", Random.Range(0, 4));
+    }
 
 	public void ExecuteBehaviour()
 	{
