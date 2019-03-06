@@ -1279,7 +1279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 09755a4891f8d4526a7e0690a23dec7b, type: 3}
-  spriteLightRT: {fileID: 2014080722}
+  spriteLightRT: {fileID: 1797678675}
   intensity: 1
 --- !u!1 &1551177440
 GameObject:
@@ -1353,6 +1353,7 @@ MonoBehaviour:
   manguera_end: {fileID: 1095599291022026, guid: 3015747b8625b4944abca2137d647686,
     type: 3}
   water: {fileID: 120040193}
+  hoseItem: {fileID: 213949783770779359}
   mangueraLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -1499,7 +1500,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &2014080722
+--- !u!84 &1797678675
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1531,6 +1532,12 @@ RenderTexture:
     m_WrapW: 1
   m_Dimension: 2
   m_VolumeDepth: 1
+--- !u!1 &213949783770779359 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 213949783770779359, guid: bbddc982e1a14d14bbf0127d54e2571d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2400379479817664185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2400379479817664185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1597,6 +1604,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040244161946623852, guid: bbddc982e1a14d14bbf0127d54e2571d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2038009251
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040244161946623852, guid: bbddc982e1a14d14bbf0127d54e2571d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbddc982e1a14d14bbf0127d54e2571d, type: 3}
@@ -2386,7 +2403,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 12288
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 2014080722}
+  m_TargetTexture: {fileID: 1797678675}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
