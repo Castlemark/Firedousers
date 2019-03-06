@@ -18,6 +18,7 @@ public class LevelGenerator : MonoBehaviour
     public float hallwaysProbability = 0.5f;
     public float safepointsProbability = 0.3f;
     public float survivorsProbability = 0.05f;
+    public float fireProbability = 0.01f;
 
     public int minAreaRoom = 50;
     public int numDoors = 1;
@@ -46,6 +47,8 @@ public class LevelGenerator : MonoBehaviour
         CreateRooms();
         CreateSafePoints();
         CreateCivils();
+        CreateFire();
+        CreateStairs();
     }
 
     private bool cellIsEmpty(int x, int y, float probability)
@@ -60,7 +63,30 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < rows; y++)
             {
-                if (cellIsEmpty(x, y, survivorsProbability)) board[x, y] = 6;
+                if (cellIsEmpty(x, y, survivorsProbability) && board[x, y - 1] != 2 && board[x, y - 1] != 3) board[x, y] = 6;
+            }
+        }
+    }
+
+    private void CreateFire()
+    {
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                if (cellIsEmpty(x, y, fireProbability) && board[x, y - 1] != 2 && board[x, y - 1] != 3 && board_rooms[x, y] != 0) board[x, y] = 7;
+            }
+        }
+    }
+
+    private void CreateStairs()
+    {
+        for (int x = 0; x < columns; x++)
+        {
+            if (board[x, 1] != 1)
+            {
+                board[x, 1] = 8;
+                break;
             }
         }
     }
@@ -150,6 +176,7 @@ public class LevelGenerator : MonoBehaviour
             case 2: //door
                 possible &= !(around[1] == 2 || around[3] == 2);
                 if (possible) aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0, room_tileset, pos);
+                if (pos[1] > 1 && board[pos[0], pos[1] - 2] == 1 && around[2] == 1) Instantiate(cube, new Vector3(pos[0], pos[1], 0.5f), Quaternion.identity);
                 break;
 
             case 3: //furniture
@@ -171,6 +198,15 @@ public class LevelGenerator : MonoBehaviour
 
             case 6: //survivors
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, 0, room_tileset, pos);
+                break;
+
+            case 7: //fire
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
+                aux.GetComponent<Tile>().StartFire();
+                break;
+
+            case 8: //stairs up
+                aux.GetComponent<Tile>().SetUpTile(TYPE.stair_up, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
             default: //floor

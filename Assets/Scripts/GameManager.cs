@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public float levelStartDelay = 2f;  //segons que dura la transició entre un nivell i el seguent
 
-    public float turnDelay = 0.1f;                          //Delay entre cada torn del jugador
+    public float turnDelay = 50f;                          //Delay entre cada torn del jugador
 
     private Text levelText;
     private GameObject levelImage;
@@ -16,12 +16,11 @@ public class GameManager : MonoBehaviour {
     public BoardManager boardScript;
     public int level = 1;
     private bool doingSetup;    //prevent a l'usuari de moure's quan estem establint el tauler
-    private List<Enemy> enemies;        //llista d'enemics a l'escena 
     private bool enemiesMoving;
     private bool firstRun = true;
     public string lastStairs = "up";
 
-    public int playerFoodPoints = 100;
+    public int playerHoseMeters = 100;
     public int peopleSaved = 0;
     public int playerVictims;
     public int playerVictimsTotal;
@@ -35,7 +34,6 @@ public class GameManager : MonoBehaviour {
         else if (instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
-        enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
         InitGame();
 	}
@@ -71,7 +69,6 @@ public class GameManager : MonoBehaviour {
         levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
-        enemies.Clear();
         boardScript.SetupScene(level);
     }
 
@@ -99,27 +96,12 @@ public class GameManager : MonoBehaviour {
             StartCoroutine(MoveEnemies());
         }
 	}
-
-    public void AddEnemyToList(Enemy script)
-    {
-        enemies.Add(script);
-    }
-
+    
     IEnumerator MoveEnemies()
     {
         enemiesMoving = true;
-        yield return new WaitForSeconds(turnDelay);
-        //al primer nivell no hi haurà enemics i per això hem de controlar el temps de torn especialment.
-        if(enemies.Count == 0)
-        {
-            yield return new WaitForSeconds(turnDelay);
-        }
-
-        for(int i = 0; i < enemies.Count; i++)
-        {
-            enemies[i].MoveEnemy();
-            yield return new WaitForSeconds(enemies[i].moveTime);
-        }
+        yield return new WaitForSeconds(turnDelay*1.3f);
+        boardScript.updateFire();
         playersTurn = true;
         enemiesMoving = false;
     }

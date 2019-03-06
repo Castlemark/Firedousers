@@ -65,19 +65,6 @@ public class BoardManager : MonoBehaviour
                 gridPositions.Add(new Vector3(x, y, 0f));
             }
         }
-
-        int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
-        int tileset = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().tileset;
-        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, tileset, aux_pos);
-        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().StartFire();
-
-        int[] aux_pos_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().position;
-        int tileset_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().tileset;
-        grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, 0, tileset_2, aux_pos_2);
-
-        int[] aux_pos_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().position;
-        int tileset_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().tileset;
-        grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, 3, aux_pos_3);
     }
 
     public void updateFire()
@@ -100,8 +87,7 @@ public class BoardManager : MonoBehaviour
         ctile.ExecutePostBehaviour();
         gtile.ExecutePreBehaviour();
 
-        if (canMoveTo) updateFire();
-
+        //if (canMoveTo) updateFire();
         return canMoveTo;
     }
 }
