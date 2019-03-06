@@ -50,29 +50,35 @@ public class Room
     {
         if (w > 2 && h > 3)
         {
-            for (int x = x1; x < x2 - 1; x++)
+            for (int x = x1; x <= x2; x++)
             {
-                if (Random.Range(0f, 1f) > furnitureProbability) furniture.Add(new RoomObject(x, y1));
-                if (Random.Range(0f, 1f) > furnitureProbability) furniture.Add(new RoomObject(x, y2));
+                if (Random.Range(0f, 1f) < furnitureProbability) furniture.Add(new RoomObject(x, y1));
+                if (Random.Range(0f, 1f) < furnitureProbability) furniture.Add(new RoomObject(x, y2 - 1));
             }
 
             for (int y = y1; y < y2; y++)
             {
-                if (Random.Range(0f, 1f) > furnitureProbability) furniture.Add(new RoomObject(x2 - 1, y));
-                if (Random.Range(0f, 1f) > furnitureProbability) furniture.Add(new RoomObject(x1, y));
+                if (Random.Range(0f, 1f) < furnitureProbability) furniture.Add(new RoomObject(x2, y));
+                if (Random.Range(0f, 1f) < furnitureProbability) furniture.Add(new RoomObject(x1, y));
             }
         }
     }
 
     public void AssignDoors()
     {
-        //Horizontal walls
-        doors.Add(new RoomObject(x2, Random.Range(y1 + 1, y2 - 1))); //top
-        doors.Add(new RoomObject(x1 - 2, Random.Range(y1 + 1, y2 - 1))); //down
+        //In vertical walls
+        if (h > 2)
+        {
+            doors.Add(new RoomObject(x2 + 1, Random.Range(y1 + 1, y2 - 3))); //right
+            doors.Add(new RoomObject(x1 - 1, Random.Range(y1 + 1, y2 - 3))); //left
+        }
 
-        //Vertical walls
-        doors.Add(new RoomObject(Random.Range(x1, x2 - 2), y2 + 1)); //right
-        doors.Add(new RoomObject(Random.Range(x1, x2 - 2), y1 - 1)); //left
+        //In horizontal walls
+        if (w > 2)
+        {
+            doors.Add(new RoomObject(Random.Range(x1 + 1, x2 - 1), y1 - 2)); //bottom
+            doors.Add(new RoomObject(Random.Range(x1 + 1, x2 - 1), y2)); //top
+        }
     }
 
     public bool isDivisible()

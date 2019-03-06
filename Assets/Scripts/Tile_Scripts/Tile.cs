@@ -184,11 +184,11 @@ public class Tile : MonoBehaviour
         GameObject[,] grid = GameManager.instance.boardScript.grid;
         Tile[] tiles = new Tile[4];
 
-        int x = this.position[1];
-        int y = this.position[0];
+        int x = this.position[0];
+        int y = this.position[1];
 
+        if (y < grid.GetLength(1) - 1 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>(); //N
         if (y != 0 && grid[x, y - 1] != null) tiles[2] = grid[x, y - 1].GetComponent<Tile>();//S
-        if (y < grid.GetLength(1) - 1 && grid[x, y + 1] != null) tiles[0] = grid[x, y + 1].GetComponent<Tile>();//N
         if (x < grid.GetLength(0) - 1 && grid[x + 1, y] != null) tiles[1] = grid[x + 1, y].GetComponent<Tile>();//E
         if (x != 0 && grid[x - 1, y] != null) tiles[3] = grid[x - 1, y].GetComponent<Tile>();//W
 
