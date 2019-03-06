@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class MovingObject : MonoBehaviour
 {
 
-    public float moveTime = .1f;
+    public float moveTime = 50f;
     public LayerMask blockingLayer;
     public LayerMask visibilityLayer;
     public LayerMask fireLayer;

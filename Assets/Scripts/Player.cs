@@ -30,6 +30,7 @@ public class Player : MovingObject
     public GameObject manguera_rb;
     public GameObject manguera_rt;
     public GameObject manguera_empty;
+    public GameObject manguera_end;
 
     public GameObject water;
 
@@ -56,6 +57,7 @@ public class Player : MovingObject
     private List<GameObject> hoseList;
     private List<int> hoseAnim;
     private bool holdingHose; // false quan has deixat anar la manguera
+    private GameObject manguera_end_reference;
 
 
 
@@ -172,6 +174,24 @@ public class Player : MovingObject
                 endHose.x = position.x;
                 endHose.y = position.y;
                 holdingHose = false;
+                manguera_end_reference = (GameObject) Instantiate(manguera_end, new Vector2(transform.position.x, transform.position.y), Quaternion.identity); //.transform.SetParent(GameObject.Find("Board").transform);
+                Animator anim = manguera_end_reference.GetComponent<Animator>();
+
+                int direction = 1;
+                if (path[path.Count - 1] == "u")
+                {
+                    direction = 4;
+                }
+                else if (path[path.Count - 1] == "d")
+                {
+                    direction = 3;
+                }
+                else if (path[path.Count - 1] == "l")
+                {
+                    direction = 2;
+                }
+                anim.SetInteger("direction", direction);
+
             }
             
         }
@@ -323,7 +343,11 @@ public class Player : MovingObject
                 }
                 position.x += xDir;
                 position.y += yDir;
-                if (endHose == position) holdingHose = true;
+                if (endHose == position)
+                {
+                    holdingHose = true;
+                    Destroy(manguera_end_reference);
+                }
             }
         }
 
@@ -382,7 +406,7 @@ public class Player : MovingObject
             if(animatoraux != null)
             {
                 animatoraux.SetInteger("grab", hoseAnim[i]);
-                yield return new WaitForSeconds(0.333f);
+                yield return new WaitForSeconds(0.1f);
             }
            
             Destroy(hoseList[i]);
@@ -402,7 +426,7 @@ public class Player : MovingObject
             anim = 1;
         }else if(dir1 == "r" && dir2 == "l" || dir1 == "l" && dir2 == "r" || dir1 == "u" && dir2 == "d" || dir1 == "d" && dir2 == "u")
         {
-            anim = 0;
+            anim = 3;
         }
         return anim;
 
