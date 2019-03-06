@@ -34,6 +34,8 @@ public class Player : MovingObject
 
     public GameObject water;
 
+    public GameObject hoseItem;
+
     public LayerMask mangueraLayer;
 
     private SpriteRenderer spriteRenderer;
@@ -46,6 +48,8 @@ public class Player : MovingObject
 
     private Animator animator;
     private Animator animatorWater;
+    private Animator animatorHoseItem;
+
     private int metersHose;
     private bool hasKey;
     private List<string> path = new List<string>();
@@ -73,6 +77,8 @@ public class Player : MovingObject
         temperatureText.text = temperature.ToString();
         animator = GetComponent<Animator>();
         animatorWater = water.GetComponent<Animator>();
+        animatorHoseItem = hoseItem.GetComponent<Animator>();
+
 
         metersHose = GameManager.instance.playerHoseMeters;
         hoseText.text = metersHose.ToString();
@@ -147,19 +153,28 @@ public class Player : MovingObject
                 {
                     animatorWater.SetTrigger("right");
                     animator.SetTrigger("waterRight");
-                }else if(horizontal == -1)
+                    animatorHoseItem.SetTrigger("waterRight");
+
+                }
+                else if(horizontal == -1)
                 {
                     animatorWater.SetTrigger("left");
                     animator.SetTrigger("waterLeft");
+                    animatorHoseItem.SetTrigger("waterLeft");
+
 
                 }
                 else if(vertical == -1){
                     animatorWater.SetTrigger("bottom");
                     animator.SetTrigger("waterFront");
+                    animatorHoseItem.SetTrigger("waterFront");
+
                 }
                 else
                 {
                     animator.SetTrigger("waterBack");
+                    animatorHoseItem.SetTrigger("waterFront");
+
 
                 }
                 ShootWater(horizontal, vertical);
@@ -191,6 +206,8 @@ public class Player : MovingObject
                     direction = 2;
                 }
                 anim.SetInteger("direction", direction);
+
+                hoseItem.SetActive(false);
 
             }
             
@@ -229,6 +246,8 @@ public class Player : MovingObject
                     }
                     path.Add("r"); //right
                     animator.SetTrigger("playerRight");
+                    animatorHoseItem.SetTrigger("playerRight");
+
                 }
                 else if (xDir == -1)
                 {
@@ -246,6 +265,8 @@ public class Player : MovingObject
                     }
                     path.Add("l"); //left
                     animator.SetTrigger("playerLeft");
+                    animatorHoseItem.SetTrigger("playerLeft");
+
                 }
                 else
                 {
@@ -268,7 +289,9 @@ public class Player : MovingObject
                             toInstantiate = manguera_empty;
                         }
                         path.Add("u"); //up
+                        animatorHoseItem.SetTrigger("playerBack");
                         animator.SetTrigger("playerBack");
+
                     }
                     else
                     {
@@ -290,6 +313,8 @@ public class Player : MovingObject
                         }
                         path.Add("d"); //down
                         animator.SetTrigger("playerFront");
+                        animatorHoseItem.SetTrigger("playerFront");
+
                     }
                 }
 
@@ -347,6 +372,8 @@ public class Player : MovingObject
                 {
                     holdingHose = true;
                     Destroy(manguera_end_reference);
+                    hoseItem.SetActive(true);
+
                 }
             }
         }
