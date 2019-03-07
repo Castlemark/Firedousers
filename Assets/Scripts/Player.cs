@@ -58,6 +58,8 @@ public class Player : MovingObject
     private Vector2Int endHose; 
 
     private bool pickingUpHose;
+    private bool playerTurnInCourse;
+
     private List<GameObject> hoseList;
     private List<int> hoseAnim;
     private bool holdingHose; // false quan has deixat anar la manguera
@@ -70,6 +72,7 @@ public class Player : MovingObject
     {
         holdingHose = true;
         pickingUpHose = false;
+        playerTurnInCourse = false;
         hoseList = new List<GameObject>();
         hoseAnim = new List<int>();
 
@@ -124,7 +127,7 @@ public class Player : MovingObject
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
 
-        if (pickingUpHose) return;        
+        if (pickingUpHose || playerTurnInCourse) return;        
 
         int horizontal = 0;
         int vertical = 0;
@@ -178,7 +181,7 @@ public class Player : MovingObject
 
                 }
                 ShootWater(horizontal, vertical);
-                GameManager.instance.playersTurn = false;
+                //GameManager.instance.playersTurn = false;
 
             }
         }
@@ -221,6 +224,7 @@ public class Player : MovingObject
 
         if (GameManager.instance.boardScript.CanMoveTo(position.x + xDir, position.y + yDir, position.x, position.y))
         {
+            playerTurnInCourse = true;
             Vector2 start = transform.position;
             Vector2 end = start + new Vector2(xDir, yDir);
             StartCoroutine(SmoothMovement(end));
@@ -379,7 +383,13 @@ public class Player : MovingObject
         }
 
         CheckIfGameOver();
+        //GameManager.instance.playersTurn = false;
+    }
+
+    public void endTurn()
+    {
         GameManager.instance.playersTurn = false;
+        playerTurnInCourse = false;
     }
 
     public void RecullManguera(Vector2 end, Vector2 pos)
@@ -481,6 +491,8 @@ public class Player : MovingObject
         GameObject[,] grid = GameManager.instance.boardScript.grid;
 
         grid[position.x + horizontal, position.y + vertical].GetComponent<Tile>().DrownTile();
+
+        playerTurnInCourse = true;
 
     }
 

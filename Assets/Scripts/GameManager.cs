@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour {
     IEnumerator MoveEnemies()
     {
         enemiesMoving = true;
-        yield return new WaitForSeconds(turnDelay*1.3f);
+        yield return new WaitForSeconds(turnDelay);
         boardScript.updateFire();
         playersTurn = true;
         enemiesMoving = false;

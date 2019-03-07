@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelStartDelay: 2
-  turnDelay: 0.3
+  turnDelay: 0.01
   boardScript: {fileID: 0}
   level: 1
   lastStairs: up
