@@ -12,6 +12,7 @@ public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 	 */
 	public void Initialize(int state) {
         Animator anim = GetComponent<Animator>();
+        anim.SetFloat("offset", Random.Range(0.0f, 1.0f));
         anim.SetInteger("selector", Random.Range(0, 4));
     }
 

@@ -176,7 +176,7 @@ public class Player : MovingObject
                 else
                 {
                     animator.SetTrigger("waterBack");
-                    animatorHoseItem.SetTrigger("waterFront");
+                    animatorHoseItem.SetTrigger("waterBack");
 
 
                 }
