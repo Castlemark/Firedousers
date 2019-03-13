@@ -24,6 +24,8 @@ public class Tile : MonoBehaviour
     private GameObject fireObject;
     private IBehaviour behaviour;
 
+    public Sprite stair_up_image;
+    public Sprite stair_down_image;
     private Sprite[] room_images;
     public Sprite[] floor_images;
     public Sprite[] wall_images;
@@ -78,11 +80,11 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.stair_up:
-                //room_images = getRoomImages(room_tileset, stair_up_images);
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_image;
                 break;
 
             case TYPE.stair_down:
-                //room_images = getRoomImages(room_tileset, stair_down_images);
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_image;
                 break;
 
             default:
@@ -148,10 +150,10 @@ public class Tile : MonoBehaviour
     public void ExecutePreBehaviour()
     {
         behaviour.ExecuteBehaviour();
-        if (fireObject != null)
-        {
-            fireScript.StepOnFire();
-        }
+        
+        if (type.IsStairUp()) GameManager.instance.ChangeLevel(1);
+        else if (type.IsStairDown()) GameManager.instance.ChangeLevel(-1);
+        else if (fireObject != null) fireScript.StepOnFire();
     }
 
     public void ExecutePostBehaviour()

@@ -44,17 +44,32 @@ public class BoardManager : MonoBehaviour
     public GameObject genericTile;
 
     private Transform boardHolder;
+    private Transform shadowHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
     public GameObject[,] grid;
     public LevelGenerator levelGenerator;
 
+    public List<GameObject[,]> levels = new List<GameObject[,]>();
+
     public void SetupScene(int level)
     {
-        grid = new GameObject[columns, rows];
-        levelGenerator = gameObject.AddComponent(typeof(LevelGenerator)) as LevelGenerator;
-        boardHolder = new GameObject("Board").transform;
-        levelGenerator.Initiate(columns, rows);
-        player_position = levelGenerator.BoardSetup(grid, genericTile);
+        if (levels.Count <= level)
+        {
+            grid = new GameObject[columns, rows];
+            levelGenerator = gameObject.AddComponent(typeof(LevelGenerator)) as LevelGenerator;
+            boardHolder = new GameObject("Board").transform;
+            shadowHolder = new GameObject("Shadow").transform;
+            levelGenerator.Initiate(columns, rows);
+            player_position = levelGenerator.BoardSetup(grid, genericTile);
+            levels.Add(grid);
+        }
+        else
+        {
+            grid = levels[level - 1];
+            Vector3 current_pos = GameObject.FindGameObjectWithTag("Player").transform.position;
+            player_position[0] = (int)current_pos[0] - columns;
+            GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(player_position[0], current_pos[1], 0);
+        }
 
         gridPositions.Clear();
 
