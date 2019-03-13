@@ -506,5 +506,6 @@ public class Player : MovingObject
     {
         position.x = x;
         position.y = y;
+        transform.position = new Vector3(x, y, transform.position.z);
     }
 }
