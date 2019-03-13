@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/20190312-genis.unity
     guid: 2a21cb508f5c10a4c84962d5734ae897
-  - enabled: 1
+  - enabled: 0
     path: Assets/20190226-genis.unity
     guid: 11dc8d520fcafda47a732bcef97e93f4
   m_configObjects: {}
