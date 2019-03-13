@@ -227,7 +227,7 @@ public class LevelGenerator : MonoBehaviour
 
         GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-
+        //player.transform.position = new Vector3(player_pos[0], player_pos[1], player.transform.position.z);
         switch (GameManager.instance.lastStairs)
         {
             case "up":
