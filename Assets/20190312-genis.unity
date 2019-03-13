@@ -518,7 +518,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!84 &606611276
+--- !u!84 &598264055
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 09755a4891f8d4526a7e0690a23dec7b, type: 3}
-  spriteLightRT: {fileID: 606611276}
+  spriteLightRT: {fileID: 598264055}
   intensity: 1
 --- !u!1 &1551177440
 GameObject:
@@ -1650,7 +1650,7 @@ MonoBehaviour:
   smoothTimeY: 0.5
   smoothTimeX: 0.5
   player: {fileID: 0}
-  bounds: 0
+  bounds: 1
   minCameraPos: {x: 10, y: 5.5, z: 0}
   maxCameraPos: {x: 25.5, y: 25.5, z: 0}
 --- !u!4 &1865111535
@@ -2548,7 +2548,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 12288
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 606611276}
+  m_TargetTexture: {fileID: 598264055}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
