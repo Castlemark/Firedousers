@@ -81,13 +81,12 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateStairs()
     {
-        for (int x = 0; x < columns; x++)
+        bool down_stairs = true;
+        if (GameManager.instance.level <= 1) down_stairs = false;
+        for (int y = 0; y < rows; y++)
         {
-            if (board[x, 1] != 1)
-            {
-                board[x, 1] = 8;
-                break;
-            }
+            if (board[1, y] == -1 && down_stairs) board[1, y] = 9; //down
+            if (board[columns - 2, y] == -1) board[columns - 2, y] = 8; //up
         }
     }
 
@@ -156,8 +155,9 @@ public class LevelGenerator : MonoBehaviour
 
     GameObject IntItemToTile(int item, String state, int[] pos, int[] around, int room_tileset)
     {
-        GameObject aux = Instantiate(genericTile, new Vector3(pos[0], pos[1], -1), Quaternion.identity, GameObject.Find("Board").transform);
-        if (item == 1) Instantiate(cube, new Vector3(pos[0], pos[1], 0.5f), Quaternion.identity);
+        int level = GameManager.instance.level - 1;
+        GameObject aux = Instantiate(genericTile, new Vector3(pos[0] + level * columns, pos[1], -1), Quaternion.identity, GameObject.Find("Board").transform);
+        if (item == 1) Instantiate(cube, new Vector3(pos[0] + level * columns, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
 
         bool possible = true;
         switch (item)
@@ -170,13 +170,13 @@ public class LevelGenerator : MonoBehaviour
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0, room_tileset, pos);
                 Sprite[] sprites = aux.GetComponent<Tile>().getRoomImages(0, aux.GetComponent<Tile>().wall_images);
                 aux.GetComponent<Tile>().ChangeTypeSpriteTo(SetTileToWall(around, sprites));
-                Instantiate(cube, new Vector3(pos[0], pos[1], 0.5f), Quaternion.identity);
+                Instantiate(cube , new Vector3(pos[0] + level * columns, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                 break;
 
             case 2: //door
                 possible &= !(around[1] == 2 || around[3] == 2);
                 if (possible) aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0, room_tileset, pos);
-                if (pos[1] > 1 && board[pos[0], pos[1] - 2] == 1 && around[2] == 1) Instantiate(cube, new Vector3(pos[0], pos[1], 0.5f), Quaternion.identity);
+                if (pos[1] > 1 && board[pos[0], pos[1] - 2] == 1 && around[2] == 1) Instantiate(cube, new Vector3(pos[0] + level * columns, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                 break;
 
             case 3: //furniture
@@ -209,6 +209,10 @@ public class LevelGenerator : MonoBehaviour
                 aux.GetComponent<Tile>().SetUpTile(TYPE.stair_up, CONTAINED.none, 0, room_tileset, pos);
                 break;
 
+            case 9: //stairs down
+                aux.GetComponent<Tile>().SetUpTile(TYPE.stair_down, CONTAINED.none, 0, room_tileset, pos);
+                break;
+
             default: //floor
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
                 break;
@@ -219,26 +223,27 @@ public class LevelGenerator : MonoBehaviour
 
     private int[] SetupPlayerPosition()
     {
-        int[] player_pos;
-        do
-        {
-            player_pos = new int[] { Random.Range(1, columns), Random.Range(1, rows) };
-        } while (board[player_pos[0], player_pos[1]] != 0);
-
-        GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        //player.transform.position = new Vector3(player_pos[0], player_pos[1], player.transform.position.z);
-        switch (GameManager.instance.lastStairs)
-        {
-            case "up":
-                player.transform.position = new Vector3(player_pos[0], player_pos[1], 0);
-                break;
+        int[] player_pos = new int[2];
 
-            case "down":
-                player.transform.position = new Vector3(player_pos[0], player_pos[1], 0);
-                break;
+        if (GameManager.instance.boardScript.levels.Count == 0)
+        {
+            do
+            {
+                player_pos[0] = Random.Range(1, columns);
+                player_pos[1] = Random.Range(1, rows);
+            } while (board[player_pos[0], player_pos[1]] != 0);
+
+            GameObject.Find("Player").GetComponent<Player>().SetPosition(player_pos[0], player_pos[1]);
+        }
+        else
+        {
+            int level = GameManager.instance.level - 1;
+            player_pos[0] = (int) player.transform.position[0] + columns;
+            player_pos[1] = (int) player.transform.position[1];
         }
 
+        player.transform.position = new Vector3(player_pos[0], player_pos[1], 0);
         return player_pos;
     }
 
@@ -279,6 +284,8 @@ public class LevelGenerator : MonoBehaviour
     public int[] BoardSetup(GameObject[,] grid, GameObject genericTile)
     {
         this.genericTile = genericTile;
+
+        int level = GameManager.instance.level;
 
         for (int col = 0; col < grid.GetLength(0); col++)
         {
@@ -443,6 +450,8 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
+        int level = GameManager.instance.level - 1;
+
         //Paint room objects
         foreach (Room room in rooms)
         {
@@ -461,11 +470,11 @@ public class LevelGenerator : MonoBehaviour
                         if (board[door.x - 1, door.y] == 4 && board[door.x + 1, door.y] == 4)
                         {
                             board[door.x, door.y + 1] = 0;
-                            Instantiate(cube, new Vector3(door.x, door.y + 1, 0.5f), Quaternion.identity);
+                            Instantiate(cube, new Vector3(door.x + level * columns, door.y + 1, 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                         }
                         else
                         {
-                            Instantiate(cube, new Vector3(door.x, door.y - 1, 0.5f), Quaternion.identity);
+                            Instantiate(cube, new Vector3(door.x + level * columns, door.y - 1, 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                             board[door.x, door.y - 1] = 1;
                         }
 

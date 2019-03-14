@@ -47,7 +47,10 @@ MonoBehaviour:
   contained: 5
   position: 
   tileset: 0
+  canPass: 0
   containedObject: {fileID: 0}
+  stair_up_image: {fileID: 21300002, guid: b95df07100079f045a939e3dea4992ae, type: 3}
+  stair_down_image: {fileID: 21300000, guid: b95df07100079f045a939e3dea4992ae, type: 3}
   floor_images:
   - {fileID: 21300172, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
   - {fileID: 21300174, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}

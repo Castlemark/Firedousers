@@ -37,6 +37,10 @@ namespace TileEnums {
 		public static bool IsFloor(this TYPE type) { return type == TYPE.floor; }
 
 		public static bool IsStair(this TYPE type) { return type == TYPE.stair_up || type == TYPE.stair_down; }
+
+		public static bool IsStairUp(this TYPE type) { return type == TYPE.stair_up; }
+
+		public static bool IsStairDown(this TYPE type) { return type == TYPE.stair_down; }
 		
         public static bool IsFlammable(this TYPE type) { return type == TYPE.floor; }
 

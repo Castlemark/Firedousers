@@ -5,13 +5,12 @@ using UnityEngine;
 public class SafepointBehaviourScript : MonoBehaviour, IBehaviour
 {
 
-    public void Initialize(int state) {}
+    public void Initialize(int state) { }
 
     public void ExecuteBehaviour()
     {
         GameObject.Find("Player").GetComponent<Player>().saveVictim();
     }
-
 
     public bool CanPass()
     {
