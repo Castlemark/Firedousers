@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 
     public float turnDelay = 50f;                          //Delay entre cada torn del jugador
 
-    private Text levelText;
+    public Text levelText;
     private GameObject levelImage;
     public static GameManager instance = null; //singleton
     public BoardManager boardScript;
@@ -61,7 +61,18 @@ public class GameManager : MonoBehaviour {
         SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 
-    void InitGame()
+    public void ChangeLevel(int increment)
+    {
+        doingSetup = true;
+        level += increment;
+        levelText.text = "Floor " + level;
+        levelImage.SetActive(true);
+        Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
+        boardScript.SetupScene(level);
+        GameObject.Find("CamerasParent").GetComponent<CameraFollow>().ChangeLevel(increment, boardScript.columns);
+    }
+
+    public void InitGame()
     {
         doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
