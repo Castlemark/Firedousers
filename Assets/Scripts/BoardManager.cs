@@ -46,6 +46,7 @@ public class BoardManager : MonoBehaviour
     private Transform boardHolder;
     private Transform shadowHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
+    public List<Vector3> stairsUpPositions = new List<Vector3>();
     public GameObject[,] grid;
     public LevelGenerator levelGenerator;
 

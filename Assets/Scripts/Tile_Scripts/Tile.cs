@@ -31,8 +31,6 @@ public class Tile : MonoBehaviour
     public Sprite[] wall_images;
     public Sprite[] front_wall_images;
     public Sprite[] breakable_wall_images;
-    public Sprite[] stair_up_images;
-    public Sprite[] stair_down_images;
 
     public void SetUpTile(TYPE typeSetUp, CONTAINED containedSetup, int state, int room_tileset, int[] position)
     {
@@ -223,11 +221,11 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.stair_up:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_images[index];
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_image;
                 break;
 
             case TYPE.stair_down:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_images[index];
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_image;
                 break;
 
             default:
