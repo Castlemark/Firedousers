@@ -91,7 +91,7 @@ public class Fire : MonoBehaviour
         }
         if (state ==3 || state ==4)
         {
-            GameObject.Find("Player").GetComponent<Player>().IncreaseTemperature();
+            GameObject.Find("Player").GetComponent<Player>().IncreaseTemperature(state);
         }
     }
 
