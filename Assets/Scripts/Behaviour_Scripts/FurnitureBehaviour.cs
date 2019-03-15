@@ -9,7 +9,7 @@ public class FurnitureBehaviour : MonoBehaviour, IBehaviour
 	 * INTACT = 0
 	 * BURNED = 1
 	 */
-    private int state;
+    public int state { get; set; }
     public Sprite[] small_sprites;
     public Sprite[] large_top_sprites;
     public Sprite[] large_bottom_sprites;

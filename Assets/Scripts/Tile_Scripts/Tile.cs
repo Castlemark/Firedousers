@@ -115,6 +115,8 @@ public class Tile : MonoBehaviour
 
         behaviour.Initialize(state);
         behaviour.SetSprite(tileset);
+
+        this.name = contained.ContainsNone() ? type.ToString() : contained.ToString();
     }
 
     //Returns images of specific room tileset
@@ -151,7 +153,7 @@ public class Tile : MonoBehaviour
         
         if (type.IsStairUp()) GameManager.instance.ChangeLevel(1);
         else if (type.IsStairDown()) GameManager.instance.ChangeLevel(-1);
-        else if (fireObject != null) fireScript.StepOnFire();
+        else if (HasFire()) fireScript.StepOnFire();
     }
 
     public void ExecutePostBehaviour()
@@ -235,18 +237,87 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void IfSurvivorThenAttemptMove()
+    {
+        if (contained.IsSurvivor())
+        {
+            Vector2Int fleeDirection = CalculateFleeDirection();
+            if (fleeDirection.x + fleeDirection.y != 0)
+            {
+                MoveContainedInDirIfPossible(fleeDirection);
+            }
+        }
+    }
+
+    private bool MoveContainedInDirIfPossible(Vector2Int dir)
+    {
+        Tile movTile =  GameManager.instance.boardScript.grid[position[0] + dir.x, position[1] + dir.y].GetComponent<Tile>();
+        if (movTile.type.IsFloor() && movTile.contained.ContainsNone() && !movTile.HasBurningFire())
+        {
+            movTile.ReplaceContained(CONTAINED.survivor, containedObject.GetComponent<IBehaviour>().state);
+            this.ReplaceContained(CONTAINED.none, 0);
+            return true;
+        }
+        return false;
+    }
+
+    private Vector2Int CalculateFleeDirection()
+    {
+        Vector2 fleeDir = new Vector2(0, 0);
+
+        List<Tile> nearFire = GameManager.instance.boardScript.GetFireTilesWithinRange(position[0], position[1], 2);
+
+        foreach (Tile tile in nearFire)
+        {
+            fleeDir.x += position[0] - tile.position[0];
+            fleeDir.y += position[1] - tile.position[1];
+        }
+        // We get the normalized vector of the opposite direction where the "most" fire is
+        fleeDir.Normalize();
+
+        return ToGridVector(fleeDir);
+    }
+
+    private Vector2Int ToGridVector(Vector2 dir)
+    {
+        Vector2Int returnDir = new Vector2Int(0, 0);
+        if (System.Math.Abs(dir.x) > System.Math.Abs(dir.y))
+        {
+            if (dir.x > 0) returnDir = new Vector2Int(1, 0);
+            else returnDir = new Vector2Int(-1, 0);
+        }
+        else
+        {
+            if (dir.y > 0) returnDir = new Vector2Int(0, 1);
+            else if (dir.y < 0) returnDir = new Vector2Int(0, -1);
+        }
+
+        return returnDir;
+    }
+
+    public bool HasFire()
+    {
+        return (fireObject != null);
+    }
+
+    public bool HasBurningFire()
+    {
+        if (HasFire()) return fireScript.IsIgnited();
+        else return false;
+    }
+
     public void IncreaseFire()
     {
-        if (fireObject != null) isConsumed = fireScript.EvolveFire();
+        if (HasFire()) isConsumed = fireScript.EvolveFire();
     }
 
     public void StartFire()
     {
-        if (fireObject != null) fireScript.StartFire();
+        if (HasFire()) fireScript.StartFire();
     }
 
     public void DrownTile()
     {
-        if (fireObject != null) fireScript.DrownFire();
+        if (HasFire()) fireScript.DrownFire();
     }
 }

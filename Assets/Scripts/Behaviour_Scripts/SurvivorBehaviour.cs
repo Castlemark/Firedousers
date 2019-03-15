@@ -6,14 +6,20 @@ using TileEnums;
 public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 
     bool canPass = false;
-	
-	/*
-	 * Doesn't have states
-	 */
-	public void Initialize(int state) {
+    Vector2Int position;
+
+    public int state { get; set; }
+
+
+    public void Initialize(int state) {
+        this.state = state;
+
+        position.x = this.transform.parent.GetComponent<Tile>().position[0];
+        position.y = this.transform.parent.GetComponent<Tile>().position[1];
+
         Animator anim = GetComponent<Animator>();
         anim.SetFloat("offset", Random.Range(0.0f, 1.0f));
-        anim.SetInteger("selector", Random.Range(0, 4));
+        anim.SetInteger("selector", state);
     }
 
 	public void ExecuteBehaviour()

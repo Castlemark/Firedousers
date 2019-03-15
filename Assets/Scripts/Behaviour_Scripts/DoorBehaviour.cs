@@ -12,7 +12,7 @@ public class DoorBehaviour : MonoBehaviour, IBehaviour
 	 * OPEN = 0
 	 * LOCKED = 1
 	 */
-	private int state;
+	public int state { get; set; }
 
 	public void Initialize(int state)
     {

@@ -103,8 +103,29 @@ public class BoardManager : MonoBehaviour
             for (int j = 0; j < rows; j++)
             {
                 grid[i, j].GetComponent<Tile>().IncreaseFire();
+                grid[i, j].GetComponent<Tile>().IfSurvivorThenAttemptMove();
             }
         }
+    }
+
+    public List<Tile> GetFireTilesWithinRange(int x, int y, int range)
+    {
+        List<Tile> fireList = new List<Tile>();
+
+        for (int i = 0; i < columns; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                Tile tile = grid[i, j].GetComponent<Tile>();
+                if (tile.HasBurningFire() &&
+                    (Math.Abs(tile.position[0] - x) + Math.Abs(tile.position[1] - y)) <= range)
+                {
+                    fireList.Add(tile);
+                }
+            }
+        }
+
+        return fireList;
     }
 
     public bool CanMoveTo(int x, int y, int ox, int oy)

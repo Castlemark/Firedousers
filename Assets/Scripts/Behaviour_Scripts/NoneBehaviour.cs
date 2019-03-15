@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NoneBehaviour : MonoBehaviour, IBehaviour {
 
-
-	public void Initialize(int state) {}
+    public int state { get; set; }
+    public void Initialize(int state) {}
 
 	public void ExecuteBehaviour() {}
 

@@ -106,4 +106,9 @@ public class Fire : MonoBehaviour
             this.ChangeState(0);
         }
     }
+
+    public bool IsIgnited()
+    {
+        return state > 0 && state < 5;
+    }
 }

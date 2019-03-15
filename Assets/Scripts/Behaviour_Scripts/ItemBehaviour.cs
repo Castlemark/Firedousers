@@ -12,7 +12,7 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
 	 * KEY = 1
 	 * to be expanded
 	 */
-    private int state;
+    public int state { get; set; }
 
     public void Initialize(int state)
     {
