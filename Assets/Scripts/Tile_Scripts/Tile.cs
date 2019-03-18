@@ -254,11 +254,29 @@ public class Tile : MonoBehaviour
         Tile movTile =  GameManager.instance.boardScript.grid[position[0] + dir.x, position[1] + dir.y].GetComponent<Tile>();
         if (movTile.type.IsFloor() && movTile.contained.ContainsNone() && !movTile.HasBurningFire())
         {
-            movTile.ReplaceContained(CONTAINED.survivor, containedObject.GetComponent<IBehaviour>().state);
-            this.ReplaceContained(CONTAINED.none, 0);
+            Vector3 newPos = new Vector3(containedObject.transform.position.x + dir.x, containedObject.transform.position.y + dir.y, containedObject.transform.position.z);
+            StartCoroutine(SmoothMovement(newPos, movTile));
+
             return true;
         }
         return false;
+    }
+
+    private IEnumerator SmoothMovement(Vector3 end, Tile movTile)
+    {
+        Rigidbody2D rb2D = containedObject.GetComponent<Rigidbody2D>();
+        float sqrRemainingDistance = (containedObject.transform.position - end).sqrMagnitude;
+        while (sqrRemainingDistance > 0.0021)
+        {
+            Vector3 newPosition = Vector3.MoveTowards(new Vector3(rb2D.position.x, rb2D.position.y, containedObject.transform.position.z), end, (2f) * Time.deltaTime);
+            rb2D.MovePosition(newPosition);
+            sqrRemainingDistance = (containedObject.transform.position - end).sqrMagnitude;
+            yield return null; //s'espera un frame abans de tornar a avaluar la condició del WHILE
+        }
+        movTile.ReplaceContained(CONTAINED.survivor, containedObject.GetComponent<IBehaviour>().state);
+        this.ReplaceContained(CONTAINED.none, 0);
+       
+
     }
 
     private Vector2Int CalculateFleeDirection()
