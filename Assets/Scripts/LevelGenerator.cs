@@ -20,6 +20,9 @@ public class LevelGenerator : MonoBehaviour
     public float survivorsProbability = 0.05f;
     public float fireProbability = 0.01f;
 
+    public int safepointsQuantity = 10;
+    public int fireQuantity = 5;
+
     public int minAreaRoom = 50;
     public int numDoors = 1;
 
@@ -70,18 +73,25 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateFire()
     {
-        for (int x = 0; x < columns; x++)
+        int num_fire_focus = 0;
+
+        while (num_fire_focus < fireQuantity)
         {
-            for (int y = 0; y < rows; y++)
+            int x, y = 0;
+            do
             {
-                if (cellIsEmpty(x, y, fireProbability) && board[x, y - 1] != 2 && board[x, y - 1] != 3 && board_rooms[x, y] != 0) board[x, y] = 7;
-            }
+                x = Random.Range(0, columns - 1);
+                y = Random.Range(0, rows - 1);
+            } while (!(cellIsEmpty(x, y, 1) && board[x, y - 1] != 2 && board[x, y - 1] != 3 && board_rooms[x, y] != 0));
+
+            board[x, y] = 7;
+            num_fire_focus++;
         }
     }
 
     private void CreateStairs()
     {
-        List<Vector3> stairs = GameManager.instance.boardScript.stairsUpPositions;
+        List<Vector3> stairs = GameManager.instance.stairsUpPositions;
 
         if (GameManager.instance.level > 1)
         {
@@ -125,18 +135,58 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateSafePoints()
     {
-        for (int x = 0; x < columns; x++)
-        {
-            if (cellIsEmpty(x, 1, safepointsProbability)) board[x, 1] = 5;
-            if (cellIsEmpty(x, rows - 3, safepointsProbability)) board[x, rows - 3] = 5;
-        }
+        int num_safepoints = 0;
+        int edge = 0;
+        bool possible;
 
-        for (int y = 0; y < rows; y++)
+        for (int s = 0; s < safepointsQuantity; s++)
         {
-            if (cellIsEmpty(1, y, safepointsProbability)) board[1, y] = 5;
-            if (cellIsEmpty(columns - 2, y, safepointsProbability)) board[columns - 2, y] = 5;
+            do
+            {
+                possible = PlaceSafePointInEdge(edge);
+            } while (!possible);
+
+            edge++;
+            if (edge == 4) edge = 0;
         }
     }
+
+    private bool PlaceSafePointInEdge(int edge)
+    {
+        int x = 0, y = 0;
+
+        switch (edge)
+        {
+            case 0:
+                x = Random.Range(1, columns - 2);
+                y = rows - 3;
+                if (board[x, y] != -1) return false;
+                break;
+
+            case 1:
+                y = Random.Range(1, rows - 3);
+                x = columns - 2;
+                if (board[x, y] != -1) return false;
+                break;
+
+            case 2:
+                x = Random.Range(1, columns - 2);
+                y = 1;
+                if (board[x, y] != -1) return false;
+                break;
+
+            case 3:
+                y = Random.Range(1, rows - 3);
+                x = 1;
+                if (board[x, y] != -1) return false;
+                break;
+
+        }
+
+        board[x, y] = 5;
+        return true;
+    }
+
 
     private String GetSpriteSuffix(int[] around)
     {
@@ -195,10 +245,6 @@ public class LevelGenerator : MonoBehaviour
         bool possible = true;
         switch (item)
         {
-            case 0: //floor
-                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, room_tileset, pos);
-                break;
-
             case 1: //wall
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0, room_tileset, pos);
                 Sprite[] sprites = aux.GetComponent<Tile>().getRoomImages(0, aux.GetComponent<Tile>().wall_images);
@@ -394,8 +440,11 @@ public class LevelGenerator : MonoBehaviour
                     }
 
                     Room newRoom = new Room(x1, x2, y1, y2, minAreaRoom, numDoors);
-                    rooms.Add(newRoom);
-                    PaintRoom(newRoom, 5);
+                    if (newRoom.h > 2)
+                    {
+                        rooms.Add(newRoom);
+                        PaintRoom(newRoom, 5);
+                    }
                 }
             }
         }
@@ -559,11 +608,24 @@ public class LevelGenerator : MonoBehaviour
     //"Throws" hallways from North or West
     private void SetRowOrColumn(int x1, int x2, int y1, int y2)
     {
+        int level = GameManager.instance.level;
+        List<Vector3> stairs = GameManager.instance.stairsUpPositions;
+        
         bool completed = true;
         switch (direction)
         {
             case 'N':
                 int column = Random.Range(x1, x2 - hallwayWidth);
+                /*if (level > 1)
+                {
+                    //Debug.Log("COLUMNA : " + column + "//" + stairs[level - 2].x);
+                    while (column == stairs[level - 2].x)
+                    {
+                        column = Random.Range(x1, x2 - hallwayWidth);
+                        //Debug.Log("canvia la columna a " + column);
+                    }
+                    //Debug.Log("PASSADIS NORD: " + column);
+                }*/
                 for (int y = y2 - 1; y >= y1; y--)
                 {
                     for (int w = 0; w < hallwayWidth; w++)
@@ -582,6 +644,15 @@ public class LevelGenerator : MonoBehaviour
 
             case 'W':
                 int row = Random.Range(y1, y2 - hallwayWidth - 1);
+                /*if (level > 1)
+                {
+                    while (row == stairs[level - 2].y)
+                    {
+                        row = Random.Range(y1, y2 - hallwayWidth - 1);
+                        //Debug.Log("canvia la fila a " + row);
+                    }
+                    //Debug.Log("PASSADIS OEST: " + row);
+                }*/
                 for (int x = x1; x < x2; x++)
                 {
                     for (int w = 0; w < hallwayWidth; w++)
@@ -600,6 +671,15 @@ public class LevelGenerator : MonoBehaviour
 
             case 'S':
                 int c = Random.Range(x1, x2 - hallwayWidth);
+                /*if (level > 1)
+                {
+                    while (c == stairs[level - 2].x)
+                    {
+                        c = Random.Range(x1, x2 - hallwayWidth);
+                        //Debug.Log("canvia la columna a " + c);
+                    }
+                    //Debug.Log("PASSADIS SUD: " + c);
+                */
                 for (int y = y1; y < y2; y++)
                 {
                     for (int w = 0; w < hallwayWidth; w++)
@@ -617,6 +697,15 @@ public class LevelGenerator : MonoBehaviour
 
             case 'E':
                 int r = Random.Range(y1, y2 - hallwayWidth - 1);
+                /*if (level > 1)
+                {
+                    while (r == stairs[level - 2].y)
+                    {
+                        r = Random.Range(y1, y2 - hallwayWidth - 1);
+                        //Debug.Log("canvia la fila a " + r);
+                    }
+                    //Debug.Log("PASSADIS EST: " + r);
+                }*/
                 for (int x = x2 - 1; x >= x1; x--)
                 {
                     for (int w = 0; w < hallwayWidth; w++)

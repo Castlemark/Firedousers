@@ -46,15 +46,14 @@ public class BoardManager : MonoBehaviour
     private Transform boardHolder;
     private Transform shadowHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
-    public List<Vector3> stairsUpPositions = new List<Vector3>();
     public GameObject[,] grid;
     public LevelGenerator levelGenerator;
 
     public List<GameObject[,]> levels = new List<GameObject[,]>();
 
-    public void SetupScene(int level)
+    public void SetupScene(int level, int increment)
     {
-        if (levels.Count <= level)
+        if (levels.Count < level)
         {
             grid = new GameObject[columns, rows];
             levelGenerator = gameObject.AddComponent(typeof(LevelGenerator)) as LevelGenerator;
@@ -68,7 +67,7 @@ public class BoardManager : MonoBehaviour
         {
             grid = levels[level - 1];
             Vector3 current_pos = GameObject.FindGameObjectWithTag("Player").transform.position;
-            player_position[0] = (int)current_pos[0] - columns;
+            player_position[0] = (int)current_pos[0] + columns * increment;
             GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(player_position[0], current_pos[1], 0);
         }
 

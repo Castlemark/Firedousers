@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour {
     private bool doingSetup;    //prevent a l'usuari de moure's quan estem establint el tauler
     private bool enemiesMoving;
     private bool firstRun = true;
-    public string lastStairs = "up";
+
+    public List<Vector3> stairsUpPositions = new List<Vector3>();
 
     public int playerHoseMeters = 100;
     public int peopleSaved = 0;
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour {
         levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
-        boardScript.SetupScene(level);
+        boardScript.SetupScene(level, increment);
         GameObject.Find("CamerasParent").GetComponent<CameraFollow>().ChangeLevel(increment, boardScript.columns);
     }
 
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour {
         levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
-        boardScript.SetupScene(level);
+        boardScript.SetupScene(level, 0);
     }
 
     private void HideLevelImage()

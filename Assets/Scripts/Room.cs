@@ -84,7 +84,7 @@ public class Room
     public bool isDivisible()
     {
         float probability = Random.Range(0f, 1f);
-        return (probability > 0.3 && area > minArea && (w > 4 && h > 1 || h > 3 && w > 1) && w > min_height_width && h > min_height_width);
+        return (probability > 0.3 && area > minArea && (w > 4 && h > 1 || h > 4 && w > 1) && w > min_height_width && h > min_height_width);
     }
 
     public List<Room> Subdivide()
