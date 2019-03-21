@@ -16,11 +16,8 @@ public class LevelGenerator : MonoBehaviour
     private float hallwaysIterations;
 
     public float hallwaysProbability = 0.5f;
-    public float safepointsProbability = 0.3f;
     public float survivorsProbability = 0.05f;
-    public float fireProbability = 0.01f;
-
-    public int safepointsQuantity = 10;
+    public int safepointsQuantity = 7;
     public int fireQuantity = 5;
 
     public int minAreaRoom = 50;
@@ -135,7 +132,6 @@ public class LevelGenerator : MonoBehaviour
 
     private void CreateSafePoints()
     {
-        int num_safepoints = 0;
         int edge = 0;
         bool possible;
 
@@ -205,11 +201,11 @@ public class LevelGenerator : MonoBehaviour
         if (b && l && !t && !r || l && !t && !r && around[2] == 0 || b && !t && !r && around[3] == 0) return "tr";
         if (b && r && !l && !t || b && !t && !l && around[1] == 0) return "tl";
         if (t && l && !b && !r || l && !r && !b && around[0] == 2 || around[3] == 2 && t && !b && !r) return "br";
-        if (t && r && !b && !l || r && !l && !b && around[0] == 2 || around[0] == 2 && around[1] == 0 && !b && !l || around[1] == 0 && t && !b && !l) return "bl";
+        if (t && r && !b && !l || r && !l && !b && around[0] == 2 || around[1] == 2 && t && !b && !l) return "bl";
 
         if (b && around[0] == 2) return "top";
         if (l && around[1] == 0) return "right";
-        if (t && around[2] == 0) return "bottom";
+        if (t && (around[2] == 0 || around[2] == 2)) return "bottom";
         if (r && around[3] == 0 && !b) return "left";
 
         if (t && b && r) return "rc";
@@ -253,8 +249,7 @@ public class LevelGenerator : MonoBehaviour
                 break;
 
             case 2: //door
-                possible &= !(around[1] == 2 || around[3] == 2);
-                if (possible) aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0, room_tileset, pos);
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0, room_tileset, pos);
                 if (pos[1] > 1 && board[pos[0], pos[1] - 2] == 1 && around[2] == 1) Instantiate(cube, new Vector3(pos[0] + level * columns, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                 break;
 
@@ -388,6 +383,8 @@ public class LevelGenerator : MonoBehaviour
             {
                 board[x, y] = num;
                 board_rooms[x, y] = room.numTile;
+                if (y > 0) board_rooms[x, y - 1] = room.numTile;
+                if (x > 0) board_rooms[x - 1, y] = room.numTile;
             }
         }
     }
@@ -616,16 +613,13 @@ public class LevelGenerator : MonoBehaviour
         {
             case 'N':
                 int column = Random.Range(x1, x2 - hallwayWidth);
-                /*if (level > 1)
+                if (level > 1)
                 {
-                    //Debug.Log("COLUMNA : " + column + "//" + stairs[level - 2].x);
                     while (column == stairs[level - 2].x)
                     {
                         column = Random.Range(x1, x2 - hallwayWidth);
-                        //Debug.Log("canvia la columna a " + column);
                     }
-                    //Debug.Log("PASSADIS NORD: " + column);
-                }*/
+                }
                 for (int y = y2 - 1; y >= y1; y--)
                 {
                     for (int w = 0; w < hallwayWidth; w++)
@@ -644,15 +638,13 @@ public class LevelGenerator : MonoBehaviour
 
             case 'W':
                 int row = Random.Range(y1, y2 - hallwayWidth - 1);
-                /*if (level > 1)
+                if (level > 1)
                 {
-                    while (row == stairs[level - 2].y)
+                    while (row == stairs[level - 2].y || row == stairs[level - 2].y - 1)
                     {
                         row = Random.Range(y1, y2 - hallwayWidth - 1);
-                        //Debug.Log("canvia la fila a " + row);
                     }
-                    //Debug.Log("PASSADIS OEST: " + row);
-                }*/
+                }
                 for (int x = x1; x < x2; x++)
                 {
                     for (int w = 0; w < hallwayWidth; w++)
@@ -671,15 +663,13 @@ public class LevelGenerator : MonoBehaviour
 
             case 'S':
                 int c = Random.Range(x1, x2 - hallwayWidth);
-                /*if (level > 1)
+                if (level > 1)
                 {
                     while (c == stairs[level - 2].x)
                     {
                         c = Random.Range(x1, x2 - hallwayWidth);
-                        //Debug.Log("canvia la columna a " + c);
                     }
-                    //Debug.Log("PASSADIS SUD: " + c);
-                */
+                }
                 for (int y = y1; y < y2; y++)
                 {
                     for (int w = 0; w < hallwayWidth; w++)
@@ -697,15 +687,13 @@ public class LevelGenerator : MonoBehaviour
 
             case 'E':
                 int r = Random.Range(y1, y2 - hallwayWidth - 1);
-                /*if (level > 1)
+                if (level > 1)
                 {
                     while (r == stairs[level - 2].y)
                     {
                         r = Random.Range(y1, y2 - hallwayWidth - 1);
-                        //Debug.Log("canvia la fila a " + r);
                     }
-                    //Debug.Log("PASSADIS EST: " + r);
-                }*/
+                }
                 for (int x = x2 - 1; x >= x1; x--)
                 {
                     for (int w = 0; w < hallwayWidth; w++)

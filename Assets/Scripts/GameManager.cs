@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     public float levelStartDelay = 2f;  //segons que dura la transició entre un nivell i el seguent
 
@@ -28,8 +29,9 @@ public class GameManager : MonoBehaviour {
     public bool playerHasKey;
     [HideInInspector] public bool playersTurn = true;
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake()
+    {
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         boardScript = GetComponent<BoardManager>();
         InitGame();
-	}
+    }
     //S'executa cada cop que s'ha carregat una escena
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode
     mode)
@@ -47,13 +49,13 @@ public class GameManager : MonoBehaviour {
             firstRun = false;
             return;
         }
-       
+
         InitGame();
     }
     void OnEnable()
     {
         //Activem el listener perque s'executi onLevelFinishedLoading quan hi hagi un canvi en le'escena
-        SceneManager.sceneLoaded += OnLevelFinishedLoading; 
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
     void OnDisable()
@@ -96,10 +98,11 @@ public class GameManager : MonoBehaviour {
         levelImage.SetActive(true);
         enabled = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		if(playersTurn || enemiesMoving || doingSetup)
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playersTurn || enemiesMoving || doingSetup)
         {
             return;
         }
@@ -107,8 +110,8 @@ public class GameManager : MonoBehaviour {
         {
             StartCoroutine(MoveEnemies());
         }
-	}
-    
+    }
+
     IEnumerator MoveEnemies()
     {
         enemiesMoving = true;

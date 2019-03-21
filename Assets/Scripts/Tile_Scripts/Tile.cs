@@ -88,7 +88,6 @@ public class Tile : MonoBehaviour
             default:
                 Debug.Log("Tile type " + typeSetUp + " entered default state (Floor)");
                 type = typeSetUp;
-                //room_images = getRoomImages(room_tileset, floor_images);
                 break;
         }
 
