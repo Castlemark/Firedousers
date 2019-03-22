@@ -244,7 +244,21 @@ public class Tile : MonoBehaviour
             Vector2Int fleeDirection = CalculateFleeDirection();
             if (fleeDirection.x + fleeDirection.y != 0)
             {
-                MoveContainedInDirIfPossible(fleeDirection);
+                if (!MoveContainedInDirIfPossible(fleeDirection))
+                {
+                    Vector2Int aux = new Vector2Int();
+                    aux.x = fleeDirection.y;
+                    aux.y = fleeDirection.x;
+                    fleeDirection = aux;
+
+                    if (!MoveContainedInDirIfPossible(fleeDirection))
+                    {
+                        fleeDirection.x = -fleeDirection.x;
+                        fleeDirection.y = -fleeDirection.y;
+
+                        MoveContainedInDirIfPossible(fleeDirection);
+                    }
+                }
             }
         }
     }

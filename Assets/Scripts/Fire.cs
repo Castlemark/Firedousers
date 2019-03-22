@@ -55,7 +55,7 @@ public class Fire : MonoBehaviour
 
     private bool IsConsumed()
     {
-        return state > 4;
+        return state > 4 && state < 7;
     }
 
     private void ExpandFire()
@@ -97,14 +97,7 @@ public class Fire : MonoBehaviour
 
     public void DrownFire()
     {
-        if (state == 0)
-        {
-            this.ChangeState(7);
-        }
-        else
-        {
-            this.ChangeState(0);
-        }
+        this.ChangeState(7);
     }
 
     public bool IsIgnited()

@@ -24,8 +24,10 @@ public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 
 	public void ExecuteBehaviour()
 	{
-        GameObject.Find("Player").GetComponent<Player>().carryVictim();
-        transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+        if (GameObject.Find("Player").GetComponent<Player>().carryVictim())
+        {
+            transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+        }
     }
 
 	public bool CanPass()

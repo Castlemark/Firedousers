@@ -108,10 +108,16 @@ public class Player : MovingObject
         GameManager.instance.playerVictimsTotal = victims_total;
     }
 
-    public void carryVictim()
+    public bool carryVictim()
     {
-        victims++;
-        spriteRenderer.sprite = spriteWithVictim;
+        if (victims == 0)
+        {
+            victims++;
+            spriteRenderer.sprite = spriteWithVictim;
+
+            return true;
+        }
+        return false;
     }
 
     public void saveVictim()
