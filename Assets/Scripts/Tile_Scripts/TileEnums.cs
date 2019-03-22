@@ -44,10 +44,9 @@ namespace TileEnums {
 		
         public static bool IsFlammable(this TYPE type) { return type == TYPE.floor; }
 
-		public static bool ContainsNone(this CONTAINED contained)
-		{
-			return contained == CONTAINED.none;
-		}
+		public static bool ContainsNone(this CONTAINED contained) { return contained == CONTAINED.none; }
+
+        public static bool IsSurvivor(this CONTAINED contained) { return contained == CONTAINED.survivor;  }
 	}
 
 	public static class TileUtils

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SafepointBehaviourScript : MonoBehaviour, IBehaviour
 {
-
+    public int state { get; set; }
     public void Initialize(int state) { }
 
     public void ExecuteBehaviour()

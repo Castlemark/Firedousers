@@ -71,6 +71,19 @@ public class BoardManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(player_position[0], current_pos[1], 0);
         }
 
+        int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
+        int tileset = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().tileset;
+        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, tileset, aux_pos);
+        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().StartFire();
+
+        int[] aux_pos_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().position;
+        int tileset_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().tileset;
+        grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, 0, tileset_2, aux_pos_2);
+
+        int[] aux_pos_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().position;
+        int tileset_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().tileset;
+        grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, tileset_3, aux_pos_3);
+
         gridPositions.Clear();
 
         for (int x = 1; x < columns - 1; x++)
@@ -89,8 +102,29 @@ public class BoardManager : MonoBehaviour
             for (int j = 0; j < rows; j++)
             {
                 grid[i, j].GetComponent<Tile>().IncreaseFire();
+                grid[i, j].GetComponent<Tile>().IfSurvivorThenAttemptMove();
             }
         }
+    }
+
+    public List<Tile> GetFireTilesWithinRange(int x, int y, int range)
+    {
+        List<Tile> fireList = new List<Tile>();
+
+        for (int i = 0; i < columns; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                Tile tile = grid[i, j].GetComponent<Tile>();
+                if (tile.HasBurningFire() &&
+                    (Math.Abs(tile.position[0] - x) + Math.Abs(tile.position[1] - y)) <= range)
+                {
+                    fireList.Add(tile);
+                }
+            }
+        }
+
+        return fireList;
     }
 
     public bool CanMoveTo(int x, int y, int ox, int oy)

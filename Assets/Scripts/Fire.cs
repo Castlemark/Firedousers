@@ -91,7 +91,7 @@ public class Fire : MonoBehaviour
         }
         if (state ==3 || state ==4)
         {
-            GameObject.Find("Player").GetComponent<Player>().IncreaseTemperature();
+            GameObject.Find("Player").GetComponent<Player>().IncreaseTemperature(state);
         }
     }
 
@@ -105,5 +105,10 @@ public class Fire : MonoBehaviour
         {
             this.ChangeState(0);
         }
+    }
+
+    public bool IsIgnited()
+    {
+        return state > 0 && state < 5;
     }
 }

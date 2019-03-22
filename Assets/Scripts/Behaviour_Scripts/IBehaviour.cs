@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IBehaviour
 {
+    int state { get; set; }
     void Initialize(int state);
     void ExecuteBehaviour();
     bool CanPass();

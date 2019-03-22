@@ -271,7 +271,7 @@ public class LevelGenerator : MonoBehaviour
                 break;
 
             case 6: //survivors
-                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, 0, room_tileset, pos);
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, Random.Range(0, 4), room_tileset, pos);
                 break;
 
             case 7: //fire

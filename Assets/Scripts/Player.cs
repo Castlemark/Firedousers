@@ -496,9 +496,20 @@ public class Player : MovingObject
 
     }
 
-    public void IncreaseTemperature()
+    public void IncreaseTemperature(int state)
     {
-        temperature += 5;
+        switch (state)
+        {
+            case 3:
+                temperature += 5;
+                break;
+            
+            case 4:
+                temperature += 10;
+                break;
+            default:
+                break;
+        }
         temperatureText.text = temperature.ToString();
     }
 
