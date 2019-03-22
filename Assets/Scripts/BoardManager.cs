@@ -71,7 +71,7 @@ public class BoardManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(player_position[0], current_pos[1], 0);
         }
 
-        int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
+        /*int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
         int tileset = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().tileset;
         grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, tileset, aux_pos);
         grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().StartFire();
@@ -83,7 +83,7 @@ public class BoardManager : MonoBehaviour
         int[] aux_pos_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().position;
         int tileset_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().tileset;
         grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, tileset_3, aux_pos_3);
-
+        */
         gridPositions.Clear();
 
         for (int x = 1; x < columns - 1; x++)
