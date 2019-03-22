@@ -24,8 +24,15 @@ public class Tile : MonoBehaviour
     private GameObject fireObject;
     private IBehaviour behaviour;
 
-    public Sprite stair_up_image;
-    public Sprite stair_down_image;
+    public Sprite stair_up_top_image;
+    public Sprite stair_up_bottom_image;
+    public Sprite stair_up_right_image;
+    public Sprite stair_up_left_image;
+    public Sprite stair_down_top_image;
+    public Sprite stair_down_bottom_image;
+    public Sprite stair_down_right_image;
+    public Sprite stair_down_left_image;
+
     private Sprite[] room_images;
     public Sprite[] floor_images;
     public Sprite[] wall_images;
@@ -78,11 +85,43 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.stair_up:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_image;
+                Sprite orientation;
+                if(position[1] == 1)
+                {
+                    orientation = stair_up_bottom_image;
+                }else if(position[1] >= 29)
+                {
+                    orientation = stair_up_top_image;
+                }else if(position[0] == (GameManager.instance.level - 1)*32 + 1)
+                {
+                    orientation = stair_up_left_image;
+                }
+                else
+                {
+                    orientation = stair_up_right_image;
+                }
+                typeSprite.GetComponent<SpriteRenderer>().sprite = orientation;
                 break;
 
             case TYPE.stair_down:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_image;
+                Sprite orientationD;
+                if (position[1] == 1)
+                {
+                    orientationD = stair_down_bottom_image;
+                }
+                else if (position[1] >= 29)
+                {
+                    orientationD = stair_down_top_image;
+                }
+                else if (position[0] == (GameManager.instance.level - 1) * 32 + 1)
+                {
+                    orientationD = stair_down_left_image;
+                }
+                else
+                {
+                    orientationD = stair_down_right_image;
+                }
+                typeSprite.GetComponent<SpriteRenderer>().sprite = orientationD;
                 break;
 
             default:
@@ -223,11 +262,11 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.stair_up:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_image;
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_right_image;
                 break;
 
             case TYPE.stair_down:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_image;
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_right_image;
                 break;
 
             default:
