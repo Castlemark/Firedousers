@@ -482,6 +482,7 @@ public class Player : MovingObject
         {
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.muscicSource.Stop();
+            GameManager.instance.peopleSaved = victims_total;
             GameManager.instance.GameOver();
         }
     }

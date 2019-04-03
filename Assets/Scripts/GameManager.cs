@@ -94,8 +94,9 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        levelText.text = "Game Over!";
-        levelImage.SetActive(true);
+        /*levelText.text = "Game Over!";
+        levelImage.SetActive(true);*/
+        SceneManager.LoadScene("Ranking");
         enabled = false;
     }
 

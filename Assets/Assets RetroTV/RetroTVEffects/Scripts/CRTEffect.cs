@@ -66,7 +66,7 @@ namespace JetFistGames.RetroTVFX
         public Shader shader;
 
         [Tooltip("Which style of video to use")]
-        public VideoType VideoMode = VideoType.Composite;
+        public VideoType VideoMode = VideoType.Component;
 
         public int DisplaySizeX = 960;
         public int DisplaySizeY = 480;
