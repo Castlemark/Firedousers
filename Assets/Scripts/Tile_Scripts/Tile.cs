@@ -24,13 +24,22 @@ public class Tile : MonoBehaviour
     private GameObject fireObject;
     private IBehaviour behaviour;
 
-    public Sprite stair_up_image;
-    public Sprite stair_down_image;
+    public Sprite stair_up_top_image;
+    public Sprite stair_up_bottom_image;
+    public Sprite stair_up_right_image;
+    public Sprite stair_up_left_image;
+    public Sprite stair_down_top_image;
+    public Sprite stair_down_bottom_image;
+    public Sprite stair_down_right_image;
+    public Sprite stair_down_left_image;
+
     private Sprite[] room_images;
     public Sprite[] floor_images;
     public Sprite[] wall_images;
     public Sprite[] front_wall_images;
     public Sprite[] breakable_wall_images;
+
+    private bool CR_running = false;
 
     public void SetUpTile(TYPE typeSetUp, CONTAINED containedSetup, int state, int room_tileset, int[] position)
     {
@@ -78,17 +87,48 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.stair_up:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_image;
+                Sprite orientation;
+                if(position[1] == 1)
+                {
+                    orientation = stair_up_bottom_image;
+                }else if(position[1] >= 29)
+                {
+                    orientation = stair_up_top_image;
+                }else if(position[0] == (GameManager.instance.level - 1)*32 + 1)
+                {
+                    orientation = stair_up_left_image;
+                }
+                else
+                {
+                    orientation = stair_up_right_image;
+                }
+                typeSprite.GetComponent<SpriteRenderer>().sprite = orientation;
                 break;
 
             case TYPE.stair_down:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_image;
+                Sprite orientationD;
+                if (position[1] == 1)
+                {
+                    orientationD = stair_down_bottom_image;
+                }
+                else if (position[1] >= 29)
+                {
+                    orientationD = stair_down_top_image;
+                }
+                else if (position[0] == (GameManager.instance.level - 1) * 32 + 1)
+                {
+                    orientationD = stair_down_left_image;
+                }
+                else
+                {
+                    orientationD = stair_down_right_image;
+                }
+                typeSprite.GetComponent<SpriteRenderer>().sprite = orientationD;
                 break;
 
             default:
                 Debug.Log("Tile type " + typeSetUp + " entered default state (Floor)");
                 type = typeSetUp;
-                //room_images = getRoomImages(room_tileset, floor_images);
                 break;
         }
 
@@ -223,11 +263,11 @@ public class Tile : MonoBehaviour
                 break;
 
             case TYPE.stair_up:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_image;
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_up_right_image;
                 break;
 
             case TYPE.stair_down:
-                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_image;
+                typeSprite.GetComponent<SpriteRenderer>().sprite = stair_down_right_image;
                 break;
 
             default:
@@ -266,13 +306,37 @@ public class Tile : MonoBehaviour
     private bool MoveContainedInDirIfPossible(Vector2Int dir)
     {
         Tile movTile =  GameManager.instance.boardScript.grid[position[0] + dir.x, position[1] + dir.y].GetComponent<Tile>();
-        if (movTile.type.IsFloor() && movTile.contained.ContainsNone() && !movTile.HasBurningFire())
+        if (!CR_running && movTile.type.IsFloor() && movTile.contained.ContainsNone() && !movTile.HasBurningFire())
         {
-            movTile.ReplaceContained(CONTAINED.survivor, containedObject.GetComponent<IBehaviour>().state);
-            this.ReplaceContained(CONTAINED.none, 0);
+            Vector3 newPos = new Vector3(containedObject.transform.position.x + dir.x, containedObject.transform.position.y + dir.y, containedObject.transform.position.z);
+            StartCoroutine(SmoothMovement(newPos, movTile));
+
             return true;
         }
         return false;
+    }
+
+    private IEnumerator SmoothMovement(Vector3 end, Tile movTile)
+    {
+
+        CR_running = true;  
+        Rigidbody2D rb2D = containedObject.GetComponent<Rigidbody2D>();
+        if (rb2D)
+        {
+            float sqrRemainingDistance = (containedObject.transform.position - end).sqrMagnitude;
+            while (sqrRemainingDistance > 0.0021)
+            {
+                Vector3 newPosition = Vector3.MoveTowards(new Vector3(rb2D.position.x, rb2D.position.y, containedObject.transform.position.z), end, (2f) * Time.deltaTime);
+                rb2D.MovePosition(newPosition);
+                sqrRemainingDistance = (containedObject.transform.position - end).sqrMagnitude;
+                yield return null; //s'espera un frame abans de tornar a avaluar la condició del WHILE
+            }
+            movTile.ReplaceContained(CONTAINED.survivor, containedObject.GetComponent<IBehaviour>().state);
+            this.ReplaceContained(CONTAINED.none, 0);
+        }
+        CR_running = false;
+       
+
     }
 
     private Vector2Int CalculateFleeDirection()

@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     public float levelStartDelay = 2f;  //segons que dura la transició entre un nivell i el seguent
 
@@ -18,7 +19,8 @@ public class GameManager : MonoBehaviour {
     private bool doingSetup;    //prevent a l'usuari de moure's quan estem establint el tauler
     private bool enemiesMoving;
     private bool firstRun = true;
-    public string lastStairs = "up";
+
+    public List<Vector3> stairsUpPositions = new List<Vector3>();
 
     public int playerHoseMeters = 100;
     public int peopleSaved = 0;
@@ -27,8 +29,9 @@ public class GameManager : MonoBehaviour {
     public bool playerHasKey;
     [HideInInspector] public bool playersTurn = true;
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake()
+    {
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -36,7 +39,7 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         boardScript = GetComponent<BoardManager>();
         InitGame();
-	}
+    }
     //S'executa cada cop que s'ha carregat una escena
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode
     mode)
@@ -46,13 +49,13 @@ public class GameManager : MonoBehaviour {
             firstRun = false;
             return;
         }
-       
+
         InitGame();
     }
     void OnEnable()
     {
         //Activem el listener perque s'executi onLevelFinishedLoading quan hi hagi un canvi en le'escena
-        SceneManager.sceneLoaded += OnLevelFinishedLoading; 
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
     void OnDisable()
@@ -68,7 +71,7 @@ public class GameManager : MonoBehaviour {
         levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
-        boardScript.SetupScene(level);
+        boardScript.SetupScene(level, increment);
         GameObject.Find("CamerasParent").GetComponent<CameraFollow>().ChangeLevel(increment, boardScript.columns);
     }
 
@@ -80,7 +83,7 @@ public class GameManager : MonoBehaviour {
         levelText.text = "Floor " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
-        boardScript.SetupScene(level);
+        boardScript.SetupScene(level, 0);
     }
 
     private void HideLevelImage()
@@ -95,10 +98,11 @@ public class GameManager : MonoBehaviour {
         levelImage.SetActive(true);
         enabled = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		if(playersTurn || enemiesMoving || doingSetup)
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playersTurn || enemiesMoving || doingSetup)
         {
             return;
         }
@@ -106,8 +110,8 @@ public class GameManager : MonoBehaviour {
         {
             StartCoroutine(MoveEnemies());
         }
-	}
-    
+    }
+
     IEnumerator MoveEnemies()
     {
         enemiesMoving = true;
