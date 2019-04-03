@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TileEnums;
 
 public class Fire : MonoBehaviour
 {
@@ -9,8 +10,6 @@ public class Fire : MonoBehaviour
     public int state = 0;
 
     public int state_counter = 0;
-    public bool max_state;
-    public bool min_state;
 
     public bool broken = false;
 
@@ -44,10 +43,13 @@ public class Fire : MonoBehaviour
                 ChangeState(state + 1);
             }
 
-            if (state == 4 && state_counter == 0)
+            if (state == 3 && state_counter == 0)
             {
-                ExpandFire();
+                Tile tile = transform.parent.GetComponent<Tile>();
+                if (tile.contained.IsFlammable()) tile.ReplaceContained(CONTAINED.none, 0);
             }
+
+            if (state == 4 && state_counter == 0) ExpandFire();
         }
 
         return IsConsumed();
