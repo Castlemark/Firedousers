@@ -39,8 +39,8 @@ public class BoardManager : MonoBehaviour
 
     private int[] player_position;
     public Board heatmap;
-    public int rows = 32;
-    public int columns = 32;
+    public int rows;
+    public int columns;
     public GameObject genericTile;
 
     private Transform boardHolder;

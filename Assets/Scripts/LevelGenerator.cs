@@ -187,7 +187,7 @@ public class LevelGenerator : MonoBehaviour
     private String GetSpriteSuffix(int[] around)
     {
         bool b = false, t = false, r = false, l = false; //Obstacles al voltant
-
+       
         if (around[0] == 1) t = true;
         if (around[1] == 1) r = true;
         if (around[2] == 1) b = true;
@@ -205,7 +205,7 @@ public class LevelGenerator : MonoBehaviour
 
         if (b && around[0] == 2) return "top";
         if (l && around[1] == 0) return "right";
-        if (t && (around[2] == 0 || around[2] == 2)) return "bottom";
+        if (t && around[2] == 2) return "none";
         if (r && around[3] == 0 && !b) return "left";
 
         if (t && b && r) return "rc";
@@ -236,7 +236,6 @@ public class LevelGenerator : MonoBehaviour
     {
         int level = GameManager.instance.level - 1;
         GameObject aux = Instantiate(genericTile, new Vector3(pos[0] + level * columns, pos[1], -1), Quaternion.identity, GameObject.Find("Board").transform);
-        if (item == 1) Instantiate(cube, new Vector3(pos[0] + level * columns, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
 
         bool possible = true;
         switch (item)
@@ -244,7 +243,8 @@ public class LevelGenerator : MonoBehaviour
             case 1: //wall
                 aux.GetComponent<Tile>().SetUpTile(TYPE.wall, CONTAINED.none, 0, room_tileset, pos);
                 Sprite[] sprites = aux.GetComponent<Tile>().getRoomImages(0, aux.GetComponent<Tile>().wall_images);
-                aux.GetComponent<Tile>().ChangeTypeSpriteTo(SetTileToWall(around, sprites));
+                int sprite = SetTileToWall(around, sprites);
+                aux.GetComponent<Tile>().ChangeTypeSpriteTo(sprite);
                 Instantiate(cube, new Vector3(pos[0] + level * columns, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                 break;
 

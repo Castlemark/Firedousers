@@ -13,7 +13,7 @@ public class DoorBehaviour : MonoBehaviour, IBehaviour
 	 * OPEN = 0
 	 * LOCKED = 1
 	 */
-	public int state { get; set; }
+    public int state { get; set; }
 
     public void Initialize(int state)
     {
@@ -41,12 +41,30 @@ public class DoorBehaviour : MonoBehaviour, IBehaviour
             case 1:
                 if (type == 'h') GetComponent<SpriteRenderer>().sprite = h_open;
                 else GetComponent<SpriteRenderer>().sprite = v_open;
+                RemoveCube(type);
                 break;
 
             default:
                 this.state = 0;
                 Debug.Log("Invalid state (" + state + ") for Door, reset state to 0 : Locked");
                 break;
+        }
+    }
+
+    private void RemoveCube(char type)
+    {
+        Vector3 pos = this.transform.position;
+        GameObject shadow = GameObject.Find("Shadow");
+
+        foreach (Transform child in shadow.transform)
+        {
+            Vector3 child_pos = child.position;
+            if (pos.x == child_pos.x && (type == 'v' && (pos.y == child_pos.y || pos.y == child_pos.y - 1) || type == 'h' && pos.y == child_pos.y - 1))
+            {
+                Destroy(child.gameObject);
+
+                if (type == 'h') break;
+            }
         }
     }
 

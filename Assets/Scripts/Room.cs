@@ -28,6 +28,7 @@ public class Room
 
     private float furnitureProbability = 0.5f;
     private float safePointsProbability = 0.3f;
+    private float divisibleProbability = 0.5f;
 
     public Room(int x1, int x2, int y1, int y2, int minArea, int numDoors)
     {
@@ -84,7 +85,7 @@ public class Room
     public bool isDivisible()
     {
         float probability = Random.Range(0f, 1f);
-        return (probability > 0.3 && area > minArea && (w > 4 && h > 1 || h > 4 && w > 1) && w > min_height_width && h > min_height_width);
+        return (probability < divisibleProbability && area > minArea && (w > 4 && h > 1 || h > 4 && w > 1) && w > min_height_width && h > min_height_width);
     }
 
     public List<Room> Subdivide()
