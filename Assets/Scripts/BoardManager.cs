@@ -71,19 +71,21 @@ public class BoardManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(player_position[0], current_pos[1], 0);
         }
 
-        /*int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
+        int[] aux_pos = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().position;
         int tileset = grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().tileset;
-        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, tileset, aux_pos);
+        grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.item, 2, tileset, aux_pos);
         grid[player_position[0], player_position[1] + 1].GetComponent<Tile>().StartFire();
 
+        
         int[] aux_pos_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().position;
         int tileset_2 = grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().tileset;
-        grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.survivor, 0, tileset_2, aux_pos_2);
+        grid[player_position[0], player_position[1] - 1].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.item, 0, tileset_2, aux_pos_2);
+        
 
         int[] aux_pos_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().position;
         int tileset_3 = grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().tileset;
-        grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.safepoint, 0, tileset_3, aux_pos_3);
-        */
+        grid[player_position[0] - 1, player_position[1]].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.item, 1, tileset_3, aux_pos_3);
+        
         gridPositions.Clear();
 
         for (int x = 1; x < columns - 1; x++)
@@ -133,8 +135,23 @@ public class BoardManager : MonoBehaviour
         Tile gtile = grid[x, y].GetComponent<Tile>();
 
         bool canMoveTo = gtile.CanPass();
+
+        if((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y!=0 && y< rows-2 && x != (GameManager.instance.level - 1)*columns && x != (GameManager.instance.level - 1) * columns + (columns-1)))
+        {
+            //gtile.ReplaceContained(CONTAINED.none, 0);
+            gtile.SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
+            if (y != oy)
+            {
+                //grid[ox, oy + (y-oy)*2].GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+                grid[ox, oy + (y-oy)*2].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
+            }
+            canMoveTo = true;
+            GameManager.instance.playerHasAxe = false;
+        }
         ctile.ExecutePostBehaviour();
         gtile.ExecutePreBehaviour();
+
+        
 
         //if (canMoveTo) updateFire();
         return canMoveTo;
