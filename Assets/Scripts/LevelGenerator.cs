@@ -187,7 +187,7 @@ public class LevelGenerator : MonoBehaviour
     private String GetSpriteSuffix(int[] around)
     {
         bool b = false, t = false, r = false, l = false; //Obstacles al voltant
-       
+
         if (around[0] == 1) t = true;
         if (around[1] == 1) r = true;
         if (around[2] == 1) b = true;
@@ -539,10 +539,11 @@ public class LevelGenerator : MonoBehaviour
                 if (door.x > 0 && door.x < columns - 1 && door.y > 0 && door.y < rows - 2)
                 {
                     bool nextToDoor = false;
+                    
                     if (door.y > 0) nextToDoor |= board[door.x, door.y - 1] == 2;
                     if (door.y < rows - 1) nextToDoor |= board[door.x, door.y + 1] == 2;
-                    if (door.x < columns - 2) nextToDoor |= board[door.x + 2, door.y] == 2;
-                    if (door.x > 1) nextToDoor |= board[door.x - 2, door.y] == 2;
+                    if (door.x < columns - 2) nextToDoor |= board[door.x + 2, door.y] == 2 || board[door.x + 1, door.y] == 2;
+                    if (door.x > 1) nextToDoor |= board[door.x - 2, door.y] == 2 || board[door.x - 1, door.y] == 2;
 
                     if (!(nextToDoor || board[door.x, door.y] == 2))
                     {
@@ -606,9 +607,12 @@ public class LevelGenerator : MonoBehaviour
     private void SetRowOrColumn(int x1, int x2, int y1, int y2)
     {
         int level = GameManager.instance.level;
+        bool avoid_stairs = true;
+        if (level == 1) avoid_stairs = false;
         List<Vector3> stairs = GameManager.instance.stairsUpPositions;
-        
+
         bool completed = true;
+        int tries = 0;
         switch (direction)
         {
             case 'N':
@@ -618,6 +622,8 @@ public class LevelGenerator : MonoBehaviour
                     while (column == stairs[level - 2].x)
                     {
                         column = Random.Range(x1, x2 - hallwayWidth);
+                        tries++;
+                        if (tries > columns) break;
                     }
                 }
                 for (int y = y2 - 1; y >= y1; y--)
@@ -643,6 +649,8 @@ public class LevelGenerator : MonoBehaviour
                     while (row == stairs[level - 2].y || row == stairs[level - 2].y - 1)
                     {
                         row = Random.Range(y1, y2 - hallwayWidth - 1);
+                        tries++;
+                        if (tries > rows) break;
                     }
                 }
                 for (int x = x1; x < x2; x++)
@@ -665,9 +673,11 @@ public class LevelGenerator : MonoBehaviour
                 int c = Random.Range(x1, x2 - hallwayWidth);
                 if (level > 1)
                 {
-                    while (c == stairs[level - 2].x)
+                    while (c == stairs[level - 2].x - 1)
                     {
                         c = Random.Range(x1, x2 - hallwayWidth);
+                        tries++;
+                        if (tries > columns) break;
                     }
                 }
                 for (int y = y1; y < y2; y++)
@@ -692,6 +702,8 @@ public class LevelGenerator : MonoBehaviour
                     while (r == stairs[level - 2].y)
                     {
                         r = Random.Range(y1, y2 - hallwayWidth - 1);
+                        tries++;
+                        if (tries > rows) break;
                     }
                 }
                 for (int x = x2 - 1; x >= x1; x--)
