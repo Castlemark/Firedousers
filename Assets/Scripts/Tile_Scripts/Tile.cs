@@ -96,7 +96,7 @@ public class Tile : MonoBehaviour
                 }else if(position[1] >= 29)
                 {
                     orientation = stair_up_top_image;
-                }else if(position[0] == (GameManager.instance.level - 1)*32 + 1)
+                }else if(position[0] == (GameManager.instance.level - 1)*GameManager.instance.boardScript.rows + 1)
                 {
                     orientation = stair_up_left_image;
                 }
@@ -117,7 +117,7 @@ public class Tile : MonoBehaviour
                 {
                     orientationD = stair_down_top_image;
                 }
-                else if (position[0] == (GameManager.instance.level - 1) * 32 + 1)
+                else if (position[0] == (GameManager.instance.level - 1) * GameManager.instance.boardScript.rows + 1)
                 {
                     orientationD = stair_down_left_image;
                 }
