@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
     {
         enemiesMoving = true;
         yield return new WaitForSeconds(turnDelay);
-        boardScript.updateFire();
+        boardScript.ExecuteRoutine();
         playersTurn = true;
         enemiesMoving = false;
     }

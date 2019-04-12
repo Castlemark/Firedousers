@@ -17,6 +17,7 @@ public class Tile : MonoBehaviour
     private Fire fireScript;
 
     public bool canPass;
+    public bool reserved;
     private bool isConsumed = false;
     private bool isCollapsed = false;
     private GameObject typeObject;
@@ -57,6 +58,7 @@ public class Tile : MonoBehaviour
         type = typeSetUp;
         contained = containedSetup;
         canPass = true;
+        reserved = false;
 
         tileset = room_tileset;
 
@@ -284,6 +286,7 @@ public class Tile : MonoBehaviour
             Vector2Int fleeDirection = CalculateFleeDirection();
             if (fleeDirection.x + fleeDirection.y != 0)
             {
+                //if the survivor can't move in the desired direction, it will try to move to both ortogonal directions
                 if (!MoveContainedInDirIfPossible(fleeDirection))
                 {
                     Vector2Int aux = new Vector2Int();
@@ -306,20 +309,39 @@ public class Tile : MonoBehaviour
     private bool MoveContainedInDirIfPossible(Vector2Int dir)
     {
         Tile movTile =  GameManager.instance.boardScript.grid[position[0] + dir.x, position[1] + dir.y].GetComponent<Tile>();
-        if (!CR_running && movTile.type.IsFloor() && movTile.contained.ContainsNone() && !movTile.HasBurningFire())
+        if (!CR_running && 
+            movTile.type.IsFloor() && 
+            movTile.contained != CONTAINED.furniture && 
+            movTile.contained != CONTAINED.survivor && 
+            !movTile.HasBurningFire() &&
+            !movTile.isCollapsed && 
+            !movTile.reserved)
         {
+            bool disappears = false;
+
+            if (movTile.contained == CONTAINED.safepoint)
+            {
+                disappears = true;
+            }
+            else
+            {
+                movTile.behaviour.ExecuteBehaviour();
+            }
+
             Vector3 newPos = new Vector3(containedObject.transform.position.x + dir.x, containedObject.transform.position.y + dir.y, containedObject.transform.position.z);
-            StartCoroutine(SmoothMovement(newPos, movTile));
+            StartCoroutine(SmoothMovement(newPos, movTile, disappears));
+            CollapseFloorIfNecessary();
 
             return true;
         }
         return false;
     }
 
-    private IEnumerator SmoothMovement(Vector3 end, Tile movTile)
+    private IEnumerator SmoothMovement(Vector3 end, Tile movTile, bool disappears)
     {
 
-        CR_running = true;  
+        CR_running = true;
+        movTile.reserved = true;
         Rigidbody2D rb2D = containedObject.GetComponent<Rigidbody2D>();
         if (rb2D)
         {
@@ -331,10 +353,11 @@ public class Tile : MonoBehaviour
                 sqrRemainingDistance = (containedObject.transform.position - end).sqrMagnitude;
                 yield return null; //s'espera un frame abans de tornar a avaluar la condició del WHILE
             }
-            movTile.ReplaceContained(CONTAINED.survivor, containedObject.GetComponent<IBehaviour>().state);
+            if (!disappears) movTile.ReplaceContained(CONTAINED.survivor, containedObject.GetComponent<IBehaviour>().state);
             this.ReplaceContained(CONTAINED.none, 0);
         }
         CR_running = false;
+        movTile.reserved = false;
        
 
     }

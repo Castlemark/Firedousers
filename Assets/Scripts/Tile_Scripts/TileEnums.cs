@@ -22,7 +22,7 @@ namespace TileEnums {
 		furniture,
 		survivor,
 		none,
-        safepoint
+        safepoint,
     }
 
 	public static class EnumExtensions

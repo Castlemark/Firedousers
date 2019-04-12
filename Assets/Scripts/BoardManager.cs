@@ -82,7 +82,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void updateFire()
+    public void ExecuteRoutine()
     {
         for (int i = 0; i < columns; i++)
         {
