@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TileEnums;
 using UnityEngine;
 
 public class ItemBehaviour : MonoBehaviour, IBehaviour
@@ -9,7 +10,7 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
 
     /*
 	 * AXE = 0
-	 * KEY = 1
+	 * HOSE = 0
 	 * to be expanded
 	 */
     public int state { get; set; }
@@ -32,6 +33,9 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
             case 1:
                 GetComponent<SpriteRenderer>().sprite = items[state];
                 break;
+            case 2:
+                GetComponent<SpriteRenderer>().sprite = items[state];
+                break;
 
             default:
                 GetComponent<SpriteRenderer>().sprite = items[0];
@@ -43,7 +47,23 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
 
     public void ExecuteBehaviour()
     {
-        Debug.Log("Behaviour not yet implemented");
+        if(state == 1)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose += 20;
+            transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+
+        }
+        else if (state == 0)
+        {
+            GameManager.instance.playerHasAxe = true;
+            transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().IncreaseTemperature(0);
+            transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+        }
     }
 
     public bool CanPass()

@@ -27,11 +27,13 @@ public class GameManager : MonoBehaviour
     public int playerVictims;
     public int playerVictimsTotal;
     public bool playerHasKey;
+    public bool playerHasAxe;
     [HideInInspector] public bool playersTurn = true;
 
     // Use this for initialization
     void Awake()
     {
+
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -94,8 +96,9 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        levelText.text = "Game Over!";
-        levelImage.SetActive(true);
+        /*levelText.text = "Game Over!";
+        levelImage.SetActive(true);*/
+        SceneManager.LoadScene("Ranking");
         enabled = false;
     }
 

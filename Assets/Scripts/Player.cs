@@ -50,8 +50,9 @@ public class Player : MovingObject
     private Animator animatorWater;
     private Animator animatorHoseItem;
 
-    private int metersHose;
+    public int metersHose;
     private bool hasKey;
+    public bool hasAxe;
     private List<string> path = new List<string>();
     
     private Vector2Int position;
@@ -488,6 +489,7 @@ public class Player : MovingObject
         {
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.muscicSource.Stop();
+            GameManager.instance.peopleSaved = victims_total;
             GameManager.instance.GameOver();
         }
     }
@@ -506,6 +508,10 @@ public class Player : MovingObject
     {
         switch (state)
         {
+            case 0:
+                temperature -= 20;
+                if (temperature < 0) temperature = 0;
+                break;
             case 3:
                 temperature += 5;
                 break;
