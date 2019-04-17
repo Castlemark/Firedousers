@@ -104,8 +104,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7f6235f639c0e56418a4c7e62a460142, type: 3}
   state: 0
   state_counter: 0
-  max_state: 0
-  min_state: 0
   broken: 0
   state_increase_steps: 0000000003000000020000000300000004000000
 --- !u!95 &4736431555879180810

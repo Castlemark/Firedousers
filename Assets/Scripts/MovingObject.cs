@@ -32,6 +32,9 @@ public abstract class MovingObject : MonoBehaviour
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null; //s'espera un frame abans de tornar a avaluar la condició del WHILE
         }
+
+        GameManager.instance.boardScript.BMExecutePreBehaviour(((Player)this).position.x, ((Player)this).position.y);
+
     }
 
 

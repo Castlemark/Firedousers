@@ -55,7 +55,7 @@ public class Player : MovingObject
     public bool hasAxe;
     private List<string> path = new List<string>();
     
-    private Vector2Int position;
+    public Vector2Int position;
     private Vector2Int endHose; 
 
     private bool pickingUpHose;
@@ -66,6 +66,10 @@ public class Player : MovingObject
     private bool holdingHose; // false quan has deixat anar la manguera
     private GameObject manguera_end_reference;
 
+    public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
+    public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
+    public Color flashColour = new Color(1f, 0f, 0f, 0.1f);     // The colour the damageImage is set to, to flash.
+    bool damaged;
 
 
     // Use this for initialization
@@ -131,6 +135,21 @@ public class Player : MovingObject
 
     private void Update()
     {
+        if (damaged)
+        {
+            // ... set the colour of the damageImage to the flash colour.
+            damageImage.color = flashColour;
+        }
+        // Otherwise...
+        else
+        {
+            // ... transition the colour back to clear.
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+        }
+
+        // Reset the damaged flag.
+        damaged = false;
+
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
 
@@ -388,6 +407,11 @@ public class Player : MovingObject
                 }
             }
         }
+        else
+        {
+            GameManager.instance.boardScript.BMExecutePreBehaviour(position.x + xDir, position.y + yDir);
+
+        }
 
         CheckIfGameOver();
         //GameManager.instance.playersTurn = false;
@@ -513,10 +537,12 @@ public class Player : MovingObject
                 if (temperature < 0) temperature = 0;
                 break;
             case 3:
+                damaged = true;
                 temperature += 5;
                 break;
             
             case 4:
+                damaged = true;
                 temperature += 10;
                 break;
             default:

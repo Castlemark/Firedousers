@@ -28,6 +28,16 @@ public class Fire : MonoBehaviour
         state = new_state;
         state_counter = 0;
         animator.SetInteger("state", new_state);
+        if(new_state >=5)
+        {
+            GetComponent<SpriteRenderer>().sortingLayerName = "Floor";
+            GetComponent<SpriteRenderer>().sortingOrder = 1;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sortingLayerName = "People";
+            GetComponent<SpriteRenderer>().sortingOrder = 0;
+        }
     }
 
     private void IncreaseCount() { state_counter++; }
