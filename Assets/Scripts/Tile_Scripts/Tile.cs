@@ -364,6 +364,7 @@ public class Tile : MonoBehaviour
             float sqrRemainingDistance = (containedObject.transform.position - end).sqrMagnitude;
             while (sqrRemainingDistance > 0.0021)
             {
+                if (rb2D == null) break;
                 Vector3 newPosition = Vector3.MoveTowards(new Vector3(rb2D.position.x, rb2D.position.y, containedObject.transform.position.z), end, (2f) * Time.deltaTime);
                 rb2D.MovePosition(newPosition);
                 sqrRemainingDistance = (containedObject.transform.position - end).sqrMagnitude;

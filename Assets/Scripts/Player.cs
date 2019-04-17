@@ -55,7 +55,7 @@ public class Player : MovingObject
     public bool hasAxe;
     private List<string> path = new List<string>();
     
-    private Vector2Int position;
+    public Vector2Int position;
     private Vector2Int endHose; 
 
     private bool pickingUpHose;
@@ -406,6 +406,11 @@ public class Player : MovingObject
 
                 }
             }
+        }
+        else
+        {
+            GameManager.instance.boardScript.BMExecutePreBehaviour(position.x + xDir, position.y + yDir);
+
         }
 
         CheckIfGameOver();
