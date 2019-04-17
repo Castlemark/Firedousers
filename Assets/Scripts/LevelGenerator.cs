@@ -23,7 +23,7 @@ public class LevelGenerator : MonoBehaviour
     public int minAreaRoom = 50;
     public int numDoors = 1;
 
-    private int rows, columns;
+    public int rows, columns;
 
     public List<Room> rooms;
 
