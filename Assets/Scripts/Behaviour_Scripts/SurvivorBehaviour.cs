@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TileEnums;
+using UnityEditor.Animations;
 
 public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 
     bool canPass = false;
     Vector2Int position;
+    public RuntimeAnimatorController[] animators;
 
     public int state { get; set; }
 
@@ -18,8 +20,9 @@ public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
         position.y = this.transform.parent.GetComponent<Tile>().position[1];
 
         Animator anim = GetComponent<Animator>();
+        anim.runtimeAnimatorController = animators[state];
         anim.SetFloat("offset", Random.Range(0.0f, 1.0f));
-        anim.SetInteger("selector", state);
+        //anim.SetInteger("selector", state);
     }
 
 	public void ExecuteBehaviour()

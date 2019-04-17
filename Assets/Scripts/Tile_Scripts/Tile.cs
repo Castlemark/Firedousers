@@ -329,7 +329,7 @@ public class Tile : MonoBehaviour
             }
 
             Vector3 newPos = new Vector3(containedObject.transform.position.x + dir.x, containedObject.transform.position.y + dir.y, containedObject.transform.position.z);
-            StartCoroutine(SmoothMovement(newPos, movTile, disappears));
+            StartCoroutine(SmoothMovement(dir,newPos, movTile, disappears));
             CollapseFloorIfNecessary();
 
             return true;
@@ -337,11 +337,27 @@ public class Tile : MonoBehaviour
         return false;
     }
 
-    private IEnumerator SmoothMovement(Vector3 end, Tile movTile, bool disappears)
+    private IEnumerator SmoothMovement(Vector2Int dir, Vector3 end, Tile movTile, bool disappears)
     {
 
         CR_running = true;
         movTile.reserved = true;
+        Animator anim = containedObject.GetComponent<Animator>();
+        if (dir.x > 0)
+        {
+            anim.SetTrigger("playerRight");
+        }
+        else if (dir.x < 0)
+        {
+            anim.SetTrigger("playerLeft");
+        }
+        else if (dir.y > 0)
+        {
+            anim.SetTrigger("playerBack");
+        }else
+        {
+            anim.SetTrigger("playerFront");
+        }
         Rigidbody2D rb2D = containedObject.GetComponent<Rigidbody2D>();
         if (rb2D)
         {
