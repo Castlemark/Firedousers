@@ -17,6 +17,9 @@ public class LevelGenerator : MonoBehaviour
 
     public float hallwaysProbability = 0.5f;
     public float survivorsProbability = 0.05f;
+    public int hammersQuantity = 10;
+    public int healthQuantity = 5;
+    public int hosesQuantity = 5;
     public int safepointsQuantity = 7;
     public int fireQuantity = 5;
 
@@ -49,9 +52,10 @@ public class LevelGenerator : MonoBehaviour
         CreateCivils();
         CreateFire();
         CreateStairs();
+        CreateItems();
     }
 
-    private bool cellIsEmpty(int x, int y, float probability)
+    private bool cellIsEmpty(int x, int y, float probability = 1)
     {
         if (Random.Range(0, 1f) <= probability && (board[x, y] == 0 || board[x, y] == -1) && board[x, y] != 3) return true;
         return false;
@@ -64,6 +68,52 @@ public class LevelGenerator : MonoBehaviour
             for (int y = 0; y < rows; y++)
             {
                 if (cellIsEmpty(x, y, survivorsProbability) && board[x, y - 1] != 2 && board[x, y - 1] != 3) board[x, y] = 6;
+            }
+        }
+    }
+
+    private void CreateItems()
+    {
+        for (int type = 10; type <= 12; type++)
+        {
+            int quantity = 0;
+
+            switch (type)
+            {
+                case 10:
+                    quantity = hammersQuantity;
+                    break;
+
+                case 11:
+                    quantity = healthQuantity;
+                    break;
+
+                case 12:
+                    quantity = hosesQuantity;
+                    break;
+            }
+
+            List<Vector3> empty_cells = new List<Vector3>();
+
+            for (int x = 0; x < columns; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    if (cellIsEmpty(x, y) && board[x, y - 1] != 2 && board[x, y - 1] != 3) empty_cells.Add(new Vector3(x, y, 0));
+                }
+            }
+
+            if (empty_cells.Count > 0)
+            {
+                int size = empty_cells.Count;
+                if (quantity < size) size = quantity;
+
+                for (int i = 0; i < size; i++)
+                {
+                    int randomNumber = Random.Range(0, empty_cells.Count);
+                    board[(int)empty_cells[randomNumber].x, (int)empty_cells[randomNumber].y] = type;
+                    empty_cells.RemoveAt(randomNumber);
+                }
             }
         }
     }
@@ -285,6 +335,18 @@ public class LevelGenerator : MonoBehaviour
 
             case 9: //stairs down
                 aux.GetComponent<Tile>().SetUpTile(TYPE.stair_down, CONTAINED.none, 0, room_tileset, pos);
+                break;
+
+            case 10: //hammers
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.item, 0, room_tileset, pos);
+                break;
+
+            case 11: //health
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.item, 1, room_tileset, pos);
+                break;
+
+            case 12: //hoses
+                aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.item, 2, room_tileset, pos);
                 break;
 
             default: //floor
@@ -539,7 +601,7 @@ public class LevelGenerator : MonoBehaviour
                 if (door.x > 0 && door.x < columns - 1 && door.y > 0 && door.y < rows - 2)
                 {
                     bool nextToDoor = false;
-                    
+
                     if (door.y > 0) nextToDoor |= board[door.x, door.y - 1] == 2;
                     if (door.y < rows - 1) nextToDoor |= board[door.x, door.y + 1] == 2;
                     if (door.x < columns - 2) nextToDoor |= board[door.x + 2, door.y] == 2 || board[door.x + 1, door.y] == 2;
