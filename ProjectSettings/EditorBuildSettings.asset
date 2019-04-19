@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MENU.unity
+    guid: cd88b008895974946a364ee2dd89dc0e
+  - enabled: 1
     path: Assets/20190312-genis.unity
     guid: 2a21cb508f5c10a4c84962d5734ae897
-  - enabled: 0
-    path: Assets/20190226-genis.unity
-    guid: 11dc8d520fcafda47a732bcef97e93f4
   - enabled: 1
     path: Assets/Ranking.unity
+    guid: 2b2c4248504103742895a3bccbe56262
+  - enabled: 1
+    path: Assets/Ranking Menu.unity
     guid: a60975109d196764da6af4df3d320e79
   m_configObjects: {}

@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public bool playerHasKey;
     public bool playerHasAxe;
     [HideInInspector] public bool playersTurn = true;
+    public GameObject gameOver;
+
 
     // Use this for initialization
     void Awake()
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
         boardScript = GetComponent<BoardManager>();
+        gameOver = GameObject.FindGameObjectWithTag("GameOver");
+        gameOver.SetActive(false);
         InitGame();
     }
     //S'executa cada cop que s'ha carregat una escena
@@ -98,6 +102,14 @@ public class GameManager : MonoBehaviour
     {
         /*levelText.text = "Game Over!";
         levelImage.SetActive(true);*/
+        
+        gameOver.SetActive(true);
+        StartCoroutine(LoadRanking());
+    }
+
+    IEnumerator LoadRanking()
+    {
+        yield return new WaitForSeconds(4);
         SceneManager.LoadScene("Ranking");
         enabled = false;
     }

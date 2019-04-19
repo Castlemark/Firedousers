@@ -72,6 +72,7 @@ public class Player : MovingObject
     bool damaged;
 
 
+
     // Use this for initialization
     protected override void Start()
     {
@@ -507,16 +508,18 @@ public class Player : MovingObject
         SceneManager.LoadScene(0);
     }
 
-    private void CheckIfGameOver()
+    public void CheckIfGameOver()
     {
         if (temperature >= 100)
         {
             SoundManager.instance.PlaySingle(gameOverSound);
             SoundManager.instance.muscicSource.Stop();
             GameManager.instance.peopleSaved = victims_total;
+            pickingUpHose = true;
             GameManager.instance.GameOver();
         }
     }
+
 
     void ShootWater(int horizontal, int vertical)
     {
