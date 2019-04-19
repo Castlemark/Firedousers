@@ -14,6 +14,7 @@ public class Player : MovingObject
     public Text hoseText;
     public Text peopleText;
     private Text temperatureText;
+    public Animator temperatureHUD;
 
     public AudioClip moveSound1;
     public AudioClip moveSound2;
@@ -51,6 +52,7 @@ public class Player : MovingObject
     private Animator animatorHoseItem;
 
     public int metersHose;
+    public GameObject hoseHUD;
     private bool hasKey;
     public bool hasAxe;
     private List<string> path = new List<string>();
@@ -179,37 +181,42 @@ public class Player : MovingObject
             }
             else
             {
-                if(horizontal == 1)
+                if(GameManager.instance.waterRecharges > 0)
                 {
-                    animatorWater.SetTrigger("right");
-                    animator.SetTrigger("waterRight");
-                    animatorHoseItem.SetTrigger("waterRight");
+                    if (horizontal == 1)
+                    {
+                        animatorWater.SetTrigger("right");
+                        animator.SetTrigger("waterRight");
+                        animatorHoseItem.SetTrigger("waterRight");
 
+                    }
+                    else if (horizontal == -1)
+                    {
+                        animatorWater.SetTrigger("left");
+                        animator.SetTrigger("waterLeft");
+                        animatorHoseItem.SetTrigger("waterLeft");
+
+
+                    }
+                    else if (vertical == -1)
+                    {
+                        animatorWater.SetTrigger("bottom");
+                        animator.SetTrigger("waterFront");
+                        animatorHoseItem.SetTrigger("waterFront");
+
+                    }
+                    else
+                    {
+                        animator.SetTrigger("waterBack");
+                        animatorHoseItem.SetTrigger("waterBack");
+
+
+                    }
+                    ShootWater(horizontal, vertical);
+                    GameManager.instance.waterRecharges -= 1;
+                    GameManager.instance.turndeposit = 0;
                 }
-                else if(horizontal == -1)
-                {
-                    animatorWater.SetTrigger("left");
-                    animator.SetTrigger("waterLeft");
-                    animatorHoseItem.SetTrigger("waterLeft");
-
-
-                }
-                else if(vertical == -1){
-                    animatorWater.SetTrigger("bottom");
-                    animator.SetTrigger("waterFront");
-                    animatorHoseItem.SetTrigger("waterFront");
-
-                }
-                else
-                {
-                    animator.SetTrigger("waterBack");
-                    animatorHoseItem.SetTrigger("waterBack");
-
-
-                }
-                ShootWater(horizontal, vertical);
-                //GameManager.instance.playersTurn = false;
-
+                
             }
         }
         else if (Input.GetKey(KeyCode.J))
@@ -259,6 +266,7 @@ public class Player : MovingObject
             {
                 metersHose--;
                 hoseText.text = metersHose.ToString();
+                hoseHUD.GetComponent<HoseHUD>().changeSprite(metersHose, GameManager.instance.totalHoseMeters);
                 GameObject toInstantiate = manguera_h;
                 if (xDir == 1)
                 {
@@ -460,6 +468,7 @@ public class Player : MovingObject
         }
         else
         {
+            hoseHUD.GetComponent<HoseHUD>().changeSprite(metersHose, GameManager.instance.totalHoseMeters);
             hoseText.text = metersHose.ToString();
             StartCoroutine(AnimationHose());
             /*pickingUpHose = false;*/
@@ -552,6 +561,58 @@ public class Player : MovingObject
                 break;
         }
         temperatureText.text = temperature.ToString();
+
+        if (temperature < 11)
+        {
+            temperatureHUD.SetTrigger("temperature10");
+            return;
+        }
+        if (temperature < 21)
+        {
+            temperatureHUD.SetTrigger("temperature20");
+            return;
+        }
+        if (temperature < 31)
+        {
+            temperatureHUD.SetTrigger("temperature30");
+            return;
+        }
+        if (temperature < 41)
+        {
+            temperatureHUD.SetTrigger("temperature40");
+            return;
+        }
+        if (temperature < 51)
+        {
+            temperatureHUD.SetTrigger("temperature50");
+            return;
+        }
+        if (temperature < 61)
+        {
+            temperatureHUD.SetTrigger("temperature60");
+            return;
+        }
+        if (temperature < 71)
+        {
+            temperatureHUD.SetTrigger("temperature70");
+            return;
+        }
+        if (temperature < 81)
+        {
+            temperatureHUD.SetTrigger("temperature80");
+            return;
+        }
+        if (temperature < 91)
+        {
+            temperatureHUD.SetTrigger("temperature90");
+            return;
+        }
+        if (temperature < 101)
+        {
+            temperatureHUD.SetTrigger("temperature100");
+            return;
+        }
+
     }
 
     public void SetPosition(int x, int y)

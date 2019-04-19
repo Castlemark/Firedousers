@@ -19,6 +19,7 @@ TagManager:
   - Key
   - Burned
   - GameOver
+  - Deposit
   layers:
   - Default
   - TransparentFX

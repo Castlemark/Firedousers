@@ -920,7 +920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -16.900024, y: 0}
+  m_AnchoredPosition: {x: -16.899902, y: 0}
   m_SizeDelta: {x: 4.14, y: 525.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1240226347
@@ -1039,10 +1039,10 @@ RectTransform:
   m_Father: {fileID: 397192595}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 49}
-  m_SizeDelta: {x: -1001.19995, y: -608.2}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 131.79999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1507162777
 MonoBehaviour:
@@ -1064,19 +1064,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 
+  m_text: CARGANDO...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b268f297c66f5334382c23047e55a3c4, type: 2}
-  m_sharedMaterial: {fileID: 21817960314534656, guid: b268f297c66f5334382c23047e55a3c4,
+  m_fontAsset: {fileID: 11400000, guid: 7024f617a4799d64a87d8e4bc04972f3, type: 2}
+  m_sharedMaterial: {fileID: 21156378062417618, guid: 7024f617a4799d64a87d8e4bc04972f3,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+    rgba: 4282257051
+  m_fontColor: {r: 0.60784316, g: 0.05490196, b: 0.24313726, a: 1}
+  m_enableVertexGradient: 0
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -1093,14 +1093,14 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 113.81
+  m_fontSizeBase: 113.81
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 8194
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1134,13 +1134,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1507162777}
-    characterCount: 0
+    characterCount: 11
     spriteCount: 0
     spaceCount: 0
-    wordCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
