@@ -18,6 +18,8 @@ TagManager:
   - StairsDown
   - Key
   - Burned
+  - GameOver
+  - Deposit
   layers:
   - Default
   - TransparentFX

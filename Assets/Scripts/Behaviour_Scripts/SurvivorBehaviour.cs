@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TileEnums;
-using UnityEditor.Animations;
 
 public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 

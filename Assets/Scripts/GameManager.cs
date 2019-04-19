@@ -23,12 +23,18 @@ public class GameManager : MonoBehaviour
     public List<Vector3> stairsUpPositions = new List<Vector3>();
 
     public int playerHoseMeters = 100;
+    public int totalHoseMeters = 100;
+    public int waterRecharges = 5;
     public int peopleSaved = 0;
     public int playerVictims;
     public int playerVictimsTotal;
     public bool playerHasKey;
     public bool playerHasAxe;
     [HideInInspector] public bool playersTurn = true;
+    public GameObject gameOver;
+    public GameObject deposit;
+    public int turndeposit = 2;
+
 
     // Use this for initialization
     void Awake()
@@ -40,6 +46,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
         boardScript = GetComponent<BoardManager>();
+        gameOver = GameObject.FindGameObjectWithTag("GameOver");
+        gameOver.SetActive(false);
+        deposit = GameObject.FindGameObjectWithTag("Deposit");
         InitGame();
     }
     //S'executa cada cop que s'ha carregat una escena
@@ -98,6 +107,14 @@ public class GameManager : MonoBehaviour
     {
         /*levelText.text = "Game Over!";
         levelImage.SetActive(true);*/
+        
+        gameOver.SetActive(true);
+        StartCoroutine(LoadRanking());
+    }
+
+    IEnumerator LoadRanking()
+    {
+        yield return new WaitForSeconds(4);
         SceneManager.LoadScene("Ranking");
         enabled = false;
     }
@@ -111,6 +128,15 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            if(waterRecharges < 5 && turndeposit ==2)
+            {
+                waterRecharges++;
+            }
+            else
+            {
+                turndeposit ++;
+            }
+            deposit.GetComponent<WaterDeposit>().ChangeSprite(waterRecharges);
             StartCoroutine(MoveEnemies());
         }
     }

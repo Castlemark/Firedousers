@@ -23,7 +23,7 @@ public class LoadRanking : MonoBehaviour
 
     IEnumerator ObtenerJugadores()
     {
-        txtCargando.SetText("CARGANDO \n ...");
+        txtCargando.SetText("CARGANDO...");
         WWW DataServer = new WWW(URLLoadRanking);
         yield return DataServer;
 

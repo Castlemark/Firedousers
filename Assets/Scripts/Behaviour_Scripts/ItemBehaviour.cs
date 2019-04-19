@@ -50,7 +50,9 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
         if(state == 1)
         {
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose += 20;
+            GameManager.instance.totalHoseMeters += 20;
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().hoseHUD.GetComponent<HoseHUD>().changeSprite(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose, GameManager.instance.totalHoseMeters);
 
         }
         else if (state == 0)

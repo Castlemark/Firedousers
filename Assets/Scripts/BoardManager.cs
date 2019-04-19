@@ -159,7 +159,7 @@ public class BoardManager : MonoBehaviour
 
     public void BMExecutePreBehaviour(int x, int y)
     {
-        Tile gtile = grid[x, y].GetComponent<Tile>();
+       Tile gtile = grid[x, y].GetComponent<Tile>();
         gtile.ExecutePreBehaviour();
     }
 }
