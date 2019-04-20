@@ -19,7 +19,7 @@ public class RankingManager : MonoBehaviour
         score.GetComponent<TextMeshProUGUI>().SetText(scoreText);
         input.GetComponent<TMP_InputField>().Select();
         input.GetComponent<TMP_InputField>().ActivateInputField();
-        
+
     }
 
     // Update is called once per frame
@@ -27,11 +27,15 @@ public class RankingManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            nick = input.GetComponent<TMP_InputField>().text;
-            panelInput.SetActive(false);
-            panelRanking.SetActive(true);
-            this.GetComponent<SaveScore>().enabled = true;
+            submit();
         }
-        
+
+    }
+
+    public void submit(){
+        nick = input.GetComponent<TMP_InputField>().text;
+        panelInput.SetActive(false);
+        panelRanking.SetActive(true);
+        this.GetComponent<SaveScore>().enabled = true;
     }
 }

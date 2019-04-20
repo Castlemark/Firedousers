@@ -26,7 +26,7 @@ public class SurvivorBehaviour : MonoBehaviour, IBehaviour {
 
 	public void ExecuteBehaviour()
 	{
-        if (GameObject.Find("Player").GetComponent<Player>().carryVictim())
+        if (GameObject.Find("Player").GetComponent<Player>().carryVictim(state))
         {
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
         }

@@ -58,11 +58,13 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
         else if (state == 0)
         {
             GameManager.instance.playerHasAxe = true;
+            GameManager.instance.axe.SetActive(true);
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
 
         }
         else
         {
+            Debug.Log(GameObject.FindGameObjectWithTag("Player"));
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().IncreaseTemperature(0);
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
         }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114884170679704306}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: ToBeDestroyed
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,8 +68,15 @@ MonoBehaviour:
   level: 1
   stairsUpPositions: []
   playerHoseMeters: 100
+  totalHoseMeters: 100
+  waterRecharges: 5
   peopleSaved: 0
   playerVictims: 0
   playerVictimsTotal: 0
   playerHasKey: 0
+  playerHasAxe: 0
   playersTurn: 1
+  gameOver: {fileID: 0}
+  deposit: {fileID: 0}
+  axe: {fileID: 0}
+  turndeposit: 2

@@ -21,6 +21,7 @@ public class SoundManager : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+        //gameObject.tag = "ToBeDestroyed";
 
         DontDestroyOnLoad(gameObject);
  

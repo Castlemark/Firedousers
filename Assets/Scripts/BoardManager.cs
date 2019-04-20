@@ -162,4 +162,38 @@ public class BoardManager : MonoBehaviour
        Tile gtile = grid[x, y].GetComponent<Tile>();
         gtile.ExecutePreBehaviour();
     }
+
+    public bool IsNotStucked(int x, int y)
+    {
+        bool move = grid[x + 1, y].GetComponent<Tile>().CanPass() || grid[x - 1, y].GetComponent<Tile>().CanPass() || grid[x, y + 1].GetComponent<Tile>().CanPass() || grid[x, y - 1].GetComponent<Tile>().CanPass();
+
+        if (!move)
+        {
+            Tile gtile = grid[x + 1, y].GetComponent<Tile>();
+            if ((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y != 0 && y < rows - 2 && x != (GameManager.instance.level - 1) * columns && x != (GameManager.instance.level - 1) * columns + (columns - 1)))
+            {
+                return true;
+            }
+            gtile = grid[x - 1, y].GetComponent<Tile>();
+            if ((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y != 0 && y < rows - 2 && x != (GameManager.instance.level - 1) * columns && x != (GameManager.instance.level - 1) * columns + (columns - 1)))
+            {
+                return true;
+
+            }
+            gtile = grid[x, y + 1].GetComponent<Tile>();
+            if ((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y != 0 && y < rows - 2 && x != (GameManager.instance.level - 1) * columns && x != (GameManager.instance.level - 1) * columns + (columns - 1)))
+            {
+                return true;
+
+            }
+            gtile = grid[x, y - 1].GetComponent<Tile>();
+            if ((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y != 0 && y < rows - 2 && x != (GameManager.instance.level - 1) * columns && x != (GameManager.instance.level - 1) * columns + (columns - 1)))
+            {
+                return true;
+            }
+
+
+        }
+        return move;
+    }
 }

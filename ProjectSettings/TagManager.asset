@@ -20,6 +20,9 @@ TagManager:
   - Burned
   - GameOver
   - Deposit
+  - Axe
+  - ToBeDestroyed
+  - Civilian
   layers:
   - Default
   - TransparentFX

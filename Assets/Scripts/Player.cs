@@ -53,6 +53,7 @@ public class Player : MovingObject
 
     public int metersHose;
     public GameObject hoseHUD;
+    public GameObject peopleHUD;
     private bool hasKey;
     public bool hasAxe;
     private List<string> path = new List<string>();
@@ -73,6 +74,8 @@ public class Player : MovingObject
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);     // The colour the damageImage is set to, to flash.
     bool damaged;
 
+   
+    
 
 
     // Use this for initialization
@@ -116,12 +119,12 @@ public class Player : MovingObject
         GameManager.instance.playerVictimsTotal = victims_total;
     }
 
-    public bool carryVictim()
+    public bool carryVictim(int state)
     {
         if (victims == 0)
         {
             victims++;
-            spriteRenderer.sprite = spriteWithVictim;
+            peopleHUD.GetComponent<HudPeople>().ChangeSprite(state);
 
             return true;
         }
@@ -132,7 +135,7 @@ public class Player : MovingObject
     {
         victims_total += victims;
         victims = 0;
-        spriteRenderer.sprite = spriteWithoutVictim;
+        peopleHUD.GetComponent<HudPeople>().ChangeSprite(-1);
         peopleText.text = victims_total.ToString();
     }
 
@@ -156,7 +159,8 @@ public class Player : MovingObject
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
 
-        if (pickingUpHose || playerTurnInCourse) return;        
+        if (pickingUpHose || playerTurnInCourse) return;
+        if (GameManager.instance.pause) return;
 
         int horizontal = 0;
         int vertical = 0;
@@ -419,7 +423,10 @@ public class Player : MovingObject
         else
         {
             GameManager.instance.boardScript.BMExecutePreBehaviour(position.x + xDir, position.y + yDir);
-
+            if(!GameManager.instance.boardScript.IsNotStucked(position.x, position.y))
+            {
+                temperature = 100;
+            }
         }
 
         CheckIfGameOver();

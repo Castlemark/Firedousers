@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ranking Menu.unity
     guid: a60975109d196764da6af4df3d320e79
+  - enabled: 1
+    path: Assets/Tutorial.unity
+    guid: 0b858741fcec22a41acc476663d0b9f9
   m_configObjects: {}

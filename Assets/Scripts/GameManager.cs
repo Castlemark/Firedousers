@@ -33,7 +33,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool playersTurn = true;
     public GameObject gameOver;
     public GameObject deposit;
+    public GameObject axe;
     public int turndeposit = 2;
+    public bool pause;
 
 
     // Use this for initialization
@@ -49,6 +51,10 @@ public class GameManager : MonoBehaviour
         gameOver = GameObject.FindGameObjectWithTag("GameOver");
         gameOver.SetActive(false);
         deposit = GameObject.FindGameObjectWithTag("Deposit");
+        axe = GameObject.FindGameObjectWithTag("Axe");
+        axe.SetActive(false);
+        pause = false;
+
         InitGame();
     }
     //S'executa cada cop que s'ha carregat una escena
@@ -135,6 +141,14 @@ public class GameManager : MonoBehaviour
             else
             {
                 turndeposit ++;
+            }
+            if (playerHasAxe)
+            {
+                axe.SetActive(true);
+            }
+            else
+            {
+                axe.SetActive(false);
             }
             deposit.GetComponent<WaterDeposit>().ChangeSprite(waterRecharges);
             StartCoroutine(MoveEnemies());
