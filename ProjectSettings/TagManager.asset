@@ -18,6 +18,8 @@ TagManager:
   - StairsDown
   - Key
   - Burned
+  - DoorCube
+  - Cube
   layers:
   - Default
   - TransparentFX

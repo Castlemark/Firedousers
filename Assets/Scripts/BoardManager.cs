@@ -136,25 +136,39 @@ public class BoardManager : MonoBehaviour
 
         bool canMoveTo = gtile.CanPass();
 
-        if((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y!=0 && y< rows-2 && x != (GameManager.instance.level - 1)*columns && x != (GameManager.instance.level - 1) * columns + (columns-1)))
+        if ((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y != 0 && y < rows - 2 && x != (GameManager.instance.level - 1) * columns && x != (GameManager.instance.level - 1) * columns + (columns - 1)))
         {
-            //gtile.ReplaceContained(CONTAINED.none, 0);
+            RemoveCube(gtile.position);
             gtile.SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
             if (y != oy)
             {
-                //grid[ox, oy + (y-oy)*2].GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
-                grid[ox, oy + (y-oy)*2].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
+                grid[ox, oy + (y - oy) * 2].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
             }
             canMoveTo = true;
             GameManager.instance.playerHasAxe = false;
         }
         ctile.ExecutePostBehaviour();
-        
-
-        
 
         //if (canMoveTo) updateFire();
         return canMoveTo;
+    }
+
+    private void RemoveCube(int[] wall_pos)
+    {
+        GameObject shadow = GameObject.Find("Shadow");
+
+        foreach (Transform child in shadow.transform)
+        {
+            if (child.gameObject.tag == "Cube")
+            {
+                Vector3 child_pos = child.position;
+                if (wall_pos[0] == child_pos.x && wall_pos[1] == child_pos.y)
+                {
+                    Destroy(child.gameObject);
+                    break;
+                }
+            }
+        }
     }
 
     public void BMExecutePreBehaviour(int x, int y)
