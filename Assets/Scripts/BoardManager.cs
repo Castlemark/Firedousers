@@ -142,6 +142,7 @@ public class BoardManager : MonoBehaviour
             gtile.SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
             if (y != oy)
             {
+                RemoveCube(grid[ox, oy + (y - oy) * 2].GetComponent<Tile>().position);
                 grid[ox, oy + (y - oy) * 2].GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
             }
             canMoveTo = true;
