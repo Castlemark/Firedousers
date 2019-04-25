@@ -109,7 +109,7 @@ public class Fire : MonoBehaviour
 
     public void DrownFire()
     {
-        this.ChangeState(7);
+        if(state < 5) this.ChangeState(7);
     }
 
     public bool IsIgnited()
