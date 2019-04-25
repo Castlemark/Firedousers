@@ -90,41 +90,23 @@ public class Tile : MonoBehaviour
 
             case TYPE.stair_up:
                 Sprite orientation;
-                if(position[1] == 1)
-                {
-                    orientation = stair_up_bottom_image;
-                }else if(position[1] >= GameManager.instance.GetComponent<LevelGenerator>().columns - 3)
-                {
-                    orientation = stair_up_top_image;
-                }else if(position[0] == (GameManager.instance.level - 1)*GameManager.instance.boardScript.rows + 1)
-                {
-                    orientation = stair_up_left_image;
-                }
-                else
-                {
-                    orientation = stair_up_right_image;
-                }
+
+                if (position[1] == 1) orientation = stair_up_bottom_image;
+                else if (position[1] >= GameManager.instance.GetComponent<LevelGenerator>().columns - 3) orientation = stair_up_top_image;
+                else if (position[0] == (GameManager.instance.level - 1) * GameManager.instance.boardScript.rows + 1) orientation = stair_up_left_image;
+                else orientation = stair_up_right_image;
+
                 typeSprite.GetComponent<SpriteRenderer>().sprite = orientation;
                 break;
 
             case TYPE.stair_down:
                 Sprite orientationD;
-                if (position[1] == 1)
-                {
-                    orientationD = stair_down_bottom_image;
-                }
-                else if (position[1] >= GameManager.instance.GetComponent<LevelGenerator>().columns - 3)
-                {
-                    orientationD = stair_down_top_image;
-                }
-                else if (position[0] == (GameManager.instance.level - 1) * GameManager.instance.boardScript.rows + 1)
-                {
-                    orientationD = stair_down_left_image;
-                }
-                else
-                {
-                    orientationD = stair_down_right_image;
-                }
+
+                if (position[1] == 1) orientationD = stair_down_bottom_image;
+                else if (position[1] >= GameManager.instance.GetComponent<LevelGenerator>().columns - 3) orientationD = stair_down_top_image;
+                else if (position[0] == (GameManager.instance.level - 1) * GameManager.instance.boardScript.rows + 1) orientationD = stair_down_left_image;
+                else orientationD = stair_down_right_image;
+
                 typeSprite.GetComponent<SpriteRenderer>().sprite = orientationD;
                 break;
 
@@ -192,7 +174,7 @@ public class Tile : MonoBehaviour
     public void ExecutePreBehaviour()
     {
         behaviour.ExecuteBehaviour();
-        
+
         if (type.IsStairUp()) GameManager.instance.ChangeLevel(1);
         else if (type.IsStairDown()) GameManager.instance.ChangeLevel(-1);
         else if (HasFire()) fireScript.StepOnFire();
@@ -308,13 +290,13 @@ public class Tile : MonoBehaviour
 
     private bool MoveContainedInDirIfPossible(Vector2Int dir)
     {
-        Tile movTile =  GameManager.instance.boardScript.grid[position[0] + dir.x, position[1] + dir.y].GetComponent<Tile>();
-        if (!CR_running && 
-            movTile.type.IsFloor() && 
-            movTile.contained != CONTAINED.furniture && 
-            movTile.contained != CONTAINED.survivor && 
+        Tile movTile = GameManager.instance.boardScript.grid[position[0] + dir.x, position[1] + dir.y].GetComponent<Tile>();
+        if (!CR_running &&
+            movTile.type.IsFloor() &&
+            movTile.contained != CONTAINED.furniture &&
+            movTile.contained != CONTAINED.survivor &&
             !movTile.HasBurningFire() &&
-            !movTile.isCollapsed && 
+            !movTile.isCollapsed &&
             !movTile.reserved)
         {
             bool disappears = false;
@@ -329,7 +311,7 @@ public class Tile : MonoBehaviour
             }
 
             Vector3 newPos = new Vector3(containedObject.transform.position.x + dir.x, containedObject.transform.position.y + dir.y, containedObject.transform.position.z);
-            StartCoroutine(SmoothMovement(dir,newPos, movTile, disappears));
+            StartCoroutine(SmoothMovement(dir, newPos, movTile, disappears));
             CollapseFloorIfNecessary();
 
             return true;
@@ -354,7 +336,8 @@ public class Tile : MonoBehaviour
         else if (dir.y > 0)
         {
             anim.SetTrigger("playerBack");
-        }else
+        }
+        else
         {
             anim.SetTrigger("playerFront");
         }
@@ -375,7 +358,7 @@ public class Tile : MonoBehaviour
         }
         CR_running = false;
         movTile.reserved = false;
-       
+
 
     }
 

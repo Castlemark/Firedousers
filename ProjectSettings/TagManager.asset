@@ -23,6 +23,8 @@ TagManager:
   - Axe
   - ToBeDestroyed
   - Civilian
+  - DoorCube
+  - Cube
   layers:
   - Default
   - TransparentFX

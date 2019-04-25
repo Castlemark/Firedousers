@@ -58,12 +58,27 @@ public class DoorBehaviour : MonoBehaviour, IBehaviour
 
         foreach (Transform child in shadow.transform)
         {
-            Vector3 child_pos = child.position;
-            if (pos.x == child_pos.x && (type == 'v' && (pos.y == child_pos.y || pos.y == child_pos.y - 1) || type == 'h' && pos.y == child_pos.y - 1))
+            if (child.gameObject.tag == "DoorCube")
             {
-                Destroy(child.gameObject);
+                Vector3 child_pos = child.position;
 
-                if (type == 'h') break;
+                if (type == 'v')
+                {
+                    if ((pos.y == child_pos.y || pos.y == child_pos.y - 1) && Mathf.Round(pos.x - 0.4f - child_pos.x) == 0)
+                    {
+                        Destroy(child.gameObject);
+                        break;
+                    }
+                }
+
+                if (type == 'h')
+                {
+                    if (pos.x == child_pos.x && Mathf.Round(child_pos.y - 0.4f - pos.y) == 0)
+                    {
+                        Destroy(child.gameObject);
+                        break;
+                    }
+                }
             }
         }
     }

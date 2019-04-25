@@ -35,6 +35,8 @@ public class LevelGenerator : MonoBehaviour
     private char direction = 'N'; //Des d'on llancem la fila/columna -> N, E, S, W 
 
     private GameObject cube; //el que fa les ombres
+    private GameObject smallCube; //el que fa les ombres de les portes de perfil
+    private GameObject bigCube; //el que fa les ombres de portes frontals
 
     public void Initiate(int columns, int rows)
     {
@@ -44,6 +46,8 @@ public class LevelGenerator : MonoBehaviour
         board = new int[columns, rows];
         board_rooms = new int[columns, rows];
         cube = (GameObject)Resources.Load("Prefabs/cube", typeof(GameObject));
+        smallCube = (GameObject)Resources.Load("Prefabs/smallCube", typeof(GameObject));
+        bigCube = (GameObject)Resources.Load("Prefabs/bigCube", typeof(GameObject));
 
         CreateHallways();
         CreateExternalWalls();
@@ -300,7 +304,17 @@ public class LevelGenerator : MonoBehaviour
 
             case 2: //door
                 aux.GetComponent<Tile>().SetUpTile(TYPE.floor, CONTAINED.door, 0, room_tileset, pos);
-                if (pos[1] > 1 && board[pos[0], pos[1] - 2] == 1 && around[2] == 1) Instantiate(cube, new Vector3(pos[0] + level * columns, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
+
+                if (pos[1] > 1 && board[pos[0], pos[1] - 2] == 1 && around[2] == 1)
+                {
+                    Instantiate(smallCube, new Vector3(pos[0] + level * columns - 0.4f, pos[1], 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
+                }
+
+                if (around[1] == 4 && around[3] == 4)
+                {
+                    Instantiate(bigCube, new Vector3(pos[0] + level * columns, pos[1] + 0.55f, 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
+                }
+
                 break;
 
             case 3: //furniture
@@ -612,11 +626,9 @@ public class LevelGenerator : MonoBehaviour
                         if (board[door.x - 1, door.y] == 4 && board[door.x + 1, door.y] == 4)
                         {
                             board[door.x, door.y + 1] = 0;
-                            Instantiate(cube, new Vector3(door.x + level * columns, door.y + 1, 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                         }
                         else
                         {
-                            Instantiate(cube, new Vector3(door.x + level * columns, door.y - 1, 0.5f), Quaternion.identity, GameObject.Find("Shadow").transform);
                             board[door.x, door.y - 1] = 1;
                         }
 
