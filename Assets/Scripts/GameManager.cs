@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public float turnDelay = 50f;                          //Delay entre cada torn del jugador
 
     public Text levelText;
+    public Text levelTextUI;
     private GameObject levelImage;
     public static GameManager instance = null; //singleton
     public BoardManager boardScript;
@@ -54,6 +55,8 @@ public class GameManager : MonoBehaviour
         axe = GameObject.FindGameObjectWithTag("Axe");
         axe.SetActive(false);
         pause = false;
+        levelTextUI = GameObject.FindGameObjectWithTag("levelTextUI").GetComponent<Text>();
+
 
         InitGame();
     }
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour
         doingSetup = true;
         level += increment;
         levelText.text = "Floor " + level;
+        levelTextUI.text = level.ToString();
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay); // executa la funció despres del Delay que li hem dit: 2 segons
         boardScript.SetupScene(level, increment);
