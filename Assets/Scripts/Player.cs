@@ -63,6 +63,7 @@ public class Player : MovingObject
 
     private bool pickingUpHose;
     private bool playerTurnInCourse;
+    public bool playerMovingCoroutine;
 
     private List<GameObject> hoseList;
     private List<int> hoseAnim;
@@ -81,6 +82,7 @@ public class Player : MovingObject
     // Use this for initialization
     protected override void Start()
     {
+        playerMovingCoroutine = false;
         holdingHose = true;
         pickingUpHose = false;
         playerTurnInCourse = false;
@@ -159,7 +161,7 @@ public class Player : MovingObject
         //Si no es el torn sortim de la funcio
         if (!GameManager.instance.playersTurn) return;
 
-        if (pickingUpHose || playerTurnInCourse) return;
+        if (pickingUpHose || playerTurnInCourse || playerMovingCoroutine) return;
         if (GameManager.instance.pause) return;
 
         int horizontal = 0;
@@ -266,6 +268,7 @@ public class Player : MovingObject
             Vector2 start = transform.position;
             Vector2 end = start + new Vector2(xDir, yDir);
             StartCoroutine(SmoothMovement(end));
+            playerMovingCoroutine = true;
             if (holdingHose)
             {
                 metersHose--;
