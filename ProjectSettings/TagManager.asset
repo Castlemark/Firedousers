@@ -25,6 +25,7 @@ TagManager:
   - Civilian
   - DoorCube
   - Cube
+  - levelTextUI
   layers:
   - Default
   - TransparentFX

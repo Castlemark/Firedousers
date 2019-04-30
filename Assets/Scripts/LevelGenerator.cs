@@ -17,9 +17,9 @@ public class LevelGenerator : MonoBehaviour
 
     public float hallwaysProbability = 0.5f;
     public float survivorsProbability = 0.05f;
-    public int hammersQuantity = 10;
-    public int healthQuantity = 5;
-    public int hosesQuantity = 5;
+    public int hammersQuantity = 3;
+    public int healthQuantity = 2;
+    public int hosesQuantity = 3;
     public int safepointsQuantity = 7;
     public int fireQuantity = 5;
 
@@ -391,9 +391,13 @@ public class LevelGenerator : MonoBehaviour
             int level = GameManager.instance.level - 1;
             player_pos[0] = (int)player.transform.position[0] + columns;
             player_pos[1] = (int)player.transform.position[1];
+            GameObject.Find("Player").GetComponent<Player>().position = new Vector2Int(player_pos[0] - columns*level, player_pos[1]);
+            Debug.Log("variable: " + GameObject.Find("Player").GetComponent<Player>().position);
         }
 
         player.transform.position = new Vector3(player_pos[0], player_pos[1], 0);
+        Debug.Log("transform: " + player.transform.position);
+
         return player_pos;
     }
 
