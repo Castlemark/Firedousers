@@ -35,6 +35,7 @@ public abstract class MovingObject : MonoBehaviour
 
         GameManager.instance.boardScript.BMExecutePreBehaviour(((Player)this).position.x, ((Player)this).position.y);
         ((Player)this).CheckIfGameOver();
+        ((Player)this).playerMovingCoroutine = false;
 
 
     }
