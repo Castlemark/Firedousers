@@ -13,6 +13,10 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
 	 * HOSE = 0
 	 * to be expanded
 	 */
+
+    public AudioClip axe;
+    public AudioClip hose;
+    public AudioClip health;
     public int state { get; set; }
 
     public void Initialize(int state)
@@ -49,6 +53,7 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
     {
         if(state == 1)
         {
+            SoundManager.instance.RandomizeSfx(hose);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose += 20;
             GameManager.instance.totalHoseMeters += 20;
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
@@ -57,6 +62,8 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
         }
         else if (state == 0)
         {
+            SoundManager.instance.RandomizeSfx(axe);
+
             GameManager.instance.playerHasAxe = true;
             GameManager.instance.axe.SetActive(true);
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
@@ -64,6 +71,8 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
         }
         else
         {
+            SoundManager.instance.RandomizeSfx(health);
+
             Debug.Log(GameObject.FindGameObjectWithTag("Player"));
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().IncreaseTemperature(0);
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);

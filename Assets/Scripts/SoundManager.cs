@@ -8,8 +8,8 @@ public class SoundManager : MonoBehaviour {
     public AudioSource muscicSource;
     public static SoundManager instance = null;
 
-    public float lowPitchRange = .95f;
-    public float highPitchRange = 1.05f;
+    public float lowPitchRange;
+    public float highPitchRange; 
 
 	// Use this for initialization
 	void Awake()
@@ -35,6 +35,7 @@ public class SoundManager : MonoBehaviour {
         efxSource.Play();
     }
 
+
     //escollim un pitch i un clip random dels que passem per parametres Sepratats per "," i el reproduim
     public void RandomizeSfx(params AudioClip[] clips)
     {
@@ -44,7 +45,7 @@ public class SoundManager : MonoBehaviour {
         efxSource.pitch = randomPitch;
         efxSource.clip = clips[randomIndex];
 
-        efxSource.Play();
+        efxSource.PlayOneShot(efxSource.clip);
     }
 
 }

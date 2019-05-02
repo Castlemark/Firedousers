@@ -18,10 +18,9 @@ public class Player : MovingObject
 
     public AudioClip moveSound1;
     public AudioClip moveSound2;
-    public AudioClip eatSound1;
-    public AudioClip eatSound2;
-    public AudioClip drinkSound1;
-    public AudioClip drinkSound2;
+    public AudioClip waterSound;
+    public AudioClip hoseSound;
+    public AudioClip damage;
     public AudioClip gameOverSound;
 
     public GameObject manguera_v;
@@ -229,6 +228,7 @@ public class Player : MovingObject
         {
             if (holdingHose)
             {
+                SoundManager.instance.RandomizeSfx(hoseSound);
                 endHose.x = position.x;
                 endHose.y = position.y;
                 holdingHose = false;
@@ -416,6 +416,7 @@ public class Player : MovingObject
                 position.y += yDir;
                 if (endHose == position)
                 {
+                    SoundManager.instance.RandomizeSfx(hoseSound);
                     holdingHose = true;
                     Destroy(manguera_end_reference);
                     hoseItem.SetActive(true);
@@ -542,6 +543,7 @@ public class Player : MovingObject
 
     void ShootWater(int horizontal, int vertical)
     {
+        SoundManager.instance.RandomizeSfx(waterSound);
         GameObject[,] grid = GameManager.instance.boardScript.grid;
 
         grid[position.x + horizontal, position.y + vertical].GetComponent<Tile>().DrownTile();
@@ -559,11 +561,14 @@ public class Player : MovingObject
                 if (temperature < 0) temperature = 0;
                 break;
             case 3:
+                SoundManager.instance.RandomizeSfx(damage);
                 damaged = true;
                 temperature += 5;
                 break;
             
             case 4:
+                SoundManager.instance.RandomizeSfx(damage);
+
                 damaged = true;
                 temperature += 10;
                 break;

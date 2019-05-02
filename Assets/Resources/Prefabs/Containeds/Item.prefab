@@ -97,6 +97,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 46341002bdf4df04194e157dc21e35e8, type: 3}
   - {fileID: 21300000, guid: aa4c3e9502370904b97d822b04286e2d, type: 3}
   - {fileID: 21300000, guid: a82f5e16cb9734e4393b6137d41209e6, type: 3}
+  axe: {fileID: 8300000, guid: 1af7909c12e7cb645bbba26872410a6c, type: 3}
+  hose: {fileID: 8300000, guid: 3fde8700276d40b438b03df43e0331f7, type: 3}
+  health: {fileID: 8300000, guid: 0e0d502403d3e764f92dd9eaac284a21, type: 3}
 --- !u!95 &8141261460509618752
 Animator:
   serializedVersion: 3
