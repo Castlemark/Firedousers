@@ -68,6 +68,7 @@ public class Player : MovingObject
     private List<int> hoseAnim;
     private bool holdingHose; // false quan has deixat anar la manguera
     private GameObject manguera_end_reference;
+    private int hoseLevel;
 
     public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
     public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
@@ -83,6 +84,7 @@ public class Player : MovingObject
     {
         playerMovingCoroutine = false;
         holdingHose = true;
+        hoseLevel = 0;
         pickingUpHose = false;
         playerTurnInCourse = false;
         hoseList = new List<GameObject>();
@@ -186,7 +188,7 @@ public class Player : MovingObject
             }
             else
             {
-                if(GameManager.instance.waterRecharges > 0)
+                if(GameManager.instance.waterRecharges > 0 && holdingHose)
                 {
                     if (horizontal == 1)
                     {
@@ -231,6 +233,7 @@ public class Player : MovingObject
                 SoundManager.instance.RandomizeSfx(hoseSound);
                 endHose.x = position.x;
                 endHose.y = position.y;
+                hoseLevel = GameManager.instance.level;
                 holdingHose = false;
                 manguera_end_reference = (GameObject) Instantiate(manguera_end, new Vector2(transform.position.x, transform.position.y), Quaternion.identity); //.transform.SetParent(GameObject.Find("Board").transform);
                 Animator anim = manguera_end_reference.GetComponent<Animator>();
@@ -414,7 +417,7 @@ public class Player : MovingObject
                 }
                 position.x += xDir;
                 position.y += yDir;
-                if (endHose == position)
+                if (endHose == position && hoseLevel == GameManager.instance.level)
                 {
                     SoundManager.instance.RandomizeSfx(hoseSound);
                     holdingHose = true;
