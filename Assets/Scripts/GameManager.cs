@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public List<Vector3> stairsUpPositions = new List<Vector3>();
 
-    public int playerHoseMeters = 100;
+    public int playerHoseMeters = 30;
     public int totalHoseMeters = 100;
     public int waterRecharges = 5;
     public int peopleSaved = 0;

@@ -91,7 +91,7 @@ public class Player : MovingObject
         hoseAnim = new List<int>();
 
         temperatureText = GameObject.Find("TemperatureText").GetComponent<Text>();
-        temperatureText.text = temperature.ToString();
+        temperatureText.text = (100 - temperature).ToString() + "%";
         animator = GetComponent<Animator>();
         animatorWater = water.GetComponent<Animator>();
         animatorHoseItem = hoseItem.GetComponent<Animator>();
@@ -578,7 +578,7 @@ public class Player : MovingObject
             default:
                 break;
         }
-        temperatureText.text = temperature.ToString();
+        temperatureText.text = (100 - temperature).ToString()+ "%";
 
         if (temperature < 11)
         {

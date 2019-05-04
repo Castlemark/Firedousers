@@ -53,29 +53,37 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
     {
         if(state == 1)
         {
-            SoundManager.instance.RandomizeSfx(hose);
+            GameObject hoseAux = GameObject.Find("/Player/PowerUpHose");
+            hoseAux.SetActive(false);
+            hoseAux.SetActive(true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose += 20;
             GameManager.instance.totalHoseMeters += 20;
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().hoseHUD.GetComponent<HoseHUD>().changeSprite(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose, GameManager.instance.totalHoseMeters);
+            SoundManager.instance.RandomizeSfx(hose);
 
         }
         else if (state == 0)
         {
-            SoundManager.instance.RandomizeSfx(axe);
-
+            GameObject axeAux = GameObject.Find("/Player/PowerUpAxe");
+            axeAux.SetActive(false);
+            axeAux.SetActive(true);
             GameManager.instance.playerHasAxe = true;
             GameManager.instance.axe.SetActive(true);
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+            SoundManager.instance.RandomizeSfx(axe);
 
         }
         else
         {
-            SoundManager.instance.RandomizeSfx(health);
-
+            GameObject healthAux = GameObject.Find("/Player/PowerUpHealth");
+            healthAux.SetActive(false);
+            healthAux.SetActive(true);
             Debug.Log(GameObject.FindGameObjectWithTag("Player"));
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().IncreaseTemperature(0);
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
+            SoundManager.instance.RandomizeSfx(health);
+
         }
     }
 
