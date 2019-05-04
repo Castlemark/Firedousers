@@ -136,7 +136,7 @@ public class BoardManager : MonoBehaviour
 
         bool canMoveTo = gtile.CanPass();
 
-        if ((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y != 0 && y < rows - 2 && x != (GameManager.instance.level - 1) * columns && x != (GameManager.instance.level - 1) * columns + (columns - 1)))
+        if ((gtile.type == TYPE.wall || gtile.type == TYPE.front_wall) && GameManager.instance.playerHasAxe && (y != 0 && y < rows - 2 && x != 0 && x != (columns - 1)))
         {
             RemoveCube(gtile.position);
             gtile.SetUpTile(TYPE.floor, CONTAINED.none, 0, gtile.tileset, gtile.position);
