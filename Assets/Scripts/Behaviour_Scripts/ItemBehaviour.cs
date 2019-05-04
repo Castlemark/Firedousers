@@ -17,6 +17,7 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
     public AudioClip axe;
     public AudioClip hose;
     public AudioClip health;
+    
     public int state { get; set; }
 
     public void Initialize(int state)
@@ -54,10 +55,13 @@ public class ItemBehaviour : MonoBehaviour, IBehaviour
         if(state == 1)
         {
             GameObject hoseAux = GameObject.Find("/Player/PowerUpHose");
+            GameObject hoseTextAux = GameObject.Find("/Player/PowerUpHose/Canvas/PowerUpHoseText");
+            hoseTextAux.GetComponent<TMPro.TextMeshProUGUI>().SetText("+" + 5 * GameManager.instance.level);
             hoseAux.SetActive(false);
             hoseAux.SetActive(true);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose += 20;
-            GameManager.instance.totalHoseMeters += 20;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose += 5 * GameManager.instance.level;
+            GameManager.instance.totalHoseMeters += 5 * GameManager.instance.level;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().hoseText.text = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose.ToString();
             transform.parent.GetComponent<Tile>().ReplaceContained(CONTAINED.none, 0);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().hoseHUD.GetComponent<HoseHUD>().changeSprite(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().metersHose, GameManager.instance.totalHoseMeters);
             SoundManager.instance.RandomizeSfx(hose);

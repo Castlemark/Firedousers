@@ -1115,7 +1115,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Temperature: '
+  m_Text: 'Fire protection:'
 --- !u!222 &303123237
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1298,7 +1298,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &423728374
+--- !u!84 &358603544
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3309,7 +3309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 09755a4891f8d4526a7e0690a23dec7b, type: 3}
-  spriteLightRT: {fileID: 423728374}
+  spriteLightRT: {fileID: 358603544}
   intensity: 1
 --- !u!1 &1382689408
 GameObject:
@@ -3784,7 +3784,7 @@ MonoBehaviour:
   spriteWithVictim: {fileID: 21300000, guid: f550f8753f357eb42af9931cfd6792e5, type: 3}
   spriteWithoutVictim: {fileID: 21300000, guid: a0c7f7c3bf2f4f843af5bb76849b2a35,
     type: 3}
-  metersHose: 77
+  metersHose: 30
   hoseHUD: {fileID: 2048742534}
   peopleHUD: {fileID: 1684307857}
   hasAxe: 0
@@ -4473,7 +4473,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: +20%
+  m_text: +15%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7024f617a4799d64a87d8e4bc04972f3, type: 2}
   m_sharedMaterial: {fileID: 21156378062417618, guid: 7024f617a4799d64a87d8e4bc04972f3,
@@ -5946,7 +5946,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 12288
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 423728374}
+  m_TargetTexture: {fileID: 358603544}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0

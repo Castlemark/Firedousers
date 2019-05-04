@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOver;
     public GameObject deposit;
     public GameObject axe;
-    public int turndeposit = 2;
+    public int turndeposit = 4;
     public bool pause;
 
 
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if(waterRecharges < 5 && turndeposit ==2)
+            if(waterRecharges < 5 && turndeposit == 4)
             {
                 waterRecharges++;
             }

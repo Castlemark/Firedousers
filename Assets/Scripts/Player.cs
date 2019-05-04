@@ -560,7 +560,7 @@ public class Player : MovingObject
         switch (state)
         {
             case 0:
-                temperature -= 20;
+                temperature -= 15;
                 if (temperature < 0) temperature = 0;
                 break;
             case 3:
