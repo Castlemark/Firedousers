@@ -91,20 +91,29 @@ public class Room
     public List<Room> Subdivide()
     {
         List<Room> subrooms = new List<Room>();
+        List<Vector3> stairs = GameManager.instance.stairsUpPositions;
+        Vector3 last_stairs = stairs[stairs.Count - 1];
 
         if (isDivisible())
         {
             if (w > h && w > 2)
             {
                 int col = Random.Range(x1 + 1, x2 - 1);
-                subrooms.Add(new Room(x1, col - 1, y1, y2, minArea, numDoors));
-                subrooms.Add(new Room(col + 1, x2, y1, y2, minArea, numDoors));
+
+                if (col != last_stairs.x)
+                {
+                    subrooms.Add(new Room(x1, col - 1, y1, y2, minArea, numDoors));
+                    subrooms.Add(new Room(col + 1, x2, y1, y2, minArea, numDoors));
+                }
             }
             else if (h > 2)
             {
                 int row = Random.Range(y1 + 1, y2 - 1);
-                subrooms.Add(new Room(x1, x2, y1, row - 1, minArea, numDoors));
-                subrooms.Add(new Room(x1, x2, row + 1, y2, minArea, numDoors));
+                if (row != last_stairs.y)
+                {
+                    subrooms.Add(new Room(x1, x2, y1, row - 1, minArea, numDoors));
+                    subrooms.Add(new Room(x1, x2, row + 1, y2, minArea, numDoors));
+                }
             }
         }
 
