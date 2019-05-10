@@ -157,6 +157,9 @@ public class BoardManager : MonoBehaviour
     private void RemoveCube(int[] wall_pos)
     {
         GameObject shadow = GameObject.Find("Shadow");
+    
+        int level = GameManager.instance.level - 1;
+        wall_pos[0] += level * columns;
 
         foreach (Transform child in shadow.transform)
         {
