@@ -53,6 +53,7 @@ public class Player : MovingObject
     public int metersHose;
     public GameObject hoseHUD;
     public GameObject peopleHUD;
+    public GameObject floatingCivilian;
     private bool hasKey;
     public bool hasAxe;
     private List<string> path = new List<string>();
@@ -128,6 +129,7 @@ public class Player : MovingObject
         {
             victims++;
             peopleHUD.GetComponent<HudPeople>().ChangeSprite(state);
+            floatingCivilian.GetComponent<FloatingCivilian>().ChangeSprite(state);
 
             return true;
         }
@@ -138,6 +140,7 @@ public class Player : MovingObject
     {
         victims_total += victims;
         victims = 0;
+        floatingCivilian.GetComponent<FloatingCivilian>().ChangeSprite(-1);
         peopleHUD.GetComponent<HudPeople>().ChangeSprite(-1);
         peopleText.text = victims_total.ToString();
     }
