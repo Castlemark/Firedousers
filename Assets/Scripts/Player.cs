@@ -538,12 +538,17 @@ public class Player : MovingObject
     {
         if (temperature >= 100)
         {
-            SoundManager.instance.PlaySingle(gameOverSound);
-            SoundManager.instance.muscicSource.Stop();
-            GameManager.instance.peopleSaved = victims_total;
-            pickingUpHose = true;
-            GameManager.instance.GameOver();
+            EndGame();
         }
+    }
+
+    public void EndGame()
+    {
+        SoundManager.instance.PlaySingle(gameOverSound);
+        SoundManager.instance.muscicSource.Stop();
+        GameManager.instance.peopleSaved = victims_total;
+        pickingUpHose = true;
+        GameManager.instance.GameOver();
     }
 
 
