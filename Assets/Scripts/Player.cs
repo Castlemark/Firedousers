@@ -18,10 +18,9 @@ public class Player : MovingObject
 
     public AudioClip moveSound1;
     public AudioClip moveSound2;
-    public AudioClip eatSound1;
-    public AudioClip eatSound2;
-    public AudioClip drinkSound1;
-    public AudioClip drinkSound2;
+    public AudioClip waterSound;
+    public AudioClip hoseSound;
+    public AudioClip damage;
     public AudioClip gameOverSound;
 
     public GameObject manguera_v;
@@ -54,9 +53,11 @@ public class Player : MovingObject
     public int metersHose;
     public GameObject hoseHUD;
     public GameObject peopleHUD;
+    public GameObject floatingCivilian;
     private bool hasKey;
     public bool hasAxe;
     private List<string> path = new List<string>();
+    private string lastPath;
     
     public Vector2Int position;
     private Vector2Int endHose; 
@@ -69,6 +70,7 @@ public class Player : MovingObject
     private List<int> hoseAnim;
     private bool holdingHose; // false quan has deixat anar la manguera
     private GameObject manguera_end_reference;
+    private int hoseLevel;
 
     public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
     public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
@@ -84,13 +86,15 @@ public class Player : MovingObject
     {
         playerMovingCoroutine = false;
         holdingHose = true;
+        hoseLevel = 0;
         pickingUpHose = false;
         playerTurnInCourse = false;
         hoseList = new List<GameObject>();
         hoseAnim = new List<int>();
+        lastPath = "playerFront";
 
         temperatureText = GameObject.Find("TemperatureText").GetComponent<Text>();
-        temperatureText.text = temperature.ToString();
+        temperatureText.text = (100 - temperature).ToString() + "%";
         animator = GetComponent<Animator>();
         animatorWater = water.GetComponent<Animator>();
         animatorHoseItem = hoseItem.GetComponent<Animator>();
@@ -127,6 +131,7 @@ public class Player : MovingObject
         {
             victims++;
             peopleHUD.GetComponent<HudPeople>().ChangeSprite(state);
+            floatingCivilian.GetComponent<FloatingCivilian>().ChangeSprite(state);
 
             return true;
         }
@@ -137,6 +142,7 @@ public class Player : MovingObject
     {
         victims_total += victims;
         victims = 0;
+        floatingCivilian.GetComponent<FloatingCivilian>().ChangeSprite(-1);
         peopleHUD.GetComponent<HudPeople>().ChangeSprite(-1);
         peopleText.text = victims_total.ToString();
     }
@@ -187,7 +193,7 @@ public class Player : MovingObject
             }
             else
             {
-                if(GameManager.instance.waterRecharges > 0)
+                if(GameManager.instance.waterRecharges > 0 && holdingHose)
                 {
                     if (horizontal == 1)
                     {
@@ -229,8 +235,10 @@ public class Player : MovingObject
         {
             if (holdingHose)
             {
+                SoundManager.instance.RandomizeSfx(hoseSound);
                 endHose.x = position.x;
                 endHose.y = position.y;
+                hoseLevel = GameManager.instance.level;
                 holdingHose = false;
                 manguera_end_reference = (GameObject) Instantiate(manguera_end, new Vector2(transform.position.x, transform.position.y), Quaternion.identity); //.transform.SetParent(GameObject.Find("Board").transform);
                 Animator anim = manguera_end_reference.GetComponent<Animator>();
@@ -293,6 +301,7 @@ public class Player : MovingObject
                     path.Add("r"); //right
                     animator.SetTrigger("playerRight");
                     animatorHoseItem.SetTrigger("playerRight");
+                    lastPath = "playerRight";
 
                 }
                 else if (xDir == -1)
@@ -312,6 +321,8 @@ public class Player : MovingObject
                     path.Add("l"); //left
                     animator.SetTrigger("playerLeft");
                     animatorHoseItem.SetTrigger("playerLeft");
+                    lastPath = "playerLeft";
+
 
                 }
                 else
@@ -337,6 +348,7 @@ public class Player : MovingObject
                         path.Add("u"); //up
                         animatorHoseItem.SetTrigger("playerBack");
                         animator.SetTrigger("playerBack");
+                        lastPath = "playerBack";
 
                     }
                     else
@@ -360,6 +372,8 @@ public class Player : MovingObject
                         path.Add("d"); //down
                         animator.SetTrigger("playerFront");
                         animatorHoseItem.SetTrigger("playerFront");
+                        lastPath = "playerFront";
+
 
                     }
                 }
@@ -414,8 +428,9 @@ public class Player : MovingObject
                 }
                 position.x += xDir;
                 position.y += yDir;
-                if (endHose == position)
+                if (endHose == position && hoseLevel == GameManager.instance.level)
                 {
+                    SoundManager.instance.RandomizeSfx(hoseSound);
                     holdingHose = true;
                     Destroy(manguera_end_reference);
                     hoseItem.SetActive(true);
@@ -480,7 +495,24 @@ public class Player : MovingObject
         {
             hoseHUD.GetComponent<HoseHUD>().changeSprite(metersHose, GameManager.instance.totalHoseMeters);
             hoseText.text = metersHose.ToString();
-            StartCoroutine(AnimationHose());
+            if(hoseList.Count() > 1)
+            {
+                StartCoroutine(AnimationHose());
+            }
+            else
+            {
+                Animator animatoraux = hoseList[0].GetComponent<Animator>();
+                if (animatoraux != null)
+                {
+                    animatoraux.SetInteger("grab", hoseAnim[0]);
+                }
+
+                Destroy(hoseList[0]);
+                hoseList.Clear();
+                hoseAnim.Clear();
+                pickingUpHose = false;
+                endTurn();
+            }
             /*pickingUpHose = false;*/
 
         }
@@ -488,6 +520,9 @@ public class Player : MovingObject
 
     public IEnumerator AnimationHose()
     {
+        yield return new WaitForSeconds(0.3f);
+        animator.ResetTrigger(lastPath);
+        animator.SetTrigger("playerHose");
         for(int i = 0; i < hoseList.Count; i++)
         {
             Animator animatoraux = hoseList[i].GetComponent<Animator>();
@@ -502,6 +537,8 @@ public class Player : MovingObject
         hoseList.Clear();
         hoseAnim.Clear();
         pickingUpHose = false;
+        animator.SetTrigger(lastPath + "Hose");
+        endTurn();
     
     }
 
@@ -531,17 +568,23 @@ public class Player : MovingObject
     {
         if (temperature >= 100)
         {
-            SoundManager.instance.PlaySingle(gameOverSound);
-            SoundManager.instance.muscicSource.Stop();
-            GameManager.instance.peopleSaved = victims_total;
-            pickingUpHose = true;
-            GameManager.instance.GameOver();
+            EndGame();
         }
+    }
+
+    public void EndGame()
+    {
+        SoundManager.instance.PlaySingle(gameOverSound);
+        SoundManager.instance.muscicSource.Stop();
+        GameManager.instance.peopleSaved = victims_total;
+        pickingUpHose = true;
+        GameManager.instance.GameOver();
     }
 
 
     void ShootWater(int horizontal, int vertical)
     {
+        SoundManager.instance.RandomizeSfx(waterSound);
         GameObject[,] grid = GameManager.instance.boardScript.grid;
 
         grid[position.x + horizontal, position.y + vertical].GetComponent<Tile>().DrownTile();
@@ -555,22 +598,25 @@ public class Player : MovingObject
         switch (state)
         {
             case 0:
-                temperature -= 20;
+                temperature -= 15;
                 if (temperature < 0) temperature = 0;
                 break;
             case 3:
+                SoundManager.instance.RandomizeSfx(damage);
                 damaged = true;
                 temperature += 5;
                 break;
             
             case 4:
+                SoundManager.instance.RandomizeSfx(damage);
+
                 damaged = true;
                 temperature += 10;
                 break;
             default:
                 break;
         }
-        temperatureText.text = temperature.ToString();
+        temperatureText.text = (100 - temperature).ToString()+ "%";
 
         if (temperature < 11)
         {

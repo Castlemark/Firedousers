@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public List<Vector3> stairsUpPositions = new List<Vector3>();
 
-    public int playerHoseMeters = 100;
+    public int playerHoseMeters = 30;
     public int totalHoseMeters = 100;
     public int waterRecharges = 5;
     public int peopleSaved = 0;
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOver;
     public GameObject deposit;
     public GameObject axe;
-    public int turndeposit = 2;
+    public int turndeposit = 4;
     public bool pause;
 
 
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if(waterRecharges < 5 && turndeposit ==2)
+            if(waterRecharges < 5 && turndeposit == 4)
             {
                 waterRecharges++;
             }
