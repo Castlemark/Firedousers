@@ -92,8 +92,10 @@ public class Room
     {
         List<Room> subrooms = new List<Room>();
         List<Vector3> stairs = GameManager.instance.stairsUpPositions;
-        Vector3 last_stairs = stairs[stairs.Count - 1];
 
+        Vector3 last_stairs = new Vector3(0, 0, 0);
+        if (stairs.Count > 0) last_stairs = stairs[stairs.Count - 1];
+       
         if (isDivisible())
         {
             if (w > h && w > 2)
@@ -109,6 +111,7 @@ public class Room
             else if (h > 2)
             {
                 int row = Random.Range(y1 + 1, y2 - 1);
+
                 if (row != last_stairs.y)
                 {
                     subrooms.Add(new Room(x1, x2, y1, row - 1, minArea, numDoors));
