@@ -57,6 +57,7 @@ public class Player : MovingObject
     private bool hasKey;
     public bool hasAxe;
     private List<string> path = new List<string>();
+    private string lastPath;
     
     public Vector2Int position;
     private Vector2Int endHose; 
@@ -90,6 +91,7 @@ public class Player : MovingObject
         playerTurnInCourse = false;
         hoseList = new List<GameObject>();
         hoseAnim = new List<int>();
+        lastPath = "playerFront";
 
         temperatureText = GameObject.Find("TemperatureText").GetComponent<Text>();
         temperatureText.text = (100 - temperature).ToString() + "%";
@@ -299,6 +301,7 @@ public class Player : MovingObject
                     path.Add("r"); //right
                     animator.SetTrigger("playerRight");
                     animatorHoseItem.SetTrigger("playerRight");
+                    lastPath = "playerRight";
 
                 }
                 else if (xDir == -1)
@@ -318,6 +321,8 @@ public class Player : MovingObject
                     path.Add("l"); //left
                     animator.SetTrigger("playerLeft");
                     animatorHoseItem.SetTrigger("playerLeft");
+                    lastPath = "playerLeft";
+
 
                 }
                 else
@@ -343,6 +348,7 @@ public class Player : MovingObject
                         path.Add("u"); //up
                         animatorHoseItem.SetTrigger("playerBack");
                         animator.SetTrigger("playerBack");
+                        lastPath = "playerBack";
 
                     }
                     else
@@ -366,6 +372,8 @@ public class Player : MovingObject
                         path.Add("d"); //down
                         animator.SetTrigger("playerFront");
                         animatorHoseItem.SetTrigger("playerFront");
+                        lastPath = "playerFront";
+
 
                     }
                 }
@@ -487,7 +495,24 @@ public class Player : MovingObject
         {
             hoseHUD.GetComponent<HoseHUD>().changeSprite(metersHose, GameManager.instance.totalHoseMeters);
             hoseText.text = metersHose.ToString();
-            StartCoroutine(AnimationHose());
+            if(hoseList.Count() > 1)
+            {
+                StartCoroutine(AnimationHose());
+            }
+            else
+            {
+                Animator animatoraux = hoseList[0].GetComponent<Animator>();
+                if (animatoraux != null)
+                {
+                    animatoraux.SetInteger("grab", hoseAnim[0]);
+                }
+
+                Destroy(hoseList[0]);
+                hoseList.Clear();
+                hoseAnim.Clear();
+                pickingUpHose = false;
+                endTurn();
+            }
             /*pickingUpHose = false;*/
 
         }
@@ -495,6 +520,9 @@ public class Player : MovingObject
 
     public IEnumerator AnimationHose()
     {
+        yield return new WaitForSeconds(0.3f);
+        animator.ResetTrigger(lastPath);
+        animator.SetTrigger("playerHose");
         for(int i = 0; i < hoseList.Count; i++)
         {
             Animator animatoraux = hoseList[i].GetComponent<Animator>();
@@ -509,6 +537,8 @@ public class Player : MovingObject
         hoseList.Clear();
         hoseAnim.Clear();
         pickingUpHose = false;
+        animator.SetTrigger(lastPath + "Hose");
+        endTurn();
     
     }
 

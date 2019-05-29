@@ -293,6 +293,7 @@ public class Tile : MonoBehaviour
         Tile movTile = GameManager.instance.boardScript.grid[position[0] + dir.x, position[1] + dir.y].GetComponent<Tile>();
         if (!CR_running &&
             movTile.type.IsFloor() &&
+            movTile.contained != CONTAINED.item &&
             movTile.contained != CONTAINED.furniture &&
             movTile.contained != CONTAINED.survivor &&
             !movTile.HasBurningFire() &&
