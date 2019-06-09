@@ -249,7 +249,7 @@ public class LevelGenerator : MonoBehaviour
 
         if (b && around[0] == 2 || around[1] == 0 && around[3] == 0 && b && !t || around[1] == 0 && b && !t && !l) return "top";
         if (l && around[1] == 0) return "right";
-        if (t && around[2] == 0) return "bottom";
+        if (t && around[2] == 1 && around[8] == 2) return "bottom";
         if (r && around[3] == 0 && !b) return "left";
 
         if (b && l && !t && !r || l && !t && !r && around[2] == 0 || b && !t && !r && around[3] == 0) return "tr";
@@ -399,12 +399,13 @@ public class LevelGenerator : MonoBehaviour
         return player_pos;
     }
 
+
     private int[] getAroundObjects(GameObject[,] grid, int[] position)
     {
         int col = position[0];
         int row = position[1];
 
-        int[] around = new int[8];
+        int[] around = new int[9];
 
         if (row == grid.GetLength(1) - 1) around[0] = -5;
         else around[0] = board[col, row + 1];
@@ -429,6 +430,9 @@ public class LevelGenerator : MonoBehaviour
 
         if (row == grid.GetLength(1) - 1 || col == 0) around[7] = -5;
         else around[7] = board[col - 1, row + 1];
+
+        if (row <= 1) around[8] = -5;
+        else around[8] = board[col, row - 2];
 
         return around;
     }
