@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1631859606520376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4392727617656652}
+  - component: {fileID: 114327514499832114}
+  - component: {fileID: 114884170679704306}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: ToBeDestroyed
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4392727617656652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631859606520376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.16249484, y: -0.2807194, z: 0.058604375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114327514499832114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631859606520376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9f7b555ad568a94799797c3370c89d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rows: 20
+  columns: 20
+  genericTile: {fileID: 1915428926337212, guid: 3960fe9bd70f6427286177a22556f4ba,
+    type: 3}
+  levelGenerator: {fileID: 0}
+--- !u!114 &114884170679704306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631859606520376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce853069b8f5f134fb9b49906099f16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelStartDelay: 2
+  turnDelay: 0.01
+  levelText: {fileID: 0}
+  levelTextUI: {fileID: 0}
+  boardScript: {fileID: 0}
+  level: 1
+  stairsUpPositions: []
+  playerHoseMeters: 30
+  totalHoseMeters: 30
+  waterRecharges: 5
+  peopleSaved: 0
+  playerVictims: 0
+  playerVictimsTotal: 0
+  playerHasKey: 0
+  playerHasAxe: 0
+  playersTurn: 1
+  gameOver: {fileID: 0}
+  deposit: {fileID: 0}
+  axe: {fileID: 0}
+  turndeposit: 2
+  pause: 0

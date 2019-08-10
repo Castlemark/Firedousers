@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1915428926337212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4692673832819866}
+  - component: {fileID: 114848927750148752}
+  m_Layer: 0
+  m_Name: Tile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4692673832819866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915428926337212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114848927750148752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915428926337212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37ea4ca285684593880d4fe81162c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  contained: 5
+  position: 
+  tileset: 0
+  canPass: 0
+  containedObject: {fileID: 0}
+  stair_up_top_image: {fileID: 21300008, guid: 2f67f181a1e32c0489dde895b185f694, type: 3}
+  stair_up_bottom_image: {fileID: 21300012, guid: 2f67f181a1e32c0489dde895b185f694,
+    type: 3}
+  stair_up_right_image: {fileID: 21300000, guid: 2f67f181a1e32c0489dde895b185f694,
+    type: 3}
+  stair_up_left_image: {fileID: 21300004, guid: 2f67f181a1e32c0489dde895b185f694,
+    type: 3}
+  stair_down_top_image: {fileID: 21300010, guid: 2f67f181a1e32c0489dde895b185f694,
+    type: 3}
+  stair_down_bottom_image: {fileID: 21300014, guid: 2f67f181a1e32c0489dde895b185f694,
+    type: 3}
+  stair_down_right_image: {fileID: 21300006, guid: 2f67f181a1e32c0489dde895b185f694,
+    type: 3}
+  stair_down_left_image: {fileID: 21300002, guid: 2f67f181a1e32c0489dde895b185f694,
+    type: 3}
+  floor_images:
+  - {fileID: 21300172, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300174, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300176, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300080, guid: 8216f5a82e271764ea6210c10569ed8b, type: 3}
+  - {fileID: 21300072, guid: 57d1b1d6be9b78a4fb219c54d97ebf33, type: 3}
+  - {fileID: 21300078, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
+  - {fileID: 21300080, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
+  - {fileID: 21300082, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
+  wall_images:
+  - {fileID: 21300126, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300144, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300108, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300146, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300096, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300114, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300142, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300092, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300098, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300124, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300110, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300140, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300128, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300094, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300130, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300112, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  front_wall_images:
+  - {fileID: 21300156, guid: 8d007ab57ac4a154aaf8186b2de19c62, type: 3}
+  - {fileID: 21300064, guid: 8216f5a82e271764ea6210c10569ed8b, type: 3}
+  - {fileID: 21300064, guid: 57d1b1d6be9b78a4fb219c54d97ebf33, type: 3}
+  - {fileID: 21300064, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
+  - {fileID: 21300066, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
+  - {fileID: 21300068, guid: a651c8a41b1ebfc4982414ba9e5b32f7, type: 3}
+  breakable_wall_images:
+  - {fileID: 21300000, guid: 175d41cb31ce82c46a0eb2bc4cf95722, type: 3}
+  - {fileID: 21300000, guid: aa7179d4940a1a14297acbd1cd0d9bf3, type: 3}
+  - {fileID: 21300000, guid: 0e8b95cd3e1b6b34c9ac149164acbb3d, type: 3}
+  - {fileID: 21300000, guid: 906a1b92ec8b3cc4ca92a359450ca671, type: 3}
+  - {fileID: 21300000, guid: 5b2778000f734a143aa517c3cd724a64, type: 3}
+  - {fileID: 21300000, guid: a1fe9ddddcc2a2f4094ac65a5d9b899c, type: 3}

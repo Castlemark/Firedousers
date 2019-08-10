@@ -18,6 +18,14 @@ TagManager:
   - StairsDown
   - Key
   - Burned
+  - GameOver
+  - Deposit
+  - Axe
+  - ToBeDestroyed
+  - Civilian
+  - DoorCube
+  - Cube
+  - levelTextUI
   layers:
   - Default
   - TransparentFX
@@ -31,8 +39,8 @@ TagManager:
   - MangueraLayer
   - FireLayer
   - VisibilityLayer
-  - 
-  - 
+  - shadowCaster
+  - lightning
   - 
   - 
   - 
@@ -58,8 +66,23 @@ TagManager:
   - name: Floor
     uniqueID: 3131993583
     locked: 0
+  - name: Hose
+    uniqueID: 1623533531
+    locked: 0
+  - name: Fire
+    uniqueID: 3231919979
+    locked: 0
   - name: Items
     uniqueID: 1861650685
+    locked: 0
+  - name: People
+    uniqueID: 3862620209
+    locked: 0
+  - name: Inventory
+    uniqueID: 2038009251
+    locked: 0
+  - name: Water
+    uniqueID: 3655834597
     locked: 0
   - name: Units
     uniqueID: 3393972251

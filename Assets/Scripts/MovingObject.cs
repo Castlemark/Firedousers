@@ -5,49 +5,22 @@ using UnityEngine;
 public abstract class MovingObject : MonoBehaviour
 {
 
-    public float moveTime = .1f;
+    public float moveTime = 50f;
     public LayerMask blockingLayer;
     public LayerMask visibilityLayer;
     public LayerMask fireLayer;
     // Use this for initialization
 
-    private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
     private float inverseMoveTime;
 
     protected virtual void Start()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
     }
 
-    protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
-    {
-        Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, yDir);
 
-        boxCollider.enabled = false;
-        RaycastHit2D brokenHit = Physics2D.Linecast(start, end, visibilityLayer);
-        RaycastHit2D fireHit = Physics2D.Linecast(start, end, fireLayer);
-        hit = Physics2D.Linecast(start, end, blockingLayer);
-        Debug.DrawLine(start, end, Color.white, 2.5f, false);
-
-        boxCollider.enabled = true;
-
-        if (fireHit.transform != null && fireHit.collider.name.Contains("fire"))
-        {
-            fireHit.transform.gameObject.GetComponent<FireController>().SteppedOnFire();
-        }
-
-        if (hit.transform == null && brokenHit.transform == null)
-        {
-
-            StartCoroutine(SmoothMovement(end));
-            return true;
-        }
-        return false;
-    }
 
     protected IEnumerator SmoothMovement(Vector3 end)
     {
@@ -59,23 +32,13 @@ public abstract class MovingObject : MonoBehaviour
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null; //s'espera un frame abans de tornar a avaluar la condició del WHILE
         }
+
+        GameManager.instance.boardScript.BMExecutePreBehaviour(((Player)this).position.x, ((Player)this).position.y);
+        ((Player)this).CheckIfGameOver();
+        ((Player)this).playerMovingCoroutine = false;
+
+
     }
 
-    protected virtual void AttemptMove<T>(int xDir, int yDir)
-        where T : Component
-    {
-        RaycastHit2D hit;
-        bool canMove = Move(xDir, yDir, out hit);
-        if (hit.transform == null)
-            return;
-
-        T hitComponent = hit.transform.GetComponent<T>();
-
-        if (!canMove && hitComponent != null)
-            OnCantMove(hitComponent);
-    }
-
-    protected abstract void OnCantMove<T>(T component)
-        where T : Component;
 
 }
